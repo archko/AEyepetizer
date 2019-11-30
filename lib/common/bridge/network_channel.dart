@@ -8,15 +8,15 @@ class NetworkChannel {
     args ?? HashMap();
     args['method'] = 'post';
     FlutterMain.singleton.channel
-        .invokeMethod(HTTP_CHANNEL, args: args, callback: callback);
+        .invokeMethod(_HTTP_CHANNEL, args: args, callback: callback);
   }
 
   static Future<dynamic> get({Map args, DartToNativeCallback callback}) async {
     args ?? HashMap();
     args['method'] = 'get';
     FlutterMain.singleton.channel
-        .invokeMethod(HTTP_CHANNEL, args: args, callback: callback);
+        .invokeMethod(_HTTP_CHANNEL, args: args, callback: callback);
   }
 
-  static const HTTP_CHANNEL = "http_channel";
+  static const _HTTP_CHANNEL = "http_channel";
 }

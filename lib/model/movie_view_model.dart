@@ -1,6 +1,6 @@
 import 'package:aeyepetizer/entity/animate.dart';
-import 'package:aeyepetizer/http/http_client.dart';
-import 'package:aeyepetizer/http/http_response.dart';
+import 'package:aeyepetizer/common/http/http_client.dart';
+import 'package:aeyepetizer/common/http/http_response.dart';
 import 'package:aeyepetizer/model/base_list_view_model.dart';
 import 'package:aeyepetizer/utils/json_utils.dart';
 import 'package:flutter/foundation.dart';

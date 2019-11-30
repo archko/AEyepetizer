@@ -15,7 +15,7 @@ void main() {
 
 Widget _widgetForRoute(String route) {
   switch (route) {
-    case '/home':
+    case 'home':
       return new StateDemoApp();
     default:
       return new StateDemoApp();

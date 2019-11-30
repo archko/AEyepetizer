@@ -52,6 +52,4 @@ class DartChannel {
       _methodHandlers.remove(handler);
     };
   }
-
-  static const NATIVE_REQUEST = "native_channel";
 }
