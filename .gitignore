@@ -39,3 +39,6 @@ build/
 .android/
 .ios/
 .flutter-plugins
+
+*.iml
+pubspec.lock
