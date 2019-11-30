@@ -1,16 +1,14 @@
 import 'dart:collection';
 
 import 'flutter_bridge.dart';
-import 'dart_channel.dart';
 
 class UrlChannel {
-  static Future<dynamic> get({Map args, DartToNativeCallback callback}) async {
+  static Future<dynamic> get({Map args}) async {
     args ?? HashMap();
-    FlutterMain.singleton.channel
-        .invokeMethod(_HTTP_CHANNEL, args: args, callback: callback);
+    return FlutterMain.singleton.channel.invokeMethod(_URL_CHANNEL, args);
   }
 
-  static const _HTTP_CHANNEL = "url_channel";
+  static const _URL_CHANNEL = "url_channel";
 
   static const String URL_CATEGORY = "category";
 }

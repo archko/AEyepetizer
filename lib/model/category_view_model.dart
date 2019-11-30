@@ -7,22 +7,20 @@ import 'package:aeyepetizer/utils/json_utils.dart';
 import 'package:flutter/foundation.dart';
 
 class CategoryViewModel extends BaseListViewModel {
-  getUrl(callback) async {
+  Future getUrl() async {
     Map args = Map();
     args["action"] = UrlChannel.URL_CATEGORY;
 
-    return await UrlChannel.get(args: args, callback: callback);
+    return await UrlChannel.get(args: args);
   }
 
   Future<List<ACategory>> loadData(int pn) async {
-    List<ACategory> list;
-
-    getUrl((dynamic result) async {
-      print("call:$result");
+    return await getUrl().then((map) async {
+      print("call:$map");
+      List<ACategory> list;
       try {
-        String url = result['url'];
+        String url = map['url'];
         //print("loadData.url:$url");
-
         HttpResponse httpResponse = await HttpClient.instance.get(url);
         print("result:${httpResponse.data}");
         list = await compute(decodeListResult, httpResponse.data as String);
@@ -30,8 +28,8 @@ class CategoryViewModel extends BaseListViewModel {
         print(e);
         list = [];
       }
+      return list;
     });
-    return list;
   }
 
   Future<List<ACategory>> loadMore(int pn) async {

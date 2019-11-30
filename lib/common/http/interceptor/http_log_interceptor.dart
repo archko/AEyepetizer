@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 
 class HttpLogInterceptor extends Interceptor {
+  String USER_AGENT =
+      "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63";
+
   @override
   onRequest(RequestOptions options) {
     print(
         "######################### Request Start ###########################");
+    options.headers['User-Agent'] = USER_AGENT;
     StringBuffer sb = StringBuffer();
     sb.write(
         "onRequest:method:${options.method},contentType:${options.contentType},responseType:${options.responseType},");

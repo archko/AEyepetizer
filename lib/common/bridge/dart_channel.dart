@@ -19,28 +19,18 @@ class DartChannel {
     });
   }
 
-  Future<T> invokeMethod<T>(String method,
-      {Map args, DartToNativeCallback callback}) async {
-    dynamic result;
-    if (args == null) {
-      result = await _methodChannel.invokeMethod<T>(method);
-    } else {
-      result = await _methodChannel.invokeMethod<T>(method, args);
-    }
-    if (callback != null) {
-      callback(result);
-    }
-    return result;
+  Future<T> invokeMethod<T>(String method, [dynamic arguments]) async {
+    return await _methodChannel.invokeMethod<T>(method, arguments);
   }
 
   Future<List<T>> invokeListMethod<T>(String method,
       [dynamic arguments]) async {
-    return _methodChannel.invokeListMethod<T>(method, arguments);
+    return await _methodChannel.invokeListMethod<T>(method, arguments);
   }
 
   Future<Map<K, V>> invokeMapMethod<K, V>(String method,
       [dynamic arguments]) async {
-    return _methodChannel.invokeMapMethod<K, V>(method, arguments);
+    return await _methodChannel.invokeMapMethod<K, V>(method, arguments);
   }
 
   VoidCallback addMethodHandler(MethodHandler handler) {
