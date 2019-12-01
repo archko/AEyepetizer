@@ -9,6 +9,8 @@ import 'package:aeyepetizer/utils/json_utils.dart';
 import 'package:flutter/foundation.dart';
 
 class CategoryDetailViewModel extends BaseListViewModel<VideoItem> {
+  Trending last;
+
   Future getUrl(ACategory category) async {
     Map args = Map();
     args["action"] = UrlChannel.URL_CATEGORY_BY_ID;
@@ -18,6 +20,20 @@ class CategoryDetailViewModel extends BaseListViewModel<VideoItem> {
   }
 
   Future<Trending> loadData(int pn, [ACategory category]) async {
+    if (pn < 0 && last != null) {
+      Trending trending;
+      try {
+        String url = last.nextPageUrl;
+        HttpResponse httpResponse = await HttpClient.instance.get(url);
+        trending = await compute(decodeListResult, httpResponse.data as String);
+        //print("result:${list}");
+        last = trending;
+      } catch (e) {
+        print(e);
+        trending = null;
+      }
+      return trending;
+    }
     return await getUrl(category).then((map) async {
       print("getUrl:$map");
       Trending trending;
@@ -26,6 +42,7 @@ class CategoryDetailViewModel extends BaseListViewModel<VideoItem> {
         HttpResponse httpResponse = await HttpClient.instance.get(url);
         trending = await compute(decodeListResult, httpResponse.data as String);
         //print("result:${list}");
+        last = trending;
       } catch (e) {
         print(e);
         trending = null;

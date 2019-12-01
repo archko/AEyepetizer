@@ -1,5 +1,5 @@
 class ObjectUtils {
-  bool isNull(dynamic obj) {
+  static bool isNull(dynamic obj) {
     return obj == null;
   }
 }

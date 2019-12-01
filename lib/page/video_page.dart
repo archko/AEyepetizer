@@ -330,13 +330,13 @@ class _ConnectivityOverlayState extends State<ConnectivityOverlay> {
   Widget build(BuildContext context) => widget.child;
 }*/
 
-class VideoDemo extends StatefulWidget {
-  const VideoDemo({Key key, this.videoData}) : super(key: key);
+class VideoPage extends StatefulWidget {
+  const VideoPage({Key key, this.videoData}) : super(key: key);
 
   final VideoData videoData;
 
   @override
-  _VideoDemoState createState() => _VideoDemoState();
+  _VideoPageState createState() => _VideoPageState();
 }
 
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -345,7 +345,7 @@ Future<bool> isIOSSimulator() async {
   return Platform.isIOS && !(await deviceInfoPlugin.iosInfo).isPhysicalDevice;
 }
 
-class _VideoDemoState extends State<VideoDemo>
+class _VideoPageState extends State<VideoPage>
     with SingleTickerProviderStateMixin {
   //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   //final Completer<void> connectedCompleter = Completer<void>();

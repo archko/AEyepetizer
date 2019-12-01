@@ -1,9 +1,11 @@
 import 'package:aeyepetizer/entity/acategory.dart';
+import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/category_detail_view_model.dart';
 import 'package:aeyepetizer/page/base_list_state.dart';
 import 'package:aeyepetizer/page/video_list_item.dart';
 import 'package:aeyepetizer/page/video_page.dart';
+import 'package:aeyepetizer/utils/string_utils.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,30 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   Future<void> loadMore() async {
-    refreshController.loadNoData();
+    if (viewModel.getCount() < 1) {
+      return refresh();
+    }
+    CategoryDetailViewModel cViewModel = (viewModel as CategoryDetailViewModel);
+    Trending trendingb = cViewModel.last;
+    if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
+      refreshController.loadNoData();
+      return null;
+    }
+    await cViewModel.loadMore(-1).then((trending) {
+      cViewModel.updateDataAndPage(trending.itemList, viewModel.page + 1);
+      setState(() {
+        if (trending.itemList == null || trending.itemList.length < 1) {
+          refreshController.loadNoData();
+        } else {
+          refreshController.refreshCompleted(resetFooterState: true);
+        }
+        print(
+            "loadMore end.${refreshController.footerStatus},${viewModel.page}, ${viewModel.getCount()}");
+      });
+    }).catchError((e) => setState(() {
+          print("loadMore error:$e");
+          refreshController.loadFailed();
+        }));
   }
 
   @override
@@ -78,7 +103,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
         footer: ClassicFooter(
           loadStyle: LoadStyle.HideAlways,
         ),
-        //onLoadMore: loadMore,
+        onLoadMore: loadMore,
         onRefresh: refresh,
       ),
     );
@@ -92,7 +117,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
         Navigator.of(context).push(
           new MaterialPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoDemo(
+              return new VideoPage(
                 videoData: item.data,
               );
             },

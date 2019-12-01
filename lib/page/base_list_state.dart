@@ -25,8 +25,8 @@ mixin BaseListState<T extends StatefulWidget> on State<T> {
           refreshController.refreshCompleted(resetFooterState: true);
         }
       });
-    }).catchError((_) => setState(() {
-          print("refresh error");
+    }).catchError((e) => setState(() {
+          print("refresh error:$e");
           refreshController.loadFailed();
         }));
   }
@@ -47,7 +47,8 @@ mixin BaseListState<T extends StatefulWidget> on State<T> {
         print(
             "loadMore end.${refreshController.footerStatus},${viewModel.page}, ${viewModel.getCount()}");
       });
-    }).catchError((_) => setState(() {
+    }).catchError((e) => setState(() {
+          print("loadMore error:$e");
           refreshController.loadFailed();
         }));
   }

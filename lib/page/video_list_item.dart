@@ -37,7 +37,7 @@ class VideoListItem extends StatelessWidget {
                     style: TextStyle(fontSize: 20.0, color: Colors.blue)),
                 Expanded(
                   child: Text('${bean.data.description}',
-                      style: TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
+                      style: TextStyle(fontSize: 14.0, color: Colors.cyanAccent)),
                 ),
               ],
             ),
