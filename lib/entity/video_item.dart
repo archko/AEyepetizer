@@ -12,7 +12,6 @@ class VideoItem {
     adIndex = json['adIndex'];
     type = json['type'];
     var results = json['data'];
-    print("VideoItem.results:$results");
     if (results != null) {
       data = VideoData.fromJson(results);
     }

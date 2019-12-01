@@ -36,6 +36,9 @@ dependencies:
 
   flutter_bloc: ^0.20.1
   provider: 3.0.0
+  video_player: 0.10.1+6
+  device_info: 0.4.0+2
+  connectivity: 0.4.3+7
 
 dev_dependencies:
   flutter_test:

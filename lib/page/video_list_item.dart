@@ -14,6 +14,7 @@ class VideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.all(4.0),
       child: Stack(
         children: <Widget>[
           Container(
@@ -26,14 +27,18 @@ class VideoListItem extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 8.0),
+            height: 160,
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text('${bean.data.title}',
                     style: TextStyle(fontSize: 20.0, color: Colors.blue)),
-                Text('${bean.data.description}'),
+                Expanded(
+                  child: Text('${bean.data.description}',
+                      style: TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
+                ),
               ],
             ),
           ),

@@ -49,12 +49,15 @@ class _StateDemoAppState extends State<StateDemoApp> {
       child: Consumer<AppProvider>(
         builder: (context, counter, _) {
           return MaterialApp(
-            title: 'Funny Clips',
+            title: 'AEyepetizer',
             theme: ThemeData(
               primarySwatch: Colors.blue,
+              primaryColor: Colors.blueAccent,
             ),
             //home: TestProviderPage(),
-            home: TabBarPageWidget(),
+            home: TabBarPageWidget(
+              title: "AEyepetizer",
+            ),
           );
         },
       ),

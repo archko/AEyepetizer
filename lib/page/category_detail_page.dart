@@ -1,7 +1,9 @@
 import 'package:aeyepetizer/entity/acategory.dart';
+import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/category_detail_view_model.dart';
 import 'package:aeyepetizer/page/base_list_state.dart';
 import 'package:aeyepetizer/page/video_list_item.dart';
+import 'package:aeyepetizer/page/video_page.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,9 +86,19 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   //列表的ltem
   _renderItem(context, index) {
-    var item = viewModel.data[index];
+    var item = viewModel.data[index] as VideoItem;
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          new MaterialPageRoute<void>(
+            builder: (BuildContext context) {
+              return new VideoDemo(
+                videoData: item.data,
+              );
+            },
+          ),
+        );
+      },
       child: VideoListItem(bean: item),
     );
   }

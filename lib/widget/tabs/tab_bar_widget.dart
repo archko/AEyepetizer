@@ -38,15 +38,6 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
 
   _renderPage() {
     return tabViews;
-    //return [
-    //  new GankListPage(),
-    //  new GankListPage(
-    //    type: 'Android',
-    //  ),
-    //  new MovieListPage(),
-    //  new GankJsonListPage(),
-    //  new TestProviderPage(),
-    //];
   }
 
   @override
