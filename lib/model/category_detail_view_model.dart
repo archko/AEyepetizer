@@ -3,11 +3,12 @@ import 'package:aeyepetizer/common/http/http_client.dart';
 import 'package:aeyepetizer/common/http/http_response.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
+import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/base_list_view_model.dart';
 import 'package:aeyepetizer/utils/json_utils.dart';
 import 'package:flutter/foundation.dart';
 
-class CategoryDetailViewModel extends BaseListViewModel<Trending> {
+class CategoryDetailViewModel extends BaseListViewModel<VideoItem> {
   Future getUrl(ACategory category) async {
     Map args = Map();
     args["action"] = UrlChannel.URL_CATEGORY_BY_ID;
@@ -18,18 +19,18 @@ class CategoryDetailViewModel extends BaseListViewModel<Trending> {
 
   Future<Trending> loadData(int pn, [ACategory category]) async {
     return await getUrl(category).then((map) async {
-      print("call:$map");
-      Trending list;
+      print("getUrl:$map");
+      Trending trending;
       try {
         String url = map['url'];
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        list = await compute(decodeListResult, httpResponse.data as String);
-        print("result:${list}");
+        trending = await compute(decodeListResult, httpResponse.data as String);
+        //print("result:${list}");
       } catch (e) {
         print(e);
-        list = null;
+        trending = null;
       }
-      return list;
+      return trending;
     });
   }
 

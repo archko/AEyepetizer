@@ -1,7 +1,7 @@
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/model/category_detail_view_model.dart';
 import 'package:aeyepetizer/page/base_list_state.dart';
-import 'package:aeyepetizer/page/category_item.dart';
+import 'package:aeyepetizer/page/video_list_item.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +50,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
           refreshController.refreshCompleted(resetFooterState: true);
         }
       });
-    }).catchError((_) => setState(() {
-              print("refresh error");
+    }).catchError((e) => setState(() {
+              print("refresh error,$e");
               refreshController.loadFailed();
             }));
   }
@@ -87,7 +87,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
     var item = viewModel.data[index];
     return GestureDetector(
       onTap: () {},
-      child: CategoryItem(bean: item),
+      child: VideoListItem(bean: item),
     );
   }
 }
