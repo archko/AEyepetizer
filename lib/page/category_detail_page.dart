@@ -40,11 +40,11 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
     viewModel.setPage(startPage);
     await (viewModel as CategoryDetailViewModel)
         .loadData(viewModel.page, widget.category)
-        .then((list) {
-      viewModel.setData(list);
+        .then((trending) {
+      viewModel.setData(trending.itemList);
       setState(() {
         print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
-        if (list.length < 1) {
+        if (trending.itemList == null || trending.itemList.length < 1) {
           refreshController.loadNoData();
         } else {
           refreshController.refreshCompleted(resetFooterState: true);
