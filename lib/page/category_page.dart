@@ -1,6 +1,7 @@
 import 'package:aeyepetizer/model/category_view_model.dart';
 import 'package:aeyepetizer/page/base_list_state.dart';
 import 'package:aeyepetizer/page/category_item.dart';
+import 'package:aeyepetizer/page/category_detail_page.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +78,20 @@ class _CategoryPageState extends State<CategoryPage>
 
   //列表的ltem
   _renderItem(context, index) {
-    return CategoryItem(bean: viewModel.data[index]);
+    var item = viewModel.data[index];
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          new MaterialPageRoute<void>(
+            builder: (BuildContext context) {
+              return new CategoryDetailPage(
+                category: item,
+              );
+            },
+          ),
+        );
+      },
+      child: CategoryItem(bean: item),
+    );
   }
 }

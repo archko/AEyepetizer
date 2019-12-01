@@ -11,4 +11,5 @@ class UrlChannel {
   static const _URL_CHANNEL = "url_channel";
 
   static const String URL_CATEGORY = "category";
+  static const String URL_CATEGORY_BY_ID = "category_by_id";
 }
