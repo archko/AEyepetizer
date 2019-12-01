@@ -24,6 +24,8 @@ class VideoData {
   Cover cover;
   List<Tag> tags;
   WebUrl webUrl;
+  //textcard
+  String text;
 
   VideoData.fromJson(Map<String, dynamic> json) {
     dataType = json['dataType'];
@@ -38,6 +40,8 @@ class VideoData {
     releaseTime = json['releaseTime'];
     date = json['date'];
     descriptionEditor = json['descriptionEditor'];
+
+    text = json['text'];
 
     var results = json['consumption'];
     if (results != null) {

@@ -1,7 +1,7 @@
 import 'package:aeyepetizer/model/category_view_model.dart';
-import 'package:aeyepetizer/page/base_list_state.dart';
-import 'package:aeyepetizer/page/category_item.dart';
-import 'package:aeyepetizer/page/category_detail_page.dart';
+import 'package:aeyepetizer/page/list/base_list_state.dart';
+import 'package:aeyepetizer/page/category/category_item.dart';
+import 'package:aeyepetizer/page/video/video_by_category_page.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +84,7 @@ class _CategoryPageState extends State<CategoryPage>
         Navigator.of(context).push(
           new MaterialPageRoute<void>(
             builder: (BuildContext context) {
-              return new CategoryDetailPage(
+              return new VideoByCategoryPage(
                 category: item,
               );
             },

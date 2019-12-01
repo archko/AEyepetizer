@@ -8,7 +8,7 @@ import 'package:aeyepetizer/model/base_list_view_model.dart';
 import 'package:aeyepetizer/utils/json_utils.dart';
 import 'package:flutter/foundation.dart';
 
-class CategoryDetailViewModel extends BaseListViewModel<VideoItem> {
+class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
   Trending last;
 
   Future getUrl(ACategory category) async {

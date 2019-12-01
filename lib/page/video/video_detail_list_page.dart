@@ -1,28 +1,26 @@
-import 'package:aeyepetizer/entity/acategory.dart';
-import 'package:aeyepetizer/entity/trending.dart';
+import 'package:aeyepetizer/entity/video_data.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
-import 'package:aeyepetizer/model/category_detail_view_model.dart';
-import 'package:aeyepetizer/page/base_list_state.dart';
-import 'package:aeyepetizer/page/video_list_item.dart';
-import 'package:aeyepetizer/page/video_page.dart';
-import 'package:aeyepetizer/utils/string_utils.dart';
+import 'package:aeyepetizer/model/video_detail_view_model.dart';
+import 'package:aeyepetizer/page/list/base_list_state.dart';
+import 'package:aeyepetizer/page/video/video_list_item.dart';
+import 'package:aeyepetizer/page/player/video_player_page.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CategoryDetailPage extends StatefulWidget {
-  CategoryDetailPage({Key key, this.category}) : super(key: key);
-  final ACategory category;
+class VideoDetailListPage extends StatefulWidget {
+  VideoDetailListPage({Key key, this.videoData}) : super(key: key);
+  final VideoData videoData;
 
   @override
   State<StatefulWidget> createState() {
-    return _CategoryDetailPageState();
+    return _VideoDetailListPageState();
   }
 }
 
-class _CategoryDetailPageState extends State<CategoryDetailPage>
-    with BaseListState<CategoryDetailPage>, AutomaticKeepAliveClientMixin {
+class _VideoDetailListPageState extends State<VideoDetailListPage>
+    with BaseListState<VideoDetailListPage>, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -30,7 +28,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
   void initState() {
     super.initState();
     refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new CategoryDetailViewModel();
+    viewModel = new VideoDetailViewModel();
   }
 
   @override
@@ -42,8 +40,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
   @override
   Future refresh() async {
     viewModel.setPage(startPage);
-    await (viewModel as CategoryDetailViewModel)
-        .loadData(viewModel.page, widget.category)
+    await (viewModel as VideoDetailViewModel)
+        .loadData(viewModel.page, widget.videoData)
         .then((trending) {
       viewModel.setData(trending.itemList);
       setState(() {
@@ -65,34 +63,14 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
     if (viewModel.getCount() < 1) {
       return refresh();
     }
-    CategoryDetailViewModel cViewModel = (viewModel as CategoryDetailViewModel);
-    Trending trendingb = cViewModel.last;
-    if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
-      refreshController.loadNoData();
-      return null;
-    }
-    await cViewModel.loadMore(-1).then((trending) {
-      cViewModel.updateDataAndPage(trending.itemList, viewModel.page + 1);
-      setState(() {
-        if (trending.itemList == null || trending.itemList.length < 1) {
-          refreshController.loadNoData();
-        } else {
-          refreshController.refreshCompleted(resetFooterState: true);
-        }
-        print(
-            "loadMore end.${refreshController.footerStatus},${viewModel.page}, ${viewModel.getCount()}");
-      });
-    }).catchError((e) => setState(() {
-          print("loadMore error:$e");
-          refreshController.loadFailed();
-        }));
+    refreshController.loadNoData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.name),
+        title: Text(widget.videoData.title),
       ),
       body: PullWidget(
         pullController: refreshController,
@@ -117,7 +95,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
         Navigator.of(context).push(
           new MaterialPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoPage(
+              return new VideoPlayerPage(
                 videoData: item.data,
               );
             },

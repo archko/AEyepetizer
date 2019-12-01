@@ -1,4 +1,4 @@
-import 'package:aeyepetizer/page/category_page.dart';
+import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:aeyepetizer/widget/tabs/gsy_tab_bar_widget.dart';
 import 'package:flutter/material.dart';
