@@ -2,6 +2,7 @@ import 'package:aeyepetizer/model/category_view_model.dart';
 import 'package:aeyepetizer/page/base_list_state.dart';
 import 'package:aeyepetizer/page/category_item.dart';
 import 'package:aeyepetizer/widget/list/pull_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -32,16 +33,45 @@ class _CategoryPageState extends State<CategoryPage>
     print("dispose");
   }
 
+  Future<void> loadMore() async {
+    refreshController.loadNoData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PullWidget(
-      pullController: refreshController,
-      listCount: viewModel.getCount(),
-      itemBuilder: (BuildContext context, int index) =>
-          _renderItem(context, index),
-      header: MaterialClassicHeader(),
-      onLoadMore: loadMore,
-      onRefresh: refresh,
+    //return PullWidget(
+    //  pullController: refreshController,
+    //  listCount: viewModel.getCount(),
+    //  itemBuilder: (BuildContext context, int index) =>
+    //      _renderItem(context, index),
+    //  header: MaterialClassicHeader(),
+    //  footer: ClassicFooter(
+    //    loadStyle: LoadStyle.HideAlways,
+    //  ),
+    //  //onLoadMore: loadMore,
+    //  onRefresh: refresh,
+    //);
+    return Container(
+      margin: EdgeInsets.all(4),
+      child: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        controller: refreshController,
+        onRefresh: refresh,
+        header: MaterialClassicHeader(),
+        //onLoading: loadMore,
+        child: GridView.builder(
+          primary: false,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+              childAspectRatio: 1),
+          itemCount: viewModel.getCount(),
+          itemBuilder: (BuildContext context, int index) =>
+              _renderItem(context, index),
+        ),
+      ),
     );
   }
 

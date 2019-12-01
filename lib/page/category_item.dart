@@ -12,39 +12,29 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-      child: Row(
+      child: Stack(
         children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Container(
-              margin: const EdgeInsets.all(10.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image(
-                  image: CachedNetworkImageProvider('${bean.bgPicture}'),
-                  fit: BoxFit.cover,
-                ),
+          Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: Image(
+                image: CachedNetworkImageProvider('${bean.bgPicture}'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              margin: const EdgeInsets.only(left: 10.0),
-              height: 150.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text('${bean.name}',
-                      style: TextStyle(fontSize: 20.0, color: Colors.blue)),
-                  Text('${bean.name}'),
-                  Text('${bean.description}'),
-                ],
-              ),
+          Container(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('${bean.name}',
+                    style: TextStyle(fontSize: 20.0, color: Colors.blue)),
+                Text('${bean.description}'),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
