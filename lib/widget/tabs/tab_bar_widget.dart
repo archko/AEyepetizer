@@ -1,5 +1,5 @@
 import 'package:aeyepetizer/page/category/category_page.dart';
-import 'package:aeyepetizer/page/movie/movie_list_page.dart';
+import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:aeyepetizer/widget/tabs/gsy_tab_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,15 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
   final List<String> tabs = ["first", "second", "third", "fouth"];
   final List<Widget> tabViews = [
     CategoryPage(),
-    MovieListPage(),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_HOT_WEEKLY,
+    ),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_HOT_MONTHLY,
+    ),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_TOTAL_RANKING,
+    ),
   ];
 
   _renderTab() {

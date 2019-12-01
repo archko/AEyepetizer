@@ -14,6 +14,11 @@ class CategoryPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _CategoryPageState();
   }
+
+  @override
+  String toStringShort() {
+    return "发现";
+  }
 }
 
 class _CategoryPageState extends State<CategoryPage>
