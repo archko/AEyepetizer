@@ -51,8 +51,8 @@ class _StateDemoAppState extends State<StateDemoApp> {
           return MaterialApp(
             title: 'AEyepetizer',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
-              primaryColor: Colors.blueAccent,
+              primarySwatch: Colors.red,
+              primaryColor: Colors.red,
             ),
             //home: TestProviderPage(),
             home: TabBarPageWidget(
