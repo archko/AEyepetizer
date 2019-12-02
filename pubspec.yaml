@@ -34,11 +34,11 @@ dependencies:
   dio: 2.1.13
   pull_to_refresh: ^1.5.4
 
-  flutter_bloc: ^0.20.1
+  #flutter_bloc: ^0.20.1
   provider: 3.0.0
   video_player: 0.10.1+6
   device_info: 0.4.0+2
-  connectivity: 0.4.3+7
+  #connectivity: 0.4.3+7
 
 dev_dependencies:
   flutter_test:
