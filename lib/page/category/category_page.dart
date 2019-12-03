@@ -29,14 +29,14 @@ class _CategoryPageState extends State<CategoryPage>
   @override
   void initState() {
     super.initState();
-    refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new CategoryViewModel();
+    refreshController = RefreshController(initialRefresh: true);
+    viewModel = CategoryViewModel();
   }
 
   @override
   void dispose() {
     super.dispose();
-    print("dispose");
+    print("$this,dispose");
   }
 
   Future<void> loadMore() async {
@@ -61,11 +61,14 @@ class _CategoryPageState extends State<CategoryPage>
       margin: EdgeInsets.all(4),
       child: SmartRefresher(
         enablePullDown: true,
-        enablePullUp: true,
+        enablePullUp: false,
         controller: refreshController,
         onRefresh: refresh,
         header: MaterialClassicHeader(),
-        //onLoading: loadMore,
+        footer: ClassicFooter(
+          loadStyle: LoadStyle.HideAlways,
+        ),
+        onLoading: loadMore,
         child: GridView.builder(
           primary: false,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,9 +90,9 @@ class _CategoryPageState extends State<CategoryPage>
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          new MaterialPageRoute<void>(
+          CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoByCategoryPage(
+              return VideoByCategoryPage(
                 category: item,
               );
             },

@@ -36,14 +36,14 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   void initState() {
     super.initState();
-    refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new HotVideoListViewModel();
+    refreshController = RefreshController(initialRefresh: true);
+    viewModel = HotVideoListViewModel();
   }
 
   @override
   void dispose() {
     super.dispose();
-    print("dispose");
+    print("$this,dispose");
   }
 
   @override
@@ -121,9 +121,9 @@ class _HotVideoListPageState extends State<HotVideoListPage>
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          new MaterialPageRoute<void>(
+          CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoDetailListPage(
+              return VideoDetailListPage(
                 videoData: item.data,
               );
             },
