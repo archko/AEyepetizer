@@ -1,6 +1,7 @@
 import 'package:aeyepetizer/common/bridge/url_channel.dart';
 import 'package:aeyepetizer/common/http/http_client.dart';
 import 'package:aeyepetizer/common/http/http_response.dart';
+import 'package:aeyepetizer/common/isolate_utils.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/model/base_list_view_model.dart';
 import 'package:aeyepetizer/utils/json_utils.dart';
@@ -23,7 +24,10 @@ class CategoryViewModel extends BaseListViewModel {
         //print("loadData.url:$url");
         HttpResponse httpResponse = await HttpClient.instance.get(url);
         print("result:${httpResponse.data}");
-        list = await compute(decodeListResult, httpResponse.data as String);
+        //list = await compute(decodeListResult, httpResponse.data as String);
+        final lb = await loadBalancer;
+        list = await lb.run<List<ACategory>, String>(
+            decodeListResult, httpResponse.data as String);
       } catch (e) {
         print(e);
         list = [];

@@ -1,6 +1,7 @@
 import 'package:aeyepetizer/common/bridge/url_channel.dart';
 import 'package:aeyepetizer/common/http/http_client.dart';
 import 'package:aeyepetizer/common/http/http_response.dart';
+import 'package:aeyepetizer/common/isolate_utils.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
@@ -25,7 +26,11 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
       try {
         String url = last.nextPageUrl;
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await compute(decodeListResult, httpResponse.data as String);
+        //trending = await compute(decodeListResult, httpResponse.data as String);
+
+        final lb = await loadBalancer;
+        trending = await lb.run<Trending, String>(
+            decodeListResult, httpResponse.data as String);
         //print("result:${list}");
         last = trending;
       } catch (e) {
@@ -40,7 +45,10 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
       try {
         String url = map['url'];
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await compute(decodeListResult, httpResponse.data as String);
+        //trending = await compute(decodeListResult, httpResponse.data as String);
+        final lb = await loadBalancer;
+        trending = await lb.run<Trending, String>(
+            decodeListResult, httpResponse.data as String);
         //print("result:${list}");
         last = trending;
       } catch (e) {

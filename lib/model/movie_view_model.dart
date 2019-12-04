@@ -1,3 +1,4 @@
+import 'package:aeyepetizer/common/isolate_utils.dart';
 import 'package:aeyepetizer/entity/animate.dart';
 import 'package:aeyepetizer/common/http/http_client.dart';
 import 'package:aeyepetizer/common/http/http_response.dart';
@@ -16,7 +17,11 @@ class MovieViewModel extends BaseListViewModel {
       String result =
           httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
-      list = await compute(decodeListResult, result);
+      //list = await compute(decodeListResult, result);
+      final lb = await loadBalancer;
+      list = await lb.run<List<Animate>, String>(
+          decodeListResult,
+          httpResponse.data as String);
     } catch (e) {
       print(e);
     }

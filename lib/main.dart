@@ -12,6 +12,7 @@ void main() {
 }
 
 Widget _widgetForRoute(String route) {
+  print("route:$route");
   switch (route) {
     case 'home':
       return new StateDemoApp();

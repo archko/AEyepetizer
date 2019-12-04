@@ -1,6 +1,7 @@
 import 'package:aeyepetizer/common/bridge/url_channel.dart';
 import 'package:aeyepetizer/common/http/http_client.dart';
 import 'package:aeyepetizer/common/http/http_response.dart';
+import 'package:aeyepetizer/common/isolate_utils.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_data.dart';
 import 'package:aeyepetizer/model/base_list_view_model.dart';
@@ -25,8 +26,11 @@ class VideoDetailViewModel extends BaseListViewModel {
       try {
         String url = map['url'];
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await compute(VideoByCategoryViewModel.decodeListResult,
-            httpResponse.data as String);
+        //trending = await compute(VideoByCategoryViewModel.decodeListResult,
+        //    httpResponse.data as String);
+        final lb = await loadBalancer;
+        trending = await lb.run<Trending, String>(
+            VideoByCategoryViewModel.decodeListResult, httpResponse.data as String);
         last = trending;
       } catch (e) {
         print(e);
