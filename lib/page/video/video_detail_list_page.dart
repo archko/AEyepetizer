@@ -3,10 +3,10 @@ import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/video_detail_view_model.dart';
 import 'package:aeyepetizer/page/list/base_list_state.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
-import 'package:aeyepetizer/page/player/video_player_page.dart';
-import 'package:aeyepetizer/widget/list/pull_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VideoDetailListPage extends StatefulWidget {
@@ -20,15 +20,24 @@ class VideoDetailListPage extends StatefulWidget {
 }
 
 class _VideoDetailListPageState extends State<VideoDetailListPage>
-    with BaseListState<VideoDetailListPage>, AutomaticKeepAliveClientMixin {
+    with
+        BaseListState<VideoDetailListPage>,
+        AutomaticKeepAliveClientMixin,
+        WidgetsBindingObserver {
   @override
   bool get wantKeepAlive => true;
+  VideoItem item;
+  IjkMediaController _controller = IjkMediaController();
 
   @override
   void initState() {
     super.initState();
-    refreshController =  RefreshController(initialRefresh: true);
-    viewModel =  VideoDetailViewModel();
+    WidgetsBinding.instance.addObserver(this);
+    refreshController = RefreshController(initialRefresh: true);
+    viewModel = VideoDetailViewModel();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refresh();
+    });
   }
 
   @override
@@ -43,7 +52,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     await (viewModel as VideoDetailViewModel)
         .loadData(viewModel.page, widget.videoData)
         .then((trending) {
+      item = trending.itemList[1];
       viewModel.setData(trending.itemList);
+      setPlayer();
       setState(() {
         print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
         if (trending.itemList == null || trending.itemList.length < 1) {
@@ -68,23 +79,24 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.videoData.title),
-      ),
-      body: PullWidget(
-        pullController: refreshController,
-        listCount: viewModel.getCount(),
-        itemBuilder: (BuildContext context, int index) =>
-            _renderItem(context, index),
-        header: MaterialClassicHeader(),
-        footer: ClassicFooter(
-          loadStyle: LoadStyle.HideAlways,
-        ),
-        onLoadMore: loadMore,
-        onRefresh: refresh,
-      ),
-    );
+    //return Scaffold(
+    //  appBar: AppBar(
+    //    title: Text(widget.videoData.title),
+    //  ),
+    //  body: PullWidget(
+    //    pullController: refreshController,
+    //    listCount: viewModel.getCount(),
+    //    itemBuilder: (BuildContext context, int index) =>
+    //        _renderItem(context, index),
+    //    header: MaterialClassicHeader(),
+    //    footer: ClassicFooter(
+    //      loadStyle: LoadStyle.HideAlways,
+    //    ),
+    //    onLoadMore: loadMore,
+    //    onRefresh: refresh,
+    //  ),
+    //);
+    return buildL(context);
   }
 
   //列表的ltem
@@ -92,17 +104,321 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     var item = viewModel.data[index] as VideoItem;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          CupertinoPageRoute<void>(
-            builder: (BuildContext context) {
-              return  VideoPlayerPage(
-                videoData: item.data,
-              );
-            },
-          ),
-        );
+        //Navigator.of(context).push(
+        //  CupertinoPageRoute<void>(
+        //    builder: (BuildContext context) {
+        //      return VideoPlayerPage(
+        //        videoData: item.data,
+        //      );
+        //    },
+        //  ),
+        //);
       },
       child: VideoListItem(bean: item),
+    );
+  }
+
+  Widget buildL(BuildContext context) {
+    if (item == null) {
+      return Scaffold(
+        body: Container(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    print("item:$item");
+    return Scaffold(
+      body: Container(
+        /// 设置背景图片
+        //decoration: BoxDecoration(
+        //  image: DecorationImage(
+        //    fit: BoxFit.cover,
+        //    image: CachedNetworkImageProvider(
+        //      '${item.data.cover.feed}',
+        //    ),
+        //  ),
+        //),
+        child: Column(
+          children: <Widget>[
+            /// 视频播放器
+            Container(
+              height: 230,
+              child: IjkPlayer(mediaController: _controller),
+            ),
+            Flexible(
+              flex: 1,
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Container(
+                      color: Colors.black,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          /// 标题栏
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 15,
+                              right: 15,
+                              top: 15,
+                              bottom: 5,
+                            ),
+                            child: Text(
+                              item.data.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+
+                          /// 标签/时间栏
+                          Padding(
+                            padding: EdgeInsets.only(left: 15),
+                            child: Text(
+                              '#${item.data.category}',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+
+                          /// 视频描述
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 15, right: 15, top: 10, bottom: 10),
+                            child: Text(
+                              item.data.description,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+
+                          /// 点赞、分享、评论栏
+                          Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Row(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    //Image.asset(
+                                    //  'images/icon_like.png',
+                                    //  width: 22,
+                                    //  height: 22,
+                                    //),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 3),
+                                      child: Text(
+                                        '${item.data.consumption.collectionCount}',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  child: Row(
+                                    children: <Widget>[
+                                      //Image.asset(
+                                      //  'images/icon_share_white.png',
+                                      //  width: 22,
+                                      //  height: 22,
+                                      //),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 3),
+                                        child: Text(
+                                          '${item.data.consumption.shareCount}',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    //Image.asset(
+                                    //  'images/icon_comment.png',
+                                    //  width: 22,
+                                    //  height: 22,
+                                    //),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 3),
+                                      child: Text(
+                                        '${item.data.consumption.replyCount}',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Divider(
+                              height: .5,
+                              color: Color(0xFFDDDDDD),
+                            ),
+                          ),
+
+                          /// 作者信息
+                          InkWell(
+                            onTap: () {
+                              //String itemJson =
+                              //FluroConvertUtils.object2string(
+                              //    item);
+                              //RouterManager.router.navigateTo(
+                              //  context,
+                              //  RouterManager.author +
+                              //      "?itemJson=$itemJson",
+                              //  transition: TransitionType.inFromRight,
+                              //);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                left: 15,
+                                top: 10,
+                                right: 15,
+                                bottom: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  ClipOval(
+                                    child: CachedNetworkImage(
+                                      width: 40,
+                                      height: 40,
+                                      imageUrl: item.data.author.icon,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        backgroundColor: Colors.deepPurple[600],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            item.data.author.name,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 3),
+                                            child: Text(
+                                              item.data.author.description,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: Text(
+                                        '+ 关注',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFF4F4F4),
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                    ),
+                                    onTap: (() {
+                                      print('点击关注');
+                                    }),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          Divider(
+                            height: .5,
+                            color: Color(0xFFDDDDDD),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  /// 相关视频列表
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (viewModel.getData()[index].type ==
+                            'videoSmallCard') {
+                          return VideoListItem(
+                            bean: viewModel.getData()[index],
+                            onPressed: () {
+                              if (_controller.isPlaying) {
+                                _controller.pause();
+                              }
+                            },
+                          );
+                        }
+                        return Padding(
+                          padding:
+                              EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                          child: Text(
+                            viewModel.getData()[index].data.text,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: viewModel.getCount(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void setPlayer() {
+    _controller.setNetworkDataSource(
+      item.data.playUrl,
+      autoPlay: true,
     );
   }
 }
