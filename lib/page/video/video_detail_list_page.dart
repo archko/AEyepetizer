@@ -3,6 +3,7 @@ import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/video_detail_view_model.dart';
 import 'package:aeyepetizer/page/list/base_list_state.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
+import 'package:aeyepetizer/utils/logger.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         WidgetsBindingObserver {
   @override
   bool get wantKeepAlive => true;
-  VideoItem item;
+  VideoItem _currVideoItem;
   IjkMediaController _controller = IjkMediaController();
 
   @override
@@ -43,7 +44,11 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   @override
   void dispose() {
     super.dispose();
-    print("$this,dispose");
+    Logger.log("$this,dispose");
+    if (_controller.isPlaying) {
+      _controller.stop();
+    }
+    _controller.dispose();
   }
 
   @override
@@ -52,19 +57,25 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     await (viewModel as VideoDetailViewModel)
         .loadData(viewModel.page, widget.videoData)
         .then((trending) {
-      item = trending.itemList[1];
       viewModel.setData(trending.itemList);
-      setPlayer(item);
+      if (trending.itemList != null && trending.itemList.length > 1) {
+        VideoItem videoItem = trending.itemList[1];
+        if (videoItem.type == "videoSmallCard") {
+          _currVideoItem = videoItem;
+        }
+        Logger.log("video:$videoItem");
+      }
       setState(() {
-        print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
+        Logger.log("refresh end.${viewModel.page}, ${viewModel.getCount()}");
         if (trending.itemList == null || trending.itemList.length < 1) {
           refreshController.loadNoData();
         } else {
           refreshController.refreshCompleted(resetFooterState: true);
         }
+        setPlayer(_currVideoItem);
       });
     }).catchError((e) => setState(() {
-              print("refresh error,$e");
+              Logger.log("refresh error,$e");
               refreshController.loadFailed();
             }));
   }
@@ -100,33 +111,63 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   }
 
   //列表的ltem
-  _renderItem(context, index) {
+  Widget _renderItem(context, index) {
     var item = viewModel.data[index] as VideoItem;
-    return GestureDetector(
-      onTap: () {
-        //Navigator.of(context).push(
-        //  CupertinoPageRoute<void>(
-        //    builder: (BuildContext context) {
-        //      return VideoPlayerPage(
-        //        videoData: item.data,
-        //      );
-        //    },
-        //  ),
-        //);
-      },
-      child: VideoListItem(bean: item),
-    );
-  }
-
-  Widget buildL(BuildContext context) {
-    if (item == null) {
-      return Scaffold(
-        body: Container(
-          child: CircularProgressIndicator(),
+    Logger.log("render:$item");
+    //return GestureDetector(
+    //  onTap: () {
+    //    Navigator.of(context).push(
+    //      CupertinoPageRoute<void>(
+    //        builder: (BuildContext context) {
+    //          return VideoPlayerPage(
+    //            videoData: item.data,
+    //          );
+    //        },
+    //      ),
+    //    );
+    //  },
+    //  child: VideoListItem(bean: item),
+    //);
+    if (item.type == 'videoSmallCard') {
+      return GestureDetector(
+        onTap: () {
+          if (_controller.isPlaying) {
+            _controller.pause();
+          }
+          setPlayer(item);
+        },
+        child: VideoListItem(
+          bean: item,
+        ),
+      );
+    } else { //textCard
+      return Container(
+        color: Colors.black,
+        child: Padding(
+          padding:
+          EdgeInsets.only(left: 15, top: 10, bottom: 10),
+          child: Text(
+            item.data?.text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
         ),
       );
     }
-    print("item:$item");
+  }
+
+  Widget buildL(BuildContext context) {
+    if (_currVideoItem == null) {
+      return Scaffold(
+        body: Container(
+          margin: EdgeInsets.all(30),
+          alignment: Alignment.topCenter,
+          child: RefreshProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       body: Container(
         /// 设置背景图片
@@ -144,6 +185,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
             Container(
               height: 230,
               child: IjkPlayer(mediaController: _controller),
+            ),
+            Divider(
+              height: .2,
+              color: Color(0xFFDDDDDD),
             ),
             Flexible(
               flex: 1,
@@ -164,7 +209,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                               bottom: 5,
                             ),
                             child: Text(
-                              item.data.title,
+                              _currVideoItem.data.title,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -176,7 +221,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                           Padding(
                             padding: EdgeInsets.only(left: 15),
                             child: Text(
-                              '#${item.data.category}',
+                              '#${_currVideoItem.data.category}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.white,
@@ -189,7 +234,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                             padding: EdgeInsets.only(
                                 left: 15, right: 15, top: 10, bottom: 10),
                             child: Text(
-                              item.data.description,
+                              _currVideoItem.data.description,
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.white,
@@ -212,7 +257,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     Padding(
                                       padding: EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${item.data.consumption.collectionCount}',
+                                        '${_currVideoItem.data.consumption.collectionCount}',
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Colors.white,
@@ -233,7 +278,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                       Padding(
                                         padding: EdgeInsets.only(left: 3),
                                         child: Text(
-                                          '${item.data.consumption.shareCount}',
+                                          '${_currVideoItem.data.consumption.shareCount}',
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -253,7 +298,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     Padding(
                                       padding: EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${item.data.consumption.replyCount}',
+                                        '${_currVideoItem.data.consumption.replyCount}',
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Colors.white,
@@ -302,7 +347,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     child: CachedNetworkImage(
                                       width: 40,
                                       height: 40,
-                                      imageUrl: item.data.author.icon,
+                                      imageUrl: _currVideoItem.data.author.icon,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(
                                         strokeWidth: 2.5,
@@ -321,7 +366,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            item.data.author.name,
+                                            _currVideoItem.data.author.name,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white,
@@ -330,7 +375,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                           Padding(
                                             padding: EdgeInsets.only(top: 3),
                                             child: Text(
-                                              item.data.author.description,
+                                              _currVideoItem.data.author.description,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -359,7 +404,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                       ),
                                     ),
                                     onTap: (() {
-                                      print('点击关注');
+                                      Logger.log('点击关注');
                                     }),
                                   ),
                                 ],
@@ -380,32 +425,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        if (viewModel.getData()[index].type ==
-                            'videoSmallCard') {
-                          return GestureDetector(
-                            onTap: () {
-                              if (_controller.isPlaying) {
-                                _controller.pause();
-                              }
-                              item = viewModel.getData()[index];
-                              setPlayer(item);
-                            },
-                            child: VideoListItem(
-                              bean: viewModel.getData()[index],
-                            ),
-                          );
-                        }
-                        return Padding(
-                          padding:
-                              EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                          child: Text(
-                            viewModel.getData()[index].data.text,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        );
+                        return _renderItem(context, index);
                       },
                       childCount: viewModel.getCount(),
                     ),
@@ -420,9 +440,13 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   }
 
   void setPlayer(VideoItem item) {
-    _controller.setNetworkDataSource(
-      item.data.playUrl,
-      autoPlay: true,
-    );
+    if (null != item.data) {
+      _controller.setNetworkDataSource(
+        item.data.playUrl,
+        autoPlay: true,
+      );
+    } else {
+      _controller.stop();
+    }
   }
 }
