@@ -1,8 +1,6 @@
 # aeyepetizer
 
-A new flutter module project.
+A Flutter project use eyepetizer open api.
 
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.dev/).
