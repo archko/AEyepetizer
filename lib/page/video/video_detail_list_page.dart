@@ -54,7 +54,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         .then((trending) {
       item = trending.itemList[1];
       viewModel.setData(trending.itemList);
-      setPlayer();
+      setPlayer(item);
       setState(() {
         print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
         if (trending.itemList == null || trending.itemList.length < 1) {
@@ -382,13 +382,17 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                       (context, index) {
                         if (viewModel.getData()[index].type ==
                             'videoSmallCard') {
-                          return VideoListItem(
-                            bean: viewModel.getData()[index],
-                            onPressed: () {
+                          return GestureDetector(
+                            onTap: () {
                               if (_controller.isPlaying) {
                                 _controller.pause();
                               }
+                              item = viewModel.getData()[index];
+                              setPlayer(item);
                             },
+                            child: VideoListItem(
+                              bean: viewModel.getData()[index],
+                            ),
                           );
                         }
                         return Padding(
@@ -415,7 +419,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     );
   }
 
-  void setPlayer() {
+  void setPlayer(VideoItem item) {
     _controller.setNetworkDataSource(
       item.data.playUrl,
       autoPlay: true,
