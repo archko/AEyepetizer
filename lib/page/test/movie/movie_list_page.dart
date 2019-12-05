@@ -1,6 +1,6 @@
 import 'package:aeyepetizer/model/movie_view_model.dart';
 import 'package:aeyepetizer/page/list/base_list_state.dart';
-import 'package:aeyepetizer/page/movie/movie_list_item.dart';
+import 'package:aeyepetizer/page/test/movie/movie_list_item.dart';
 import 'package:aeyepetizer/widget/list/list_more_widget.dart';
 import 'package:aeyepetizer/widget/list/pull_to_refresh_widget.dart';
 import 'package:flutter/material.dart';
