@@ -23,7 +23,7 @@ class CategoryViewModel extends BaseListViewModel {
         String url = map['url'];
         //print("loadData.url:$url");
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        print("result:${httpResponse.data}");
+        //print("result:${httpResponse.data}");
         //list = await compute(decodeListResult, httpResponse.data as String);
         final lb = await loadBalancer;
         list = await lb.run<List<ACategory>, String>(

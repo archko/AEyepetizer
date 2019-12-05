@@ -1,3 +1,4 @@
+import 'package:aeyepetizer/utils/logger.dart';
 import 'package:dio/dio.dart';
 
 class HttpLogInterceptor extends Interceptor {
@@ -38,7 +39,7 @@ class HttpLogInterceptor extends Interceptor {
       sb.write(bodySize);
       sb.write(" body:");
       sb.write(response.data);
-      print(sb);
+      Logger.log(sb);
     } else {
       print("response:$response");
     }
