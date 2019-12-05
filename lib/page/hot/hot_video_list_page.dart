@@ -99,6 +99,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: PullWidget(
         pullController: refreshController,

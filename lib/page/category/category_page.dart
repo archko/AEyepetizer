@@ -45,6 +45,7 @@ class _CategoryPageState extends State<CategoryPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //return PullWidget(
     //  pullController: refreshController,
     //  listCount: viewModel.getCount(),
