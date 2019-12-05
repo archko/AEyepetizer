@@ -30,7 +30,7 @@ class Logger {
 
     var tempData = object.toString();
     final int len = tempData.length;
-    final int div = 1600;
+    final int div = 800;
     int count = len ~/ div;
     if (count > 0) {
       for (int i = 0; i < count; i++) {
