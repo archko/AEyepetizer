@@ -51,7 +51,6 @@ class _StateDemoAppState extends State<StateDemoApp> {
             title: 'AEyepetizer',
             theme: ThemeData(
               primarySwatch: Colors.red,
-              primaryColor: Colors.red,
             ),
             home: TabBarPageWidget(
               title: "AEyepetizer",
