@@ -11,11 +11,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:appComponentFactory=""
         android:label="AEyepetizer"
-        android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:appComponentFactory">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name="cn.archko.flutter.aeyepetizer.MainActivity"
             android:launchMode="singleTop"
