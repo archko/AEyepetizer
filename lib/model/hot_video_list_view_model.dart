@@ -1,8 +1,7 @@
-import 'package:aeyepetizer/common/bridge/url_channel.dart';
+import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/model/video_by_category_view_model.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
@@ -15,17 +14,18 @@ class HotVideoListViewModel extends BaseListViewModel {
     Map args = Map();
     switch (type) {
       case HotVideoListPage.TYPE_HOT_WEEKLY:
-        args["action"] = UrlChannel.URL_HOT_WEEKLY;
+        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_WEEKLY_URL;
         break;
       case HotVideoListPage.TYPE_HOT_MONTHLY:
-        args["action"] = UrlChannel.URL_HOT_MONTHLY;
+        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_MONTHLY_URL;
         break;
       case HotVideoListPage.TYPE_TOTAL_RANKING:
-        args["action"] = UrlChannel.URL_TOTAL_RANKING;
+        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_TOTAL_RANKING_URL;
         break;
     }
 
-    return await UrlChannel.get(args: args);
+    //return await UrlChannel.get(args: args);
+    return args['action'];
   }
 
   Future<Trending> loadData(int pn, [String type]) async {

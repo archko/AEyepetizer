@@ -1,4 +1,4 @@
-import 'package:aeyepetizer/common/bridge/url_channel.dart';
+import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
@@ -12,11 +12,12 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
   Trending last;
 
   Future getUrl(ACategory category) async {
-    Map args = Map();
-    args["action"] = UrlChannel.URL_CATEGORY_BY_ID;
-    args['categoryId'] = category.id;
+    //Map args = Map();
+    //args["action"] = UrlChannel.URL_CATEGORY_BY_ID;
+    //args['categoryId'] = category.id;
 
-    return await UrlChannel.get(args: args);
+    //return await UrlChannel.get(args: args);
+    return WebConfig.EYEPETIZER_BASE_URL + WebConfig.CATEGORY_DETAIL_URL;
   }
 
   Future<Trending> loadData(int pn, [ACategory category]) async {

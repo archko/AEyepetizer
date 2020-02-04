@@ -1,6 +1,5 @@
-import 'package:aeyepetizer/common/bridge/url_channel.dart';
+import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
@@ -9,10 +8,11 @@ import 'package:flutter_base/utils/json_utils.dart';
 
 class CategoryViewModel extends BaseListViewModel {
   Future getUrl() async {
-    Map args = Map();
-    args["action"] = UrlChannel.URL_CATEGORY;
-
-    return await UrlChannel.get(args: args);
+    //Map args = Map();
+    //args["action"] = UrlChannel.URL_CATEGORY;
+    //
+    //return await UrlChannel.get(args: args);
+    return WebConfig.EYEPETIZER_BASE_URL + WebConfig.FIND_CATEGORIES_URL;
   }
 
   Future<List<ACategory>> loadData(int pn) async {
