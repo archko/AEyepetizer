@@ -1,4 +1,4 @@
-import 'dart_channel.dart';
+import 'package:aeyepetizer/common/bridge/dart_channel.dart';
 
 class FlutterMain {
   static final FlutterMain _instance = FlutterMain();

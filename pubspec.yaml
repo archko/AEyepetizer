@@ -1,5 +1,5 @@
 name: aeyepetizer
-description: A new flutter module project.
+description: A new Flutter project.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,10 +11,6 @@ description: A new flutter module project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-#
-# This version is used _only_ for the Runner app, which is used if you just do
-# a `flutter run` or a `flutter make-host-app-editable`. It has no impact
-# on any other native host app that you embed your Flutter project into.
 version: 1.0.0+1
 
 environment:
@@ -29,16 +25,19 @@ dependencies:
   cupertino_icons: ^0.1.2
   json_annotation: 3.0.0
   http: 0.12.0+2
-  cached_network_image: 1.1.1
+  cached_network_image: 2.0.0
 
   dio: 2.1.13
   pull_to_refresh: ^1.5.4
 
-  #flutter_bloc: ^0.20.1
   provider: 3.0.0
-  video_player: 0.10.1+6
-  device_info: 0.4.0+2
-  #connectivity: 0.4.3+7
+  flutter_ijkplayer: 0.3.5+1
+
+  flutter_base:
+    #git:
+    #  url: 'https://github.com/archko/flutter_base.git'
+    #  ref: 'master'
+    path: ../flutter_base/
 
 dev_dependencies:
   flutter_test:
@@ -94,7 +93,3 @@ flutter:
   # maintain consistency when adding or modifying assets and plugins.
   # They also do not have any bearing on your native host application's
   # identifiers, which may be completely independent or the same as these.
-  module:
-    androidX: true
-    androidPackage: cn.archko.flutter.aeyepetizer
-    iosBundleIdentifier: cn.archko.flutter.aeyepetizer

@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'flutter_bridge.dart';
+import 'package:aeyepetizer/common/bridge/flutter_bridge.dart';
 
 class UrlChannel {
   static Future<dynamic> get({Map args}) async {

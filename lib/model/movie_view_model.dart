@@ -1,9 +1,9 @@
 import 'package:aeyepetizer/entity/animate.dart';
-import 'package:aeyepetizer/common/http/http_client.dart';
-import 'package:aeyepetizer/common/http/http_response.dart';
-import 'package:aeyepetizer/model/base_list_view_model.dart';
-import 'package:aeyepetizer/utils/json_utils.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_base/http/http_client.dart';
+import 'package:flutter_base/http/http_response.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
+import 'package:flutter_base/utils/isolate_utils.dart';
+import 'package:flutter_base/utils/json_utils.dart';
 
 class MovieViewModel extends BaseListViewModel {
   Future<List<Animate>> loadData(int pn, {String type}) async {
@@ -14,9 +14,13 @@ class MovieViewModel extends BaseListViewModel {
     try {
       HttpResponse httpResponse = await HttpClient.instance.get(url);
       String result =
-          httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
+      httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
-      list = await compute(decodeListResult, result);
+      //list = await compute(decodeListResult, result);
+      final lb = await loadBalancer;
+      list = await lb.run<List<Animate>, String>(
+          decodeListResult,
+          httpResponse.data as String);
     } catch (e) {
       print(e);
     }

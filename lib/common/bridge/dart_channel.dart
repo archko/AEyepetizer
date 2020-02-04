@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 
-typedef DartToNativeCallback = void Function(dynamic result);
 typedef Future<dynamic> MethodHandler(MethodCall call);
 
 class DartChannel {

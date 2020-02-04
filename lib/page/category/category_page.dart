@@ -1,10 +1,9 @@
 import 'package:aeyepetizer/model/category_view_model.dart';
-import 'package:aeyepetizer/page/list/base_list_state.dart';
 import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
-import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -29,14 +28,14 @@ class _CategoryPageState extends State<CategoryPage>
   @override
   void initState() {
     super.initState();
-    refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new CategoryViewModel();
+    refreshController = RefreshController(initialRefresh: true);
+    viewModel = CategoryViewModel();
   }
 
   @override
   void dispose() {
     super.dispose();
-    print("dispose");
+    print("$this,dispose");
   }
 
   Future<void> loadMore() async {
@@ -45,6 +44,7 @@ class _CategoryPageState extends State<CategoryPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //return PullWidget(
     //  pullController: refreshController,
     //  listCount: viewModel.getCount(),
@@ -61,11 +61,14 @@ class _CategoryPageState extends State<CategoryPage>
       margin: EdgeInsets.all(4),
       child: SmartRefresher(
         enablePullDown: true,
-        enablePullUp: true,
+        enablePullUp: false,
         controller: refreshController,
         onRefresh: refresh,
         header: MaterialClassicHeader(),
-        //onLoading: loadMore,
+        footer: ClassicFooter(
+          loadStyle: LoadStyle.HideAlways,
+        ),
+        onLoading: loadMore,
         child: GridView.builder(
           primary: false,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,9 +90,9 @@ class _CategoryPageState extends State<CategoryPage>
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          new MaterialPageRoute<void>(
+          CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoByCategoryPage(
+              return VideoByCategoryPage(
                 category: item,
               );
             },

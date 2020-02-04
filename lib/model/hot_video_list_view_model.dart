@@ -1,11 +1,12 @@
 import 'package:aeyepetizer/common/bridge/url_channel.dart';
-import 'package:aeyepetizer/common/http/http_client.dart';
-import 'package:aeyepetizer/common/http/http_response.dart';
 import 'package:aeyepetizer/entity/trending.dart';
-import 'package:aeyepetizer/model/base_list_view_model.dart';
 import 'package:aeyepetizer/model/video_by_category_view_model.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_base/http/http_client.dart';
+import 'package:flutter_base/http/http_response.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
+import 'package:flutter_base/utils/isolate_utils.dart';
 
 class HotVideoListViewModel extends BaseListViewModel {
   Trending last;
@@ -33,7 +34,11 @@ class HotVideoListViewModel extends BaseListViewModel {
       try {
         String url = last.nextPageUrl;
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await compute(VideoByCategoryViewModel.decodeListResult,
+        //trending = await compute(VideoByCategoryViewModel.decodeListResult,
+        //    httpResponse.data as String);
+        final lb = await loadBalancer;
+        trending = await lb.run<Trending, String>(
+            VideoByCategoryViewModel.decodeListResult,
             httpResponse.data as String);
         //print("result:${list}");
         last = trending;
@@ -49,7 +54,11 @@ class HotVideoListViewModel extends BaseListViewModel {
       try {
         String url = map['url'];
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await compute(VideoByCategoryViewModel.decodeListResult,
+        //trending = await compute(VideoByCategoryViewModel.decodeListResult,
+        //    httpResponse.data as String);
+        final lb = await loadBalancer;
+        trending = await lb.run<Trending, String>(
+            VideoByCategoryViewModel.decodeListResult,
             httpResponse.data as String);
         //print("result:${list}");
         last = trending;

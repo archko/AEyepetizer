@@ -1,30 +1,18 @@
 import 'dart:collection';
 
-import 'flutter_bridge.dart';
-import 'dart_channel.dart';
+import 'package:aeyepetizer/common/bridge/flutter_bridge.dart';
 
 class HttpChannel {
-  static Future<dynamic> post({Map args, DartToNativeCallback callback}) async {
+  static Future<dynamic> post({Map args}) async {
     args ?? HashMap();
     args['method'] = 'post';
-    FlutterMain.singleton.channel
-        .invokeMethod(_HTTP_CHANNEL, args)
-        .then((onValue) {
-      callback(onValue);
-    });
+    return FlutterMain.singleton.channel.invokeMethod(_HTTP_CHANNEL, args);
   }
 
-  static Future<dynamic> get({Map args, DartToNativeCallback callback}) async {
+  static Future<dynamic> get({Map args}) async {
     args ?? HashMap();
     args['method'] = 'get';
-    FlutterMain.singleton.channel
-        .invokeMethod(
-      _HTTP_CHANNEL,
-      args,
-    )
-        .then((onValue) {
-      callback(onValue);
-    });
+    return FlutterMain.singleton.channel.invokeMethod(_HTTP_CHANNEL, args);
   }
 
   static const _HTTP_CHANNEL = "http_channel";

@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'dart:io';
 
@@ -259,6 +260,7 @@ class _FadeAnimationState extends State<FadeAnimation>
   }
 }
 
+*/
 /*class ConnectivityOverlay extends StatefulWidget {
   const ConnectivityOverlay({
     this.child,
@@ -328,7 +330,8 @@ class _ConnectivityOverlayState extends State<ConnectivityOverlay> {
 
   @override
   Widget build(BuildContext context) => widget.child;
-}*/
+}*//*
+
 
 class VideoPlayerPage extends StatefulWidget {
   const VideoPlayerPage({Key key, this.videoData}) : super(key: key);
@@ -423,3 +426,4 @@ class _VideoPlayerPageState extends State<VideoPlayerPage>
     );
   }
 }
+*/

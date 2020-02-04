@@ -1,12 +1,10 @@
-import 'package:aeyepetizer/model/app_provider.dart';
-import 'package:aeyepetizer/widget/tabs/tab_bar_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'dart:io';
 import 'dart:ui';
 
+import 'package:aeyepetizer/model/app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/widget/tabs/tab_bar_widget.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   //runApp(StateDemoApp());
@@ -14,6 +12,7 @@ void main() {
 }
 
 Widget _widgetForRoute(String route) {
+  print("route:$route");
   switch (route) {
     case 'home':
       return new StateDemoApp();
@@ -52,9 +51,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
             title: 'AEyepetizer',
             theme: ThemeData(
               primarySwatch: Colors.red,
-              primaryColor: Colors.red,
             ),
-            //home: TestProviderPage(),
             home: TabBarPageWidget(
               title: "AEyepetizer",
             ),

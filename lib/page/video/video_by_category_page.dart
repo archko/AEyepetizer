@@ -2,13 +2,13 @@ import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/video_by_category_view_model.dart';
-import 'package:aeyepetizer/page/list/base_list_state.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
-import 'package:aeyepetizer/utils/string_utils.dart';
-import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_state.dart';
+import 'package:flutter_base/utils/string_utils.dart';
+import 'package:flutter_base/widget/list/pull_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VideoByCategoryPage extends StatefulWidget {

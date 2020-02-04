@@ -1,7 +1,7 @@
 import 'package:aeyepetizer/entity/video_item.dart';
-import 'package:aeyepetizer/utils/string_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/utils/string_utils.dart';
 
 class VideoListItem extends StatelessWidget {
   VideoListItem({this.bean, this.onPressed}) : super();

@@ -1,13 +1,13 @@
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/hot_video_list_view_model.dart';
-import 'package:aeyepetizer/page/list/base_list_state.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
-import 'package:aeyepetizer/utils/string_utils.dart';
-import 'package:aeyepetizer/widget/list/pull_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_state.dart';
+import 'package:flutter_base/utils/string_utils.dart';
+import 'package:flutter_base/widget/list/pull_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HotVideoListPage extends StatefulWidget {
@@ -36,14 +36,14 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   void initState() {
     super.initState();
-    refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new HotVideoListViewModel();
+    refreshController = RefreshController(initialRefresh: true);
+    viewModel = HotVideoListViewModel();
   }
 
   @override
   void dispose() {
     super.dispose();
-    print("dispose");
+    print("$this,dispose");
   }
 
   @override
@@ -62,9 +62,9 @@ class _HotVideoListPageState extends State<HotVideoListPage>
         }
       });
     }).catchError((e) => setState(() {
-              print("refresh error,$e");
-              refreshController.loadFailed();
-            }));
+      print("refresh error,$e");
+      refreshController.loadFailed();
+    }));
   }
 
   @override
@@ -92,13 +92,14 @@ class _HotVideoListPageState extends State<HotVideoListPage>
             "loadMore end.${refreshController.footerStatus},${viewModel.page}, ${viewModel.getCount()}");
       });
     }).catchError((e) => setState(() {
-              print("loadMore error:$e");
-              refreshController.loadFailed();
-            }));
+      print("loadMore error:$e");
+      refreshController.loadFailed();
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: PullWidget(
         pullController: refreshController,
@@ -121,9 +122,9 @@ class _HotVideoListPageState extends State<HotVideoListPage>
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          new MaterialPageRoute<void>(
+          CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return new VideoDetailListPage(
+              return VideoDetailListPage(
                 videoData: item.data,
               );
             },
