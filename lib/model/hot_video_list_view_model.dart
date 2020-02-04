@@ -14,13 +14,13 @@ class HotVideoListViewModel extends BaseListViewModel {
     Map args = Map();
     switch (type) {
       case HotVideoListPage.TYPE_HOT_WEEKLY:
-        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_WEEKLY_URL;
+        args["action"] = WebConfig.hotWeeklyUrl;
         break;
       case HotVideoListPage.TYPE_HOT_MONTHLY:
-        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_MONTHLY_URL;
+        args["action"] = WebConfig.hotMonthlyUrl;
         break;
       case HotVideoListPage.TYPE_TOTAL_RANKING:
-        args["action"] = WebConfig.EYEPETIZER_BASE_URL + WebConfig.HOT_TOTAL_RANKING_URL;
+        args["action"] = WebConfig.hotTotalRankingUrl;
         break;
     }
 

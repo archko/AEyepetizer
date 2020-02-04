@@ -12,12 +12,12 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
   Trending last;
 
   Future getUrl(ACategory category) async {
-    //Map args = Map();
-    //args["action"] = UrlChannel.URL_CATEGORY_BY_ID;
+    Map args = Map();
+    args["url"] = WebConfig.categoryDetailUrl;
     //args['categoryId'] = category.id;
 
     //return await UrlChannel.get(args: args);
-    return WebConfig.EYEPETIZER_BASE_URL + WebConfig.CATEGORY_DETAIL_URL;
+    return args;
   }
 
   Future<Trending> loadData(int pn, [ACategory category]) async {

@@ -45,10 +45,11 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
 
     defaultConfig {
-        applicationId "cn.archko.flutter.aeyepetizer.host"
+        applicationId "cn.archko.flutter.aeyepetizer"
         minSdkVersion 16
         targetSdkVersion 28
 
@@ -85,8 +86,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    lintOptions { abortOnError false }
 }
 
 flutter {

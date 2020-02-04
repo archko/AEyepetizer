@@ -11,12 +11,12 @@ class VideoDetailViewModel extends BaseListViewModel {
   Trending last;
 
   Future getUrl(VideoData videoData) async {
-    //Map args = Map();
-    //args["action"] = UrlChannel.URL_VIDEO_BY_ID;
+    Map args = Map();
+    args["url"] = WebConfig.relatedVideoUrl;
     //args['videoId'] = videoData.id;
     //
     //return await UrlChannel.get(args: args);
-    return WebConfig.EYEPETIZER_BASE_URL + WebConfig.RELATED_VIDEO_URL;
+    return args;
   }
 
   Future<Trending> loadData(int pn, [VideoData videoData]) async {
@@ -30,7 +30,8 @@ class VideoDetailViewModel extends BaseListViewModel {
         //    httpResponse.data as String);
         final lb = await loadBalancer;
         trending = await lb.run<Trending, String>(
-            VideoByCategoryViewModel.decodeListResult, httpResponse.data as String);
+            VideoByCategoryViewModel.decodeListResult,
+            httpResponse.data as String);
         last = trending;
       } catch (e) {
         print(e);

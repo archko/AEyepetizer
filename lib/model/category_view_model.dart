@@ -8,11 +8,11 @@ import 'package:flutter_base/utils/json_utils.dart';
 
 class CategoryViewModel extends BaseListViewModel {
   Future getUrl() async {
-    //Map args = Map();
-    //args["action"] = UrlChannel.URL_CATEGORY;
-    //
+    Map args = Map();
+    args["url"] = WebConfig.categoriesUrl;
+
     //return await UrlChannel.get(args: args);
-    return WebConfig.EYEPETIZER_BASE_URL + WebConfig.FIND_CATEGORIES_URL;
+    return args;
   }
 
   Future<List<ACategory>> loadData(int pn) async {
@@ -23,8 +23,7 @@ class CategoryViewModel extends BaseListViewModel {
         String url = map['url'];
         //print("loadData.url:$url");
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        //print("result:${httpResponse.data}");
-        //list = await compute(decodeListResult, httpResponse.data as String);
+        print("result:${httpResponse.data}");
         final lb = await loadBalancer;
         list = await lb.run<List<ACategory>, String>(
             decodeListResult, httpResponse.data as String);
