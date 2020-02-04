@@ -11,15 +11,6 @@ import 'package:flutter_base/utils/json_utils.dart';
 class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
   Trending last;
 
-  Future getUrl(ACategory category) async {
-    Map args = Map();
-    args["url"] = WebConfig.categoryDetailUrl;
-    //args['categoryId'] = category.id;
-
-    //return await UrlChannel.get(args: args);
-    return args;
-  }
-
   Future<Trending> loadData(int pn, [ACategory category]) async {
     if (pn < 0 && last != null) {
       Trending trending;
@@ -39,24 +30,25 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
       }
       return trending;
     }
-    return await getUrl(category).then((map) async {
-      print("getUrl:$map");
-      Trending trending;
-      try {
-        String url = map['url'];
-        HttpResponse httpResponse = await HttpClient.instance.get(url);
-        //trending = await compute(decodeListResult, httpResponse.data as String);
-        final lb = await loadBalancer;
-        trending = await lb.run<Trending, String>(
-            decodeListResult, httpResponse.data as String);
-        //print("result:${list}");
-        last = trending;
-      } catch (e) {
-        print(e);
-        trending = null;
-      }
-      return trending;
-    });
+    Trending trending;
+    try {
+      Map args = Map();
+      args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
+      args['deviceModel'] = 'vivo x21';
+      args['id'] = category.id;
+      HttpResponse httpResponse = await HttpClient.instance
+          .get(WebConfig.categoryDetailUrl, params: args);
+      //trending = await compute(decodeListResult, httpResponse.data as String);
+      final lb = await loadBalancer;
+      trending = await lb.run<Trending, String>(
+          decodeListResult, httpResponse.data as String);
+      //print("result:${list}");
+      last = trending;
+    } catch (e) {
+      print(e);
+      trending = null;
+    }
+    return trending;
   }
 
   Future<Trending> loadMore(int pn) async {

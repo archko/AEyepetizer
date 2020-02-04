@@ -1,3 +1,4 @@
+import 'package:aeyepetizer/common/http/header_interceptor.dart';
 import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:flutter_base/http/http_client.dart';
@@ -7,32 +8,26 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
 
 class CategoryViewModel extends BaseListViewModel {
-  Future getUrl() async {
-    Map args = Map();
-    args["url"] = WebConfig.categoriesUrl;
-
-    //return await UrlChannel.get(args: args);
-    return args;
-  }
-
   Future<List<ACategory>> loadData(int pn) async {
-    return await getUrl().then((map) async {
-      print("call:$map");
-      List<ACategory> list;
-      try {
-        String url = map['url'];
-        //print("loadData.url:$url");
-        HttpResponse httpResponse = await HttpClient.instance.get(url);
-        print("result:${httpResponse.data}");
-        final lb = await loadBalancer;
-        list = await lb.run<List<ACategory>, String>(
-            decodeListResult, httpResponse.data as String);
-      } catch (e) {
-        print(e);
-        list = [];
-      }
-      return list;
-    });
+    List<ACategory> list;
+    try {
+      Map args = Map();
+      args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
+      args['deviceModel'] = 'vivo x21';
+
+      Map<String, String> headers = Map();
+      headers['User-Agent'] = HeaderInterceptor.USER_AGENT;
+      HttpResponse httpResponse = await HttpClient.instance
+          .get(WebConfig.categoriesUrl, params: args, header: headers);
+      print("result:${httpResponse.data}");
+      final lb = await loadBalancer;
+      list = await lb.run<List<ACategory>, String>(
+          decodeListResult, httpResponse.data as String);
+    } catch (e) {
+      print(e);
+      list = [];
+    }
+    return list;
   }
 
   Future<List<ACategory>> loadMore(int pn) async {

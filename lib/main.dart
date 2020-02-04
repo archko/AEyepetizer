@@ -1,14 +1,19 @@
 import 'dart:ui';
 
+import 'package:aeyepetizer/common/http/header_interceptor.dart';
 import 'package:aeyepetizer/model/app_provider.dart';
 import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/http/http_client.dart';
+import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/widget/tabs/tab_bar_widget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  Logger.init(debuggable: true);
+  HttpClient.instance.addInterceptor(HeaderInterceptor());
   //runApp(StateDemoApp());
   runApp(_widgetForRoute(window.defaultRouteName));
 }

@@ -10,24 +10,6 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 class HotVideoListViewModel extends BaseListViewModel {
   Trending last;
 
-  Future getUrl(String type) async {
-    Map args = Map();
-    switch (type) {
-      case HotVideoListPage.TYPE_HOT_WEEKLY:
-        args["action"] = WebConfig.hotWeeklyUrl;
-        break;
-      case HotVideoListPage.TYPE_HOT_MONTHLY:
-        args["action"] = WebConfig.hotMonthlyUrl;
-        break;
-      case HotVideoListPage.TYPE_TOTAL_RANKING:
-        args["action"] = WebConfig.hotTotalRankingUrl;
-        break;
-    }
-
-    //return await UrlChannel.get(args: args);
-    return args['action'];
-  }
-
   Future<Trending> loadData(int pn, [String type]) async {
     if (pn < 0 && last != null) {
       Trending trending;
@@ -48,26 +30,37 @@ class HotVideoListViewModel extends BaseListViewModel {
       }
       return trending;
     }
-    return await getUrl(type).then((map) async {
-      print("getUrl:$map");
-      Trending trending;
-      try {
-        String url = map['url'];
-        HttpResponse httpResponse = await HttpClient.instance.get(url);
-        //trending = await compute(VideoByCategoryViewModel.decodeListResult,
-        //    httpResponse.data as String);
-        final lb = await loadBalancer;
-        trending = await lb.run<Trending, String>(
-            VideoByCategoryViewModel.decodeListResult,
-            httpResponse.data as String);
-        //print("result:${list}");
-        last = trending;
-      } catch (e) {
-        print(e);
-        trending = null;
+    Trending trending;
+    try {
+      Map args = Map();
+      args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
+      args['deviceModel'] = 'vivo x21';
+      switch (type) {
+        case HotVideoListPage.TYPE_HOT_WEEKLY:
+          args['strategy'] = 'weekly';
+          break;
+        case HotVideoListPage.TYPE_HOT_MONTHLY:
+          args['strategy'] = 'monthly';
+          break;
+        case HotVideoListPage.TYPE_TOTAL_RANKING:
+          args['strategy'] = 'historical';
+          break;
       }
-      return trending;
-    });
+      HttpResponse httpResponse =
+          await HttpClient.instance.get(WebConfig.hotUrl, params: args);
+      //trending = await compute(VideoByCategoryViewModel.decodeListResult,
+      //    httpResponse.data as String);
+      final lb = await loadBalancer;
+      trending = await lb.run<Trending, String>(
+          VideoByCategoryViewModel.decodeListResult,
+          httpResponse.data as String);
+      //print("result:${list}");
+      last = trending;
+    } catch (e) {
+      print(e);
+      trending = null;
+    }
+    return trending;
   }
 
   Future<Trending> loadMore(int pn, [String type]) async {

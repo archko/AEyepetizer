@@ -21,12 +21,6 @@ class WebConfig {
   //&id=
   static const relatedVideoUrl = "${baseUrl}v4/video/related";
 
-  //热门-周排行strategy=weekly
-  static const hotWeeklyUrl = "${baseUrl}v4/rankList/videos";
-
-  //热门-月排行strategy=monthly
-  static const hotMonthlyUrl = "${baseUrl}v4/rankList/videos";
-
-  //热门-总排行strategy=historical
-  static const hotTotalRankingUrl = "${baseUrl}v4/rankList/videos";
+  //热门-周/月/总排行strategy=weekly,monthly,historical
+  static const hotUrl = "${baseUrl}v4/rankList/videos";
 }
