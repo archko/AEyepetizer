@@ -11,14 +11,12 @@ class CategoryViewModel extends BaseListViewModel {
   Future<List<ACategory>> loadData(int pn) async {
     List<ACategory> list;
     try {
-      Map args = Map();
+      Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
       args['deviceModel'] = 'vivo x21';
 
-      Map<String, String> headers = Map();
-      headers['User-Agent'] = HeaderInterceptor.USER_AGENT;
       HttpResponse httpResponse = await HttpClient.instance
-          .get(WebConfig.categoriesUrl, params: args, header: headers);
+          .get(WebConfig.categoriesUrl, params: args);
       print("result:${httpResponse.data}");
       final lb = await loadBalancer;
       list = await lb.run<List<ACategory>, String>(

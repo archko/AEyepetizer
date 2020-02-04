@@ -32,7 +32,7 @@ class HotVideoListViewModel extends BaseListViewModel {
     }
     Trending trending;
     try {
-      Map args = Map();
+      Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
       args['deviceModel'] = 'vivo x21';
       switch (type) {
