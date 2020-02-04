@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:aeyepetizer/model/app_provider.dart';
+import 'package:aeyepetizer/page/category/category_page.dart';
+import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/widget/tabs/tab_bar_widget.dart';
@@ -39,6 +41,19 @@ class _StateDemoAppState extends State<StateDemoApp> {
     model = AppProvider(); //..loadMovies();
   }
 
+  final List<Widget> tabViews = [
+    CategoryPage(),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_HOT_WEEKLY,
+    ),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_HOT_MONTHLY,
+    ),
+    HotVideoListPage(
+      type: HotVideoListPage.TYPE_TOTAL_RANKING,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -53,6 +68,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
               primarySwatch: Colors.red,
             ),
             home: TabBarPageWidget(
+              tabViews: tabViews,
               title: "AEyepetizer",
             ),
           );
