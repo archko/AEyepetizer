@@ -1,4 +1,3 @@
-import 'package:aeyepetizer/common/http/header_interceptor.dart';
 import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:flutter_base/http/http_client.dart';
