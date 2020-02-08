@@ -1,9 +1,11 @@
+import 'package:aeyepetizer/model/category_provider.dart';
 import 'package:aeyepetizer/model/category_view_model.dart';
 import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
+import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -57,30 +59,39 @@ class _CategoryPageState extends State<CategoryPage>
     //  //onLoadMore: loadMore,
     //  onRefresh: refresh,
     //);
-    return Container(
-      margin: EdgeInsets.all(4),
-      child: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: false,
-        controller: refreshController,
-        onRefresh: refresh,
-        header: MaterialClassicHeader(),
-        footer: ClassicFooter(
-          loadStyle: LoadStyle.HideAlways,
-        ),
-        onLoading: loadMore,
-        child: GridView.builder(
-          primary: false,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
-              childAspectRatio: 1),
-          itemCount: viewModel.getCount(),
-          itemBuilder: (BuildContext context, int index) =>
-              _renderItem(context, index),
-        ),
-      ),
+    return ProviderWidget<CategoryProvider>(
+      model: CategoryProvider(
+          viewModel: viewModel, refreshController: refreshController),
+      onModelInitial: (m) {
+        refreshController.requestRefresh();
+      },
+      builder: (context, model, childWidget) {
+        return Container(
+          margin: EdgeInsets.all(4),
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: false,
+            controller: refreshController,
+            onRefresh: refresh,
+            header: MaterialClassicHeader(),
+            footer: ClassicFooter(
+              loadStyle: LoadStyle.HideAlways,
+            ),
+            onLoading: loadMore,
+            child: GridView.builder(
+              primary: false,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 1),
+              itemCount: viewModel.getCount(),
+              itemBuilder: (BuildContext context, int index) =>
+                  _renderItem(context, index),
+            ),
+          ),
+        );
+      },
     );
   }
 

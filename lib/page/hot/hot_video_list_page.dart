@@ -1,13 +1,11 @@
-import 'package:aeyepetizer/entity/trending.dart';
-import 'package:aeyepetizer/entity/video_item.dart';
+import 'package:aeyepetizer/model/hot_video_list_provider.dart';
 import 'package:aeyepetizer/model/hot_video_list_view_model.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
-import 'package:flutter_base/utils/string_utils.dart';
-import 'package:flutter_base/widget/list/pull_widget.dart';
+import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HotVideoListPage extends StatefulWidget {
@@ -36,7 +34,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   void initState() {
     super.initState();
-    refreshController = RefreshController(initialRefresh: true);
+    refreshController = RefreshController(initialRefresh: false);
     viewModel = HotVideoListViewModel();
   }
 
@@ -47,78 +45,40 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   }
 
   @override
-  Future refresh() async {
-    viewModel.setPage(startPage);
-    await (viewModel as HotVideoListViewModel)
-        .loadData(viewModel.page, widget.type)
-        .then((trending) {
-      viewModel.setData(trending.itemList);
-      setState(() {
-        print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
-        if (trending.itemList == null || trending.itemList.length < 1) {
-          refreshController.loadNoData();
-        } else {
-          refreshController.refreshCompleted(resetFooterState: true);
-        }
-      });
-    }).catchError((e) => setState(() {
-      print("refresh error,$e");
-      refreshController.loadFailed();
-    }));
-  }
-
-  @override
-  Future<void> loadMore() async {
-    if (viewModel.getCount() < 1) {
-      return refresh();
-    }
-    HotVideoListViewModel hotViewModel = (viewModel as HotVideoListViewModel);
-    Trending trendingb = hotViewModel.last;
-    if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
-      refreshController.loadNoData();
-      return null;
-    }
-    await hotViewModel
-        .loadMore(hotViewModel.page + 1, widget.type)
-        .then((trending) {
-      hotViewModel.updateDataAndPage(trending.itemList, viewModel.page + 1);
-      setState(() {
-        if (trending.itemList == null || trending.itemList.length < 1) {
-          refreshController.loadNoData();
-        } else {
-          refreshController.refreshCompleted(resetFooterState: true);
-        }
-        print(
-            "loadMore end.${refreshController.footerStatus},${viewModel.page}, ${viewModel.getCount()}");
-      });
-    }).catchError((e) => setState(() {
-      print("loadMore error:$e");
-      refreshController.loadFailed();
-    }));
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: PullWidget(
-        pullController: refreshController,
-        listCount: viewModel.getCount(),
-        itemBuilder: (BuildContext context, int index) =>
-            _renderItem(context, index),
-        header: MaterialClassicHeader(),
-        footer: ClassicFooter(
-          loadStyle: LoadStyle.HideAlways,
-        ),
-        onLoadMore: loadMore,
-        onRefresh: refresh,
-      ),
+    return ProviderWidget<HotVideoListProvider>(
+      model: HotVideoListProvider(
+          viewModel: viewModel,
+          refreshController: refreshController,
+          type: widget.type),
+      onModelInitial: (m) {
+        refreshController.requestRefresh();
+      },
+      builder: (context, model, childWidget) {
+        return Container(
+          margin: EdgeInsets.all(4),
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            controller: refreshController,
+            onRefresh: model.refresh,
+            onLoading: model.loadMore,
+            header: MaterialClassicHeader(),
+            footer: ClassicFooter(),
+            child: ListView.builder(
+              itemCount: model.getCount(),
+              itemBuilder: (BuildContext context, int index) =>
+                  _renderItem(context, index, model.getVideos()[index]),
+            ),
+          ),
+        );
+      },
     );
   }
 
   //列表的ltem
-  _renderItem(context, index) {
-    var item = viewModel.data[index] as VideoItem;
+  _renderItem(context, index, item) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
