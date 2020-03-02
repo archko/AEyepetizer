@@ -23,7 +23,7 @@ class _MovieListPageState extends State<MovieListPage>
   @override
   void initState() {
     super.initState();
-    viewModel = new MovieViewModel();
+    viewModel = MovieViewModel();
   }
 
   @override
@@ -69,9 +69,9 @@ class _MovieListPageState extends State<MovieListPage>
         }
       });
     }).catchError((_) => setState(() {
-      print("refresh error");
-      loadMoreStatus = (LoadMoreStatus.FAIL);
-    }));
+          print("refresh error");
+          loadMoreStatus = (LoadMoreStatus.FAIL);
+        }));
   }
 
   Future<void> loadMore() async {
@@ -93,7 +93,7 @@ class _MovieListPageState extends State<MovieListPage>
             "loadMore end.$loadMoreStatus,${viewModel.page}, ${viewModel.getCount()}");
       });
     }).catchError((_) => setState(() {
-      loadMoreStatus = (LoadMoreStatus.FAIL);
-    }));
+          loadMoreStatus = (LoadMoreStatus.FAIL);
+        }));
   }
 }

@@ -67,6 +67,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
             header: MaterialClassicHeader(),
             footer: ClassicFooter(),
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: model.getCount(),
               itemBuilder: (BuildContext context, int index) =>
                   _renderItem(context, index, model.getVideos()[index]),
