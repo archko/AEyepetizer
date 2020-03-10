@@ -40,7 +40,7 @@ class CategoryProvider with ChangeNotifier {
 
       viewModel.setPage(viewModel.page + 1);
 
-      refreshController?.refreshCompleted();
+      refreshController?.loadComplete();
     } else {
       if (list == null) {
         refreshController?.loadFailed();

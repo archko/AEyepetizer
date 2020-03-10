@@ -37,7 +37,7 @@ class VideoByCategoryProvider with ChangeNotifier {
       refreshController.loadNoData();
     } else {
       viewModel.setData(trending.itemList);
-      refreshController.refreshCompleted(resetFooterState: true);
+      refreshController.refreshCompleted();
     }
 
     notifyListeners();
@@ -61,7 +61,7 @@ class VideoByCategoryProvider with ChangeNotifier {
 
       viewModel.setPage(viewModel.page + 1);
 
-      refreshController?.refreshCompleted();
+      refreshController?.loadComplete();
     } else {
       if (trending == null || trending.itemList == null) {
         refreshController?.loadFailed();
