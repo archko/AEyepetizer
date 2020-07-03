@@ -1,5 +1,4 @@
-import 'package:aeyepetizer/model/hot_video_list_provider.dart';
-import 'package:aeyepetizer/model/hot_video_list_view_model.dart';
+import 'file:///D:/all_project/AEyepetizer/lib/model/provider/hot_video_list_provider.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +34,6 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: false);
-    viewModel = HotVideoListViewModel();
   }
 
   @override
@@ -49,9 +47,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
     super.build(context);
     return ProviderWidget<HotVideoListProvider>(
       model: HotVideoListProvider(
-          viewModel: viewModel,
-          refreshController: refreshController,
-          type: widget.type),
+          refreshController: refreshController, type: widget.type),
       onModelInitial: (m) {
         refreshController.requestRefresh();
       },

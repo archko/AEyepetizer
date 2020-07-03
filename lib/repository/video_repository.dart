@@ -8,6 +8,8 @@ import 'package:aeyepetizer/entity/gank_banner.dart';
 import 'package:aeyepetizer/entity/gank_bean.dart';
 import 'package:aeyepetizer/entity/gank_category.dart';
 import 'package:aeyepetizer/entity/gank_response.dart';
+import 'package:aeyepetizer/entity/trending.dart';
+import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
@@ -28,7 +30,7 @@ class VideoRepository {
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.categoriesUrl, params: args);
       print("result:${httpResponse.data}");
-      list = await loadWithBalancer<GankResponse<List<GankCategory>>, String>(
+      list = await loadWithBalancer<List<ACategory>, String>(
           decodeListResult, httpResponse.data as String);
     } catch (e) {
       print(e);
@@ -45,5 +47,55 @@ class VideoRepository {
       beans.add(ACategory.fromJson(item));
     }
     return beans;
+  }
+
+  static Trending decodeTrendingResult(String result) {
+    var results = JsonUtils.decodeAsMap(result);
+    Trending beans = Trending.fromJson(results);
+
+    return beans;
+  }
+
+  Future<Trending> loadTrending(int pn, Trending last, [String type]) async {
+    if (pn < 0 && last != null) {
+      Trending trending;
+      try {
+        String url = last.nextPageUrl;
+        HttpResponse httpResponse = await HttpClient.instance.get(url);
+        trending = await loadWithBalancer<Trending, String>(
+            decodeTrendingResult, httpResponse.data as String);
+        //print("result:${list}");
+      } catch (e) {
+        print(e);
+        trending = null;
+      }
+      return trending;
+    }
+    Trending trending;
+    try {
+      Map<String, dynamic> args = Map();
+      args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
+      args['deviceModel'] = 'vivo x21';
+      switch (type) {
+        case HotVideoListPage.TYPE_HOT_WEEKLY:
+          args['strategy'] = 'weekly';
+          break;
+        case HotVideoListPage.TYPE_HOT_MONTHLY:
+          args['strategy'] = 'monthly';
+          break;
+        case HotVideoListPage.TYPE_TOTAL_RANKING:
+          args['strategy'] = 'historical';
+          break;
+      }
+      HttpResponse httpResponse =
+          await HttpClient.instance.get(WebConfig.hotUrl, params: args);
+      trending = await loadWithBalancer<Trending, String>(
+          decodeTrendingResult, httpResponse.data as String);
+      //print("result:${list}");
+    } catch (e) {
+      print(e);
+      trending = null;
+    }
+    return trending;
   }
 }

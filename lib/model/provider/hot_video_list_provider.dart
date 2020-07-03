@@ -1,66 +1,66 @@
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
-import 'package:aeyepetizer/model/hot_video_list_view_model.dart';
+import 'package:aeyepetizer/repository/video_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/string_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HotVideoListProvider with ChangeNotifier {
-  HotVideoListViewModel viewModel;
+class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
+  VideoRepository _videoResposity;
   RefreshController refreshController;
   String type;
   bool refreshFailed = false;
 
   int startPage = 0;
+  Trending last;
 
-  HotVideoListProvider({this.viewModel, this.refreshController, this.type}) {
+  HotVideoListProvider({this.refreshController, this.type}) {
     //refresh();
-  }
-
-  int getCount() {
-    return viewModel.getCount();
+    _videoResposity = VideoRepository.singleton;
   }
 
   List<VideoItem> getVideos() {
-    return viewModel.data;
+    return data;
   }
 
   Future refresh() async {
-    print("refresh:$viewModel,$refreshController");
-    viewModel.setPage(startPage);
-
-    Trending trending = await viewModel.loadData(startPage, type);
-    viewModel.last = trending;
+    print("refresh:${refreshController.footerStatus},$_videoResposity");
+    Trending trending =
+        await _videoResposity.loadTrending(startPage, last, type);
+    last = trending;
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
     } else {
-      viewModel.setData(trending.itemList);
+      setData(trending.itemList);
       refreshController.refreshCompleted();
     }
 
     notifyListeners();
   }
 
-  Future loadMore() async {
-    if (viewModel.getCount() < 1) {
+  Future loadData({int pn}) {}
+
+  Future loadMore({int pn}) async {
+    if (getCount() < 1) {
       return refresh();
     }
-    Trending trendingb = viewModel.last;
+    Trending trendingb = last;
     if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
       refreshController.loadNoData();
       return null;
     }
 
-    Trending trending = await viewModel.loadMore(viewModel.page + 1, type);
+    Trending trending = await _videoResposity.loadTrending(page + 1, type);
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
     } else {
       refreshController.loadComplete();
     }
     if (trending.itemList != null && trending.itemList.length > 0) {
-      viewModel.addData(trending.itemList);
+      addData(trending.itemList);
 
-      viewModel.setPage(viewModel.page + 1);
+      setPage(page + 1);
 
       refreshController?.loadComplete();
     } else {
