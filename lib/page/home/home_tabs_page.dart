@@ -38,6 +38,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   ];
   List<TabItem> _defaultTabItems = <TabItem>[
     TabItem(text: 'GankGirl'),
+    TabItem(text: '发现'),
     TabItem(text: 'Movie'),
   ];
   ShapeDecoration _decoration = ShapeDecoration(
@@ -239,8 +240,10 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
           GankListPage(
               category: GankCategory(title: "Girl"), categoryType: "Girl"));
       tabItems.insert(0, TabItem(text: 'Girl'));
-      tabViews.insert(1, MovieListPage());
-      tabItems.insert(1, TabItem(text: 'Movie'));
+      tabViews.insert(1, CategoryPage());
+      tabItems.insert(1, TabItem(text: '发现'));
+      tabViews.insert(2, MovieListPage());
+      tabItems.insert(2, TabItem(text: 'Movie'));
     }
 
     return TabsWidget(

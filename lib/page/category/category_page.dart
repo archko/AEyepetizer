@@ -22,9 +22,10 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage>
-    with BaseListState<CategoryPage>, AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  RefreshController refreshController;
 
   @override
   void initState() {
@@ -45,18 +46,6 @@ class _CategoryPageState extends State<CategoryPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    //return PullWidget(
-    //  pullController: refreshController,
-    //  listCount: viewModel.getCount(),
-    //  itemBuilder: (BuildContext context, int index) =>
-    //      _renderItem(context, index),
-    //  header: MaterialClassicHeader(),
-    //  footer: ClassicFooter(
-    //    loadStyle: LoadStyle.HideAlways,
-    //  ),
-    //  //onLoadMore: loadMore,
-    //  onRefresh: refresh,
-    //);
     return ProviderWidget<CategoryProvider>(
       model: CategoryProvider(refreshController: refreshController),
       onModelInitial: (m) {
@@ -69,12 +58,12 @@ class _CategoryPageState extends State<CategoryPage>
             enablePullDown: true,
             enablePullUp: false,
             controller: refreshController,
-            onRefresh: refresh,
+            onRefresh: model.refresh,
+            onLoading: model.loadMore,
             header: MaterialClassicHeader(),
             footer: ClassicFooter(
               loadStyle: LoadStyle.HideAlways,
             ),
-            onLoading: loadMore,
             child: GridView.builder(
               physics: BouncingScrollPhysics(),
               primary: false,
@@ -83,9 +72,9 @@ class _CategoryPageState extends State<CategoryPage>
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 4,
                   childAspectRatio: 1),
-              itemCount: viewModel.getCount(),
+              itemCount: model.getCount(),
               itemBuilder: (BuildContext context, int index) =>
-                  _renderItem(context, index),
+                  _renderItem(context, index, model),
             ),
           ),
         );
@@ -93,9 +82,9 @@ class _CategoryPageState extends State<CategoryPage>
     );
   }
 
-  //列表的ltem
-  _renderItem(context, index) {
-    var item = viewModel.data[index];
+//列表的ltem
+  _renderItem(context, index, model) {
+    var item = model.data[index];
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
