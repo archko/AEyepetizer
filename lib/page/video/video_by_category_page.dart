@@ -1,5 +1,5 @@
 import 'package:aeyepetizer/entity/acategory.dart';
-import 'package:aeyepetizer/model/video_by_category_provider.dart';
+import 'package:aeyepetizer/model/provider/video_by_category_provider.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';

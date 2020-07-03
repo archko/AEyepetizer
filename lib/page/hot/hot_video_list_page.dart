@@ -1,4 +1,4 @@
-import 'file:///D:/all_project/AEyepetizer/lib/model/provider/hot_video_list_provider.dart';
+import 'package:aeyepetizer/model/provider/hot_video_list_provider.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';

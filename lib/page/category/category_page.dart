@@ -1,4 +1,4 @@
-import 'file:///D:/all_project/AEyepetizer/lib/model/provider/category_provider.dart';
+import 'package:aeyepetizer/model/provider/category_provider.dart';
 import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
 import 'package:flutter/cupertino.dart';
