@@ -2,6 +2,7 @@ import 'package:aeyepetizer/entity/gank_banner.dart';
 import 'package:aeyepetizer/entity/gank_category.dart';
 import 'package:aeyepetizer/entity/gank_response.dart';
 import 'package:aeyepetizer/model/provider/home_provider.dart';
+import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/list/gank_list_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       category: GankCategory(type: "Girl"),
       categoryType: "Girl",
     ),
+    CategoryPage(),
     MovieListPage(),
   ];
   List<TabItem> _defaultTabItems = <TabItem>[
