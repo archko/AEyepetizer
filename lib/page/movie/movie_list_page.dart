@@ -1,5 +1,6 @@
-import 'package:aeyepetizer/model/movie_view_model.dart';
+import 'package:aeyepetizer/model/provider/movie_provider.dart';
 import 'package:aeyepetizer/page/movie/movie_list_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/widget/list/list_more_widget.dart';
@@ -12,88 +13,63 @@ class MovieListPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _MovieListPageState();
   }
+
+  @override
+  String toStringShort() {
+    return "Provider";
+  }
 }
 
 class _MovieListPageState extends State<MovieListPage>
-    with BaseListState<MovieListPage>, AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  var loadMoreStatus = LoadMoreStatus.IDLE;
+  RefreshController refreshController;
+  MovieProvider _movieProvider;
 
   @override
   void initState() {
     super.initState();
-    viewModel = MovieViewModel();
+    refreshController = RefreshController(initialRefresh: true);
+    _movieProvider = MovieProvider(refreshController: refreshController);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.getCount() < 1 && loadMoreStatus == LoadMoreStatus.IDLE) {
-      refresh();
-    }
-    return PullToRefreshWidget(
-      itemBuilder: (BuildContext context, int index) =>
-          _renderItem(index, context),
-      listCount: viewModel.getCount() + 1,
-      onLoadMore: loadMore,
-      onRefresh: refresh,
-      loadMoreStatus: loadMoreStatus,
+    super.build(context);
+    return ProviderWidget<MovieProvider>(
+      model: _movieProvider,
+      onModelInitial: (m) {
+        refreshController.requestRefresh();
+      },
+      builder: (context, model, childWidget) {
+        return Container(
+          margin: EdgeInsets.all(4),
+          child: SmartRefresher(
+            physics: BouncingScrollPhysics(),
+            enablePullDown: true,
+            enablePullUp: true,
+            controller: refreshController,
+            onRefresh: model.loadData,
+            onLoading: model.loadMore,
+            header: MaterialClassicHeader(),
+            footer: ClassicFooter(),
+            child: ListView.builder(
+              itemCount: model.getCount(),
+              itemBuilder: (BuildContext context, int index) =>
+                  _renderItem(context, index),
+            ),
+          ),
+        );
+      },
     );
   }
 
-  /**
-   * 列表的ltem
-   */
-  _renderItem(index, context) {
-    if (index == viewModel.getCount()) {
-      return ListMoreWidget(
-        loadMoreStatus: loadMoreStatus,
-        retry: retry,
-      );
-    } else {
-      return MovieListItem(bean: viewModel.data[index]);
-    }
-  }
-
-  Future refresh() async {
-    loadMoreStatus = (LoadMoreStatus.LOADING);
-    viewModel.setPage(startPage);
-    await viewModel.loadData(viewModel.page).then((list) {
-      viewModel.setData(list);
-      setState(() {
-        print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
-        if (list.length < 1) {
-          loadMoreStatus = (LoadMoreStatus.NOMORE);
-        } else {
-          loadMoreStatus = (LoadMoreStatus.IDLE);
-        }
-      });
-    }).catchError((_) => setState(() {
-          print("refresh error");
-          loadMoreStatus = (LoadMoreStatus.FAIL);
-        }));
-  }
-
-  Future<void> loadMore() async {
-    if (viewModel.getCount() < 1) {
-      return refresh();
-    }
-    setState(() {
-      loadMoreStatus = (LoadMoreStatus.LOADING);
-    });
-    await viewModel.loadMore(viewModel.page + 1).then((list) {
-      viewModel.updateDataAndPage(list, viewModel.page + 1);
-      setState(() {
-        if (list.length < 1) {
-          loadMoreStatus = (LoadMoreStatus.NOMORE);
-        } else {
-          loadMoreStatus = (LoadMoreStatus.IDLE);
-        }
-        print(
-            "loadMore end.$loadMoreStatus,${viewModel.page}, ${viewModel.getCount()}");
-      });
-    }).catchError((_) => setState(() {
-          loadMoreStatus = (LoadMoreStatus.FAIL);
-        }));
+  _renderItem(context, index) {
+    var item = _movieProvider.data[index];
+    return GestureDetector(
+      onTap: () {},
+      child: MovieListItem(bean: item),
+    );
   }
 }
