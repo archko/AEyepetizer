@@ -1,5 +1,4 @@
-import 'package:aeyepetizer/model/category_provider.dart';
-import 'package:aeyepetizer/model/category_view_model.dart';
+import 'file:///D:/all_project/AEyepetizer/lib/model/provider/category_provider.dart';
 import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +30,6 @@ class _CategoryPageState extends State<CategoryPage>
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: true);
-    viewModel = CategoryViewModel();
   }
 
   @override
@@ -60,8 +58,7 @@ class _CategoryPageState extends State<CategoryPage>
     //  onRefresh: refresh,
     //);
     return ProviderWidget<CategoryProvider>(
-      model: CategoryProvider(
-          viewModel: viewModel, refreshController: refreshController),
+      model: CategoryProvider(refreshController: refreshController),
       onModelInitial: (m) {
         refreshController.requestRefresh();
       },

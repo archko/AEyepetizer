@@ -1,22 +1,23 @@
 import 'package:aeyepetizer/entity/acategory.dart';
-import 'package:aeyepetizer/model/category_view_model.dart';
+import 'package:aeyepetizer/repository/video_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CategoryProvider with ChangeNotifier {
-  CategoryViewModel viewModel;
+class CategoryProvider extends BaseListViewModel with ChangeNotifier {
+  VideoRepository _videoResposity;
   RefreshController refreshController;
 
   bool refreshFailed = false;
 
-  CategoryProvider({this.viewModel, this.refreshController}) {
-    //refresh();
+  CategoryProvider({this.refreshController}) {
+    _videoResposity = VideoRepository.singleton;
   }
 
   Future refresh() async {
-    print("refresh:$viewModel,$refreshController");
-    List<ACategory> list = await viewModel.loadData(0);
-    viewModel.setData(list);
+    print("refresh:${refreshController.footerStatus},$_videoResposity");
+    List<ACategory> list = await _videoResposity.loadData(0);
+    setData(list);
     if (list == null || list.length == 0) {
       refreshFailed = true;
       refreshController?.refreshCompleted();
@@ -33,12 +34,13 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future loadMore() async {
-    List<ACategory> list = await viewModel.loadData(viewModel.page + 1);
+  Future loadMore({int pn}) async {
+    print("loadMore:${refreshController.footerStatus},$_videoResposity");
+    List<ACategory> list = await _videoResposity.loadData(page + 1);
     if (list != null && list.length > 0) {
-      viewModel.addData(list);
+      addData(list);
 
-      viewModel.setPage(viewModel.page + 1);
+      setPage(page + 1);
 
       refreshController?.loadComplete();
     } else {
