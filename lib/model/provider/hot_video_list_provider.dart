@@ -51,7 +51,8 @@ class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
       return null;
     }
 
-    Trending trending = await _videoResposity.loadTrending(page + 1, type);
+    Trending trending =
+        await _videoResposity.loadTrending(page + 1, last, type: type);
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
     } else {

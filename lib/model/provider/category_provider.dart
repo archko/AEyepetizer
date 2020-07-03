@@ -53,4 +53,8 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  @override
+  Future loadData({int pn}) {
+  }
 }

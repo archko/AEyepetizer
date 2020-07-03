@@ -55,7 +55,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   Future refresh() async {
     viewModel.setPage(startPage);
     await (viewModel as VideoDetailViewModel)
-        .loadData(viewModel.page, widget.videoData)
+        .loadData(pn: viewModel.page, videoData: widget.videoData)
         .then((trending) {
       viewModel.setData(trending.itemList);
       if (trending.itemList != null && trending.itemList.length > 1) {
@@ -75,9 +75,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         setPlayer(_currVideoItem);
       });
     }).catchError((e) => setState(() {
-      Logger.d("refresh error,$e");
-      refreshController.loadFailed();
-    }));
+              Logger.d("refresh error,$e");
+              refreshController.loadFailed();
+            }));
   }
 
   @override
@@ -140,12 +140,12 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
           bean: item,
         ),
       );
-    } else { //textCard
+    } else {
+      //textCard
       return Container(
         color: Colors.black,
         child: Padding(
-          padding:
-          EdgeInsets.only(left: 15, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
           child: Text(
             item.data?.text,
             style: TextStyle(
@@ -351,9 +351,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                       imageUrl: _currVideoItem.data.author.icon,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(
-                                            strokeWidth: 2.5,
-                                            backgroundColor: Colors.deepPurple[600],
-                                          ),
+                                        strokeWidth: 2.5,
+                                        backgroundColor: Colors.deepPurple[600],
+                                      ),
                                     ),
                                   ),
                                   Expanded(
@@ -362,9 +362,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                       padding: EdgeInsets.only(left: 10),
                                       child: Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             _currVideoItem.data.author.name,
@@ -376,7 +376,8 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                           Padding(
                                             padding: EdgeInsets.only(top: 3),
                                             child: Text(
-                                              _currVideoItem.data.author.description,
+                                              _currVideoItem
+                                                  .data.author.description,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -425,7 +426,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                   /// 相关视频列表
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
-                          (context, index) {
+                      (context, index) {
                         return _renderItem(context, index);
                       },
                       childCount: viewModel.getCount(),

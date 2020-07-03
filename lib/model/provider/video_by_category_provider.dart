@@ -42,6 +42,9 @@ class VideoByCategoryProvider extends BaseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  @override
+  Future loadData({int pn}) {}
+
   Future loadMore({int pn}) async {
     if (getCount() < 1) {
       return refresh();

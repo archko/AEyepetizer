@@ -2,9 +2,8 @@ import 'package:aeyepetizer/model/provider/movie_provider.dart';
 import 'package:aeyepetizer/page/movie/movie_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/model/base_list_state.dart';
-import 'package:flutter_base/widget/list/list_more_widget.dart';
-import 'package:flutter_base/widget/list/pull_to_refresh_widget.dart';
+import 'package:flutter_base/model/provider_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieListPage extends StatefulWidget {
   MovieListPage({Key key}) : super(key: key);
