@@ -1,6 +1,5 @@
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/model/video_by_category_provider.dart';
-import 'package:aeyepetizer/model/video_by_category_view_model.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +27,6 @@ class _VideoByCategoryPageState extends State<VideoByCategoryPage>
   void initState() {
     super.initState();
     refreshController = new RefreshController(initialRefresh: true);
-    viewModel = new VideoByCategoryViewModel();
   }
 
   @override
@@ -45,9 +43,7 @@ class _VideoByCategoryPageState extends State<VideoByCategoryPage>
       ),
       body: ProviderWidget<VideoByCategoryProvider>(
         model: VideoByCategoryProvider(
-            viewModel: viewModel,
-            refreshController: refreshController,
-            category: widget.category),
+            refreshController: refreshController, category: widget.category),
         onModelInitial: (m) {
           refreshController.requestRefresh();
         },

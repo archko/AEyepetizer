@@ -27,7 +27,7 @@ class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
   Future refresh() async {
     print("refresh:${refreshController.footerStatus},$_videoResposity");
     Trending trending =
-        await _videoResposity.loadTrending(startPage, last, type);
+        await _videoResposity.loadTrending(startPage, last, type: type);
     last = trending;
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();

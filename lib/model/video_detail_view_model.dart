@@ -1,7 +1,7 @@
 import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_data.dart';
-import 'package:aeyepetizer/model/video_by_category_view_model.dart';
+import 'package:aeyepetizer/repository/video_repository.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
@@ -22,8 +22,7 @@ class VideoDetailViewModel extends BaseListViewModel {
 
       final lb = await loadBalancer;
       trending = await lb.run<Trending, String>(
-          VideoByCategoryViewModel.decodeListResult,
-          httpResponse.data as String);
+          VideoRepository.decodeTrendingResult, httpResponse.data as String);
       last = trending;
     } catch (e) {
       print(e);

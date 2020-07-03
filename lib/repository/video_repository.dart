@@ -56,7 +56,8 @@ class VideoRepository {
     return beans;
   }
 
-  Future<Trending> loadTrending(int pn, Trending last, [String type]) async {
+  Future<Trending> loadTrending(int pn, Trending last,
+      {String type, ACategory category}) async {
     if (pn < 0 && last != null) {
       Trending trending;
       try {
@@ -76,16 +77,21 @@ class VideoRepository {
       Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
       args['deviceModel'] = 'vivo x21';
-      switch (type) {
-        case HotVideoListPage.TYPE_HOT_WEEKLY:
-          args['strategy'] = 'weekly';
-          break;
-        case HotVideoListPage.TYPE_HOT_MONTHLY:
-          args['strategy'] = 'monthly';
-          break;
-        case HotVideoListPage.TYPE_TOTAL_RANKING:
-          args['strategy'] = 'historical';
-          break;
+      if (category != null) {
+        args['id'] = category.id;
+      }
+      if (type != null) {
+        switch (type) {
+          case HotVideoListPage.TYPE_HOT_WEEKLY:
+            args['strategy'] = 'weekly';
+            break;
+          case HotVideoListPage.TYPE_HOT_MONTHLY:
+            args['strategy'] = 'monthly';
+            break;
+          case HotVideoListPage.TYPE_TOTAL_RANKING:
+            args['strategy'] = 'historical';
+            break;
+        }
       }
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.hotUrl, params: args);
