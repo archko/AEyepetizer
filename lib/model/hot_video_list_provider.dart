@@ -35,7 +35,7 @@ class HotVideoListProvider with ChangeNotifier {
       refreshController.loadNoData();
     } else {
       viewModel.setData(trending.itemList);
-      refreshController.refreshCompleted(resetFooterState: true);
+      refreshController.refreshCompleted();
     }
 
     notifyListeners();
@@ -56,14 +56,14 @@ class HotVideoListProvider with ChangeNotifier {
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
     } else {
-      refreshController.refreshCompleted(resetFooterState: true);
+      refreshController.loadComplete();
     }
     if (trending.itemList != null && trending.itemList.length > 0) {
       viewModel.addData(trending.itemList);
 
       viewModel.setPage(viewModel.page + 1);
 
-      refreshController?.refreshCompleted();
+      refreshController?.loadComplete();
     } else {
       if (trending.itemList == null) {
         refreshController?.loadFailed();

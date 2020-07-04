@@ -193,6 +193,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
             Flexible(
               flex: 1,
               child: CustomScrollView(
+                physics: BouncingScrollPhysics(),
                 slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: Container(

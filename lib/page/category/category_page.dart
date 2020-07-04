@@ -79,6 +79,7 @@ class _CategoryPageState extends State<CategoryPage>
             ),
             onLoading: loadMore,
             child: GridView.builder(
+              physics: BouncingScrollPhysics(),
               primary: false,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

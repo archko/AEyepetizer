@@ -23,7 +23,7 @@ class _MovieListPageState extends State<MovieListPage>
   @override
   void initState() {
     super.initState();
-    viewModel = new MovieViewModel();
+    viewModel = MovieViewModel();
   }
 
   @override
