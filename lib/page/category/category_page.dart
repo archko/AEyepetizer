@@ -24,12 +24,14 @@ class _CategoryPageState extends State<CategoryPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  RefreshController refreshController;
+  RefreshController _refreshController;
+  CategoryProvider _categoryProvider;
 
   @override
   void initState() {
     super.initState();
-    refreshController = RefreshController(initialRefresh: true);
+    _refreshController = RefreshController(initialRefresh: true);
+    _categoryProvider = CategoryProvider(refreshController: _refreshController);
   }
 
   @override
@@ -42,31 +44,37 @@ class _CategoryPageState extends State<CategoryPage>
   Widget build(BuildContext context) {
     super.build(context);
     return ProviderWidget<CategoryProvider>(
-      model: CategoryProvider(refreshController: refreshController),
+      model: _categoryProvider,
       onModelInitial: (m) {
-        refreshController.requestRefresh();
+        _categoryProvider.refresh();
       },
       builder: (context, model, childWidget) {
         return Container(
           margin: EdgeInsets.all(4),
           child: SmartRefresher(
+            physics: BouncingScrollPhysics(),
             enablePullDown: true,
             enablePullUp: false,
-            controller: refreshController,
+            controller: _refreshController,
             onRefresh: model.refresh,
             //onLoading: model.loadMore,
             header: MaterialClassicHeader(),
             footer: ClassicFooter(
               loadStyle: LoadStyle.HideAlways,
             ),
-            child: GridView.builder(
-              physics: BouncingScrollPhysics(),
-              primary: false,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 1),
+            //child: GridView.builder(
+            //  physics: BouncingScrollPhysics(),
+            //  primary: false,
+            //  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //      crossAxisCount: 2,
+            //      crossAxisSpacing: 4,
+            //      mainAxisSpacing: 4,
+            //      childAspectRatio: 1),
+            //  itemCount: model.getCount(),
+            //  itemBuilder: (BuildContext context, int index) =>
+            //      _renderItem(context, index, model),
+            //),
+            child: ListView.builder(
               itemCount: model.getCount(),
               itemBuilder: (BuildContext context, int index) =>
                   _renderItem(context, index, model),
@@ -83,7 +91,7 @@ class _CategoryPageState extends State<CategoryPage>
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          CupertinoPageRoute<void>(
+          MaterialPageRoute<void>(
             builder: (BuildContext context) {
               return VideoByCategoryPage(
                 category: item,

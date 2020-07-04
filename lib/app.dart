@@ -4,6 +4,10 @@ import 'package:aeyepetizer/page/home/home_tabs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base/http/http_client.dart';
+import 'package:flutter_base/http/interceptor/http_header_interceptor.dart';
+import 'package:flutter_base/http/interceptor/http_log_interceptor.dart';
+import 'package:flutter_base/log/logger.dart';
 
 Widget createApp() {
   if (Platform.isAndroid) {
@@ -22,6 +26,9 @@ Widget createApp() {
     );
     SystemChrome.setSystemUIOverlayStyle(style);
   }
+  Logger.init(debuggable: true);
+  HttpClient.instance.addInterceptor(HttpHeaderInterceptor());
+  HttpClient.instance.addInterceptor(HttpLogInterceptor());
   return StateDemoApp();
 }
 
