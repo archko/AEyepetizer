@@ -29,7 +29,7 @@ class HotVideoListProvider with ChangeNotifier {
     print("refresh:$viewModel,$refreshController");
     viewModel.setPage(startPage);
 
-    Trending trending = await viewModel.loadData(startPage, type);
+    Trending trending = await viewModel.loadData(pn: startPage, type: type);
     viewModel.last = trending;
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
@@ -51,7 +51,8 @@ class HotVideoListProvider with ChangeNotifier {
       return null;
     }
 
-    Trending trending = await viewModel.loadMore(viewModel.page + 1, type);
+    Trending trending =
+        await viewModel.loadMore(pn: viewModel.page + 1, type: type);
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
     } else {

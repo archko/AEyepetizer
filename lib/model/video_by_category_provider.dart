@@ -31,7 +31,8 @@ class VideoByCategoryProvider with ChangeNotifier {
     print("refresh:$viewModel,$refreshController");
     viewModel.setPage(startPage);
 
-    Trending trending = await viewModel.loadData(startPage, category);
+    Trending trending =
+        await viewModel.loadData(pn: startPage, category: category);
     viewModel.last = trending;
     if (trending.itemList == null || trending.itemList.length < 1) {
       refreshController.loadNoData();
@@ -53,7 +54,7 @@ class VideoByCategoryProvider with ChangeNotifier {
       return null;
     }
 
-    Trending trending = await viewModel.loadMore(-1);
+    Trending trending = await viewModel.loadMore(pn: -1);
     if (trending != null &&
         trending.itemList != null &&
         trending.itemList.length > 0) {

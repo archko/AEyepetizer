@@ -10,7 +10,7 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 class HotVideoListViewModel extends BaseListViewModel {
   Trending last;
 
-  Future<Trending> loadData(int pn, [String type]) async {
+  Future<Trending> loadData({int pn, String type}) async {
     if (pn < 0 && last != null) {
       Trending trending;
       try {
@@ -63,7 +63,7 @@ class HotVideoListViewModel extends BaseListViewModel {
     return trending;
   }
 
-  Future<Trending> loadMore(int pn, [String type]) async {
-    return loadData(pn, type);
+  Future<Trending> loadMore({int pn, String type}) async {
+    return loadData(pn: pn, type: type);
   }
 }

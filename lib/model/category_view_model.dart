@@ -7,7 +7,7 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
 
 class CategoryViewModel extends BaseListViewModel {
-  Future<List<ACategory>> loadData(int pn) async {
+  Future<List<ACategory>> loadData({int pn}) async {
     List<ACategory> list;
     try {
       Map<String, dynamic> args = Map();
@@ -27,8 +27,8 @@ class CategoryViewModel extends BaseListViewModel {
     return list;
   }
 
-  Future<List<ACategory>> loadMore(int pn) async {
-    return loadData(pn);
+  Future<List<ACategory>> loadMore({int pn}) async {
+    return loadData(pn:pn);
   }
 
   static List<ACategory> decodeListResult(String result) {

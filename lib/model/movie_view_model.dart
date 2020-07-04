@@ -6,7 +6,7 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
 
 class MovieViewModel extends BaseListViewModel {
-  Future<List<Animate>> loadData(int pn, {String type}) async {
+  Future<List<Animate>> loadData({int pn, String type}) async {
     pn ??= 0;
     List<Animate> list;
     String url =
@@ -14,21 +14,20 @@ class MovieViewModel extends BaseListViewModel {
     try {
       HttpResponse httpResponse = await HttpClient.instance.get(url);
       String result =
-      httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
+          httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
       //list = await compute(decodeListResult, result);
       final lb = await loadBalancer;
       list = await lb.run<List<Animate>, String>(
-          decodeListResult,
-          httpResponse.data as String);
+          decodeListResult, httpResponse.data as String);
     } catch (e) {
       print(e);
     }
     return list;
   }
 
-  Future<List<Animate>> loadMore(int pn) async {
-    return loadData(pn);
+  Future<List<Animate>> loadMore({int pn}) async {
+    return loadData(pn: pn);
   }
 
   static List<Animate> decodeListResult(String result) {

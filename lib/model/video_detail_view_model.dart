@@ -10,7 +10,7 @@ import 'package:flutter_base/utils/isolate_utils.dart';
 class VideoDetailViewModel extends BaseListViewModel {
   Trending last;
 
-  Future<Trending> loadData(int pn, [VideoData videoData]) async {
+  Future<Trending> loadData({int pn, VideoData videoData}) async {
     Trending trending;
     try {
       Map<String, dynamic> args = Map();
@@ -32,7 +32,7 @@ class VideoDetailViewModel extends BaseListViewModel {
     return trending;
   }
 
-  Future<Trending> loadMore(int pn) async {
-    return loadData(pn);
+  Future<Trending> loadMore({int pn}) async {
+    return loadData(pn: pn);
   }
 }

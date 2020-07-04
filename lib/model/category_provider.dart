@@ -15,7 +15,7 @@ class CategoryProvider with ChangeNotifier {
 
   Future refresh() async {
     print("refresh:$viewModel,$refreshController");
-    List<ACategory> list = await viewModel.loadData(0);
+    List<ACategory> list = await viewModel.loadData(pn: 0);
     viewModel.setData(list);
     if (list == null || list.length == 0) {
       refreshFailed = true;
@@ -34,7 +34,7 @@ class CategoryProvider with ChangeNotifier {
   }
 
   Future loadMore() async {
-    List<ACategory> list = await viewModel.loadData(viewModel.page + 1);
+    List<ACategory> list = await viewModel.loadData(pn: viewModel.page + 1);
     if (list != null && list.length > 0) {
       viewModel.addData(list);
 

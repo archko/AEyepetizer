@@ -65,7 +65,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => AppProvider()),
+        ChangeNotifierProvider(create: (_) => AppProvider()),
       ],
       child: Consumer<AppProvider>(
         builder: (context, counter, _) {

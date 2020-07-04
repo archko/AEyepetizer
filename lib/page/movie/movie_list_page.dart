@@ -58,7 +58,7 @@ class _MovieListPageState extends State<MovieListPage>
   Future refresh() async {
     loadMoreStatus = (LoadMoreStatus.LOADING);
     viewModel.setPage(startPage);
-    await viewModel.loadData(viewModel.page).then((list) {
+    await viewModel.loadData(pn: viewModel.page).then((list) {
       viewModel.setData(list);
       setState(() {
         print("refresh end.${viewModel.page}, ${viewModel.getCount()}");
@@ -69,9 +69,9 @@ class _MovieListPageState extends State<MovieListPage>
         }
       });
     }).catchError((_) => setState(() {
-      print("refresh error");
-      loadMoreStatus = (LoadMoreStatus.FAIL);
-    }));
+          print("refresh error");
+          loadMoreStatus = (LoadMoreStatus.FAIL);
+        }));
   }
 
   Future<void> loadMore() async {
@@ -81,7 +81,7 @@ class _MovieListPageState extends State<MovieListPage>
     setState(() {
       loadMoreStatus = (LoadMoreStatus.LOADING);
     });
-    await viewModel.loadMore(viewModel.page + 1).then((list) {
+    await viewModel.loadMore(pn: viewModel.page + 1).then((list) {
       viewModel.updateDataAndPage(list, viewModel.page + 1);
       setState(() {
         if (list.length < 1) {
@@ -93,7 +93,7 @@ class _MovieListPageState extends State<MovieListPage>
             "loadMore end.$loadMoreStatus,${viewModel.page}, ${viewModel.getCount()}");
       });
     }).catchError((_) => setState(() {
-      loadMoreStatus = (LoadMoreStatus.FAIL);
-    }));
+          loadMoreStatus = (LoadMoreStatus.FAIL);
+        }));
   }
 }

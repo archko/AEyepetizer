@@ -11,7 +11,7 @@ import 'package:flutter_base/utils/json_utils.dart';
 class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
   Trending last;
 
-  Future<Trending> loadData(int pn, [ACategory category]) async {
+  Future<Trending> loadData({int pn, ACategory category}) async {
     if (pn < 0 && last != null) {
       Trending trending;
       try {
@@ -51,8 +51,8 @@ class VideoByCategoryViewModel extends BaseListViewModel<VideoItem> {
     return trending;
   }
 
-  Future<Trending> loadMore(int pn) async {
-    return loadData(pn);
+  Future<Trending> loadMore({int pn}) async {
+    return loadData(pn: pn);
   }
 
   static Trending decodeListResult(String result) {
