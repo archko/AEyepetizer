@@ -46,7 +46,7 @@ class _CategoryPageState extends State<CategoryPage>
     return ProviderWidget<CategoryProvider>(
       model: _categoryProvider,
       onModelInitial: (m) {
-        _categoryProvider.refresh();
+        //_categoryProvider.refresh();
       },
       builder: (context, model, childWidget) {
         return Container(
