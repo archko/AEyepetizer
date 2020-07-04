@@ -3,7 +3,6 @@ import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -39,10 +38,6 @@ class _CategoryPageState extends State<CategoryPage>
     print("$this,dispose");
   }
 
-  Future<void> loadMore() async {
-    refreshController.loadNoData();
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -59,7 +54,7 @@ class _CategoryPageState extends State<CategoryPage>
             enablePullUp: false,
             controller: refreshController,
             onRefresh: model.refresh,
-            onLoading: model.loadMore,
+            //onLoading: model.loadMore,
             header: MaterialClassicHeader(),
             footer: ClassicFooter(
               loadStyle: LoadStyle.HideAlways,

@@ -3,11 +3,6 @@ import 'dart:io';
 
 import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
-import 'package:aeyepetizer/entity/animate.dart';
-import 'package:aeyepetizer/entity/gank_banner.dart';
-import 'package:aeyepetizer/entity/gank_bean.dart';
-import 'package:aeyepetizer/entity/gank_category.dart';
-import 'package:aeyepetizer/entity/gank_response.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter_base/http/http_client.dart';
