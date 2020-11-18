@@ -29,13 +29,13 @@ dependencies:
   flutter_base:
     #git:
     #  url: 'https://github.com/archko/flutter_base.git'
-    #  ref: 'master'
+    #  ref: 'dev_1.4_androidx'
     path: ../flutter_base/
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: 3.3.0
+  json_serializable: 3.5.0
 
 
 # For information on the generic Dart part of this file, see the

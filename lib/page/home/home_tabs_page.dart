@@ -119,7 +119,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
 
               ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
               ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
-              child: Selector<HomeProvider, GankResponse<List<GankBanner>>>(
+              sliver: Selector<HomeProvider, GankResponse<List<GankBanner>>>(
                 builder: (_, GankResponse<List<GankBanner>> data, child) {
                   return _bar(context, _homeProvider);
                 },
@@ -166,7 +166,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
         child: CircularProgressIndicator(),
       );
     } else {
-      widget = CustomBanner(model.getBannerBeans());
+      widget = CustomBanner(banners: model.getBannerBeans());
     }
     return SliverAppBar(
       centerTitle: true,
