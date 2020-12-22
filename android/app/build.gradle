@@ -36,8 +36,8 @@ android {
             v2SigningEnabled true
         }
     }
-    compileSdkVersion 28
-    buildToolsVersion '30.0.2'
+    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
