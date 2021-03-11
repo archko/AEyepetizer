@@ -22,20 +22,20 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cached_network_image: 2.5.0
+  cached_network_image: 2.5.1
 
   flutter_ijkplayer: 0.3.5+1
 
   flutter_base:
     #git:
     #  url: 'https://github.com/archko/flutter_base.git'
-    #  ref: 'dev_1.4_androidx'
+    #  ref: 'dev_1.5_androidx'
     path: ../flutter_base/
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: 3.5.0
+  json_serializable: 4.0.2
 
 
 # For information on the generic Dart part of this file, see the
@@ -43,6 +43,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  uses-material-design: true
 
 # To add assets to your plugin package, add an assets section, like this:
 # assets:
