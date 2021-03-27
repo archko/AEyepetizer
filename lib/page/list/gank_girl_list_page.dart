@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'gank_detail_page.dart';
+import 'gank_girl_detail_page.dart';
 import 'gank_girl_list_image_item.dart';
 import 'gank_list_noimage_item.dart';
 
@@ -77,7 +77,7 @@ class _GankGirlListPageState extends State<GankGirlListPage>
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
-          return GankDetailPage(
+          return GankGirlDetailPage(
             bean: bean,
           );
         },

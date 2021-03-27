@@ -21,7 +21,6 @@ class GankGirlListImageItem extends StatelessWidget {
           //INK可以实现装饰容器，实现矩形  设置背景色
           color: Colors.white,
           child: InkWell(
-            onTap: () {},
             child: Container(
               child: Stack(
                 children: [
@@ -69,7 +68,7 @@ class GankGirlListImageItem extends StatelessWidget {
                               padding: EdgeInsets.only(left: 16, right: 16),
                               child: Text('${bean.author}',
                                   style: TextStyle(
-                                      fontSize: 20.0, color: Colors.blue)),
+                                      fontSize: 20.0, color: Color(0xFFFF00FF))),
                             ),
                             Text('${bean.title}',
                                 style: TextStyle(
