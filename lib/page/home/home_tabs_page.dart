@@ -3,6 +3,7 @@ import 'package:aeyepetizer/entity/gank_category.dart';
 import 'package:aeyepetizer/entity/gank_response.dart';
 import 'package:aeyepetizer/model/provider/home_provider.dart';
 import 'package:aeyepetizer/page/category/category_page.dart';
+import 'package:aeyepetizer/page/list/gank_girl_list_page.dart';
 import 'package:aeyepetizer/page/list/gank_list_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class HomeTabsPage extends StatefulWidget {
 
 class _HomeTabsPageState extends State<HomeTabsPage> {
   List<Widget> _defaultTabViews = [
-    GankListPage(
+    GankGirlListPage(
       category: GankCategory(type: "Girl"),
       categoryType: "Girl",
     ),
@@ -226,18 +227,22 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
     List<TabItem> tabItems = [];
     bool hasGirl = false;
     for (GankCategory category in list) {
-      tabViews
-          .add(GankListPage(category: category, categoryType: _categoryType));
-      tabItems.add(TabItem(text: category.title));
       if ("Girl" == category.title) {
         hasGirl = true;
+        tabViews.add(
+            GankGirlListPage(category: category, categoryType: _categoryType));
+        tabItems.add(TabItem(text: category.title));
+      } else {
+        tabViews
+            .add(GankListPage(category: category, categoryType: _categoryType));
+        tabItems.add(TabItem(text: category.title));
       }
     }
 
     if (!hasGirl) {
       tabViews.insert(
           0,
-          GankListPage(
+          GankGirlListPage(
               category: GankCategory(title: "Girl"), categoryType: "Girl"));
       tabItems.insert(0, TabItem(text: 'Girl'));
       tabViews.insert(1, CategoryPage());
