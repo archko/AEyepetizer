@@ -125,7 +125,12 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                   return _bar(context, _homeProvider);
                 },
                 selector: (_, HomeProvider homeProvider) {
-                  return homeProvider.gankBannerResponse!;
+                  if (homeProvider.gankBannerResponse != null) {
+                    return homeProvider.gankBannerResponse!;
+                  } else {
+                    return GankResponse<List<GankBanner>>.fromJson(
+                        Map<String, dynamic>());
+                  }
                 },
                 shouldRebuild: (GankResponse<List<GankBanner>> prev,
                     GankResponse<List<GankBanner>> now) {
