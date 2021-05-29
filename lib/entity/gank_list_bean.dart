@@ -10,7 +10,7 @@ class GankListBean {
     error = json['error'];
 
     var results = json["results"];
-    beans = List.empty();
+    beans = List.empty(growable: true);
     for (var item in results) {
       //print("item:$item,");
       beans!.add(GankBean.fromJson(item));

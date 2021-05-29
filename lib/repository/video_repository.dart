@@ -35,7 +35,7 @@ class VideoRepository {
 
   static List<ACategory> decodeListResult(String result) {
     var results = JsonUtils.decodeAsList(result);
-    List<ACategory> beans = List.empty();
+    List<ACategory> beans = List.empty(growable: true);
     for (var item in results) {
       //print("item:$item,");
       beans.add(ACategory.fromJson(item));

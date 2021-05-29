@@ -211,7 +211,7 @@ class GankRepository {
     GankResponse<List<GankBean>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankBean> beans = List.empty();
+      List<GankBean> beans = List.empty(growable: true);
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankBean.fromJson(item));
@@ -226,7 +226,7 @@ class GankRepository {
     GankResponse<List<GankCategory>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankCategory> beans = List.empty();
+      List<GankCategory> beans = List.empty(growable: true);
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankCategory.fromJson(item));
@@ -241,7 +241,7 @@ class GankRepository {
     GankResponse<List<GankBanner>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankBanner> beans = List.empty();
+      List<GankBanner> beans = List.empty(growable: true);
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankBanner.fromJson(item));
@@ -261,7 +261,7 @@ class GankRepository {
     try {
       HttpResponse httpResponse = await HttpClient.instance.get(url);
       String result =
-          httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
+          httpResponse.data?.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
       list = await run<List<Animate>, String>(decodeMovieList, result);
     } catch (e) {

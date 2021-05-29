@@ -45,7 +45,7 @@ class HomeProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   Future loadBanner() async {
-    GankResponse<List<GankBanner>> _gankResponse =
+    GankResponse<List<GankBanner>>? _gankResponse =
         await _gankResposity.loadBanners();
     gankBannerResponse = _gankResponse;
 

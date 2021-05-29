@@ -27,7 +27,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
       return;
     }
     refreshFailed = false;
-    if (list != null && list.length > 0) {
+    if (list.length > 0) {
       refreshController?.refreshCompleted();
     } else {
       refreshController?.loadNoData();

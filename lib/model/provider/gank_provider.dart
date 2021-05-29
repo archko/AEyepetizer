@@ -71,7 +71,7 @@ class GankProvider extends BaseListViewModel with ChangeNotifier {
         refreshController?.loadComplete();
       }
     } else {
-      if (_gankResponse!.data == null) {
+      if (_gankResponse != null && _gankResponse.data == null) {
         refreshController?.loadFailed();
       } else {
         refreshController?.resetNoData();
