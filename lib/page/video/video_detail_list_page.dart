@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/model/base_list_state.dart';
-import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
+//import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VideoDetailListPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   @override
   bool get wantKeepAlive => true;
   VideoItem? _currVideoItem;
-  IjkMediaController _controller = IjkMediaController();
+  //IjkMediaController _controller = IjkMediaController();
 
   @override
   void initState() {
@@ -45,10 +45,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   void dispose() {
     super.dispose();
     Logger.d("$this,dispose");
-    if (_controller.isPlaying) {
+    /*if (_controller.isPlaying) {
       _controller.stop();
     }
-    _controller.dispose();
+    _controller.dispose();*/
   }
 
   @override
@@ -131,9 +131,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     if (item.type == 'videoSmallCard') {
       return GestureDetector(
         onTap: () {
-          if (_controller.isPlaying) {
+          /*if (_controller.isPlaying) {
             _controller.pause();
-          }
+          }*/
           setPlayer(item);
         },
         child: VideoListItem(
@@ -147,7 +147,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         child: Padding(
           padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
           child: Text(
-            item!.data!.text!,
+            item.data!.text!,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -182,10 +182,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         child: Column(
           children: <Widget>[
             /// 视频播放器
-            Container(
+            /*Container(
               height: 230,
               child: IjkPlayer(mediaController: _controller),
-            ),
+            ),*/
             Divider(
               height: .2,
               color: Color(0xFFDDDDDD),
@@ -443,13 +443,13 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   }
 
   void setPlayer(VideoItem? item) {
-    if (null != item && null != item.data) {
+    /*if (null != item && null != item.data) {
       _controller.setNetworkDataSource(
         item.data!.playUrl,
         autoPlay: true,
       );
     } else {
       _controller.stop();
-    }
+    }*/
   }
 }
