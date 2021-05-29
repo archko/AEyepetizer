@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base/model/provider_widget.dart';
+import 'package:flutter_base/utils/string_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'gank_detail_page.dart';
@@ -12,16 +13,17 @@ import 'gank_list_image_item.dart';
 import 'gank_list_noimage_item.dart';
 
 class GankListPage extends StatefulWidget {
-  GankListPage({Key key, this.category, this.categoryType}) : super(key: key);
+  GankListPage({Key? key, required this.category, this.categoryType})
+      : super(key: key);
   final GankCategory category;
-  final String categoryType;
+  final String? categoryType;
 
   @override
   _GankListPageState createState() => _GankListPageState();
 
   @override
   String toStringShort() {
-    return category.title;
+    return StringUtils.isEmpty(category.title) ? "" : category.title!;
   }
 }
 
@@ -30,8 +32,8 @@ class _GankListPageState extends State<GankListPage>
   @override
   bool get wantKeepAlive => true;
 
-  RefreshController _refreshController;
-  GankProvider _gankProvider;
+  late RefreshController _refreshController;
+  late GankProvider _gankProvider;
 
   @override
   void initState() {
@@ -89,7 +91,7 @@ class _GankListPageState extends State<GankListPage>
   //列表的ltem
   _renderItem(context, index, int count) {
     GankBean bean = _gankProvider.getData()[index];
-    if (bean.images == null || bean.images.length < 1) {
+    if (bean.images == null || bean.images!.length < 1) {
       return GankListNoImageItem(
         bean: bean,
         onPressed: () {

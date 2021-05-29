@@ -1,10 +1,10 @@
 import 'package:aeyepetizer/entity/video_data.dart';
 
 class VideoItem {
-  String type;
-  int id;
-  int adIndex;
-  VideoData data;
+  String? type;
+  int? id;
+  int? adIndex;
+  VideoData? data;
 
   VideoItem.fromJson(Map<String, dynamic> json) {
     type = json['type'];

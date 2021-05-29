@@ -7,25 +7,25 @@ import 'package:aeyepetizer/entity/weburl.dart';
 class VideoData {
   //textCard,VideoBeanForClient are for category by id.
   //video for video detail
-  String dataType;
-  int id;
-  String title;
-  String description;
-  String library;
-  String resourceType;
-  String category;
-  String playUrl;
-  int duration;
-  int releaseTime;
-  int date;
-  String descriptionEditor;
-  Consumption consumption;
-  Author author;
-  Cover cover;
-  List<Tag> tags;
-  WebUrl webUrl;
+  String? dataType;
+  int? id;
+  String? title;
+  String? description;
+  String? library;
+  String? resourceType;
+  String? category;
+  String? playUrl;
+  int? duration;
+  int? releaseTime;
+  int? date;
+  String? descriptionEditor;
+  Consumption? consumption;
+  Author? author;
+  Cover? cover;
+  List<Tag>? tags;
+  WebUrl? webUrl;
   //textcard
-  String text;
+  String? text;
 
   VideoData.fromJson(Map<String, dynamic> json) {
     dataType = json['dataType'];

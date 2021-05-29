@@ -1,11 +1,11 @@
 import 'package:aeyepetizer/entity/video_item.dart';
 
 class Trending {
-  int count;
-  int total;
-  bool adExist;
-  String nextPageUrl;
-  List<VideoItem> itemList;
+  int? count;
+  int? total;
+  bool? adExist;
+  String? nextPageUrl;
+  List<VideoItem>? itemList;
 
   Trending.fromJson(Map<String, dynamic> json) {
     count = json['count'];

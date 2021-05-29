@@ -1,11 +1,11 @@
 class GankResponse<T> {
-  int page;
-  int page_count;
-  int status;
-  int total_counts;
-  String hot;
-  String category;
-  T data;
+  int? page;
+  int? page_count;
+  int? status;
+  int? total_counts;
+  String? hot;
+  String? category;
+  T? data;
 
   GankResponse.fromJson(Map<String, dynamic> json) {
     if (json.containsKey("page")) {

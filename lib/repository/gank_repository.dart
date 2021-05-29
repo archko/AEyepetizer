@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aeyepetizer/entity/animate.dart';
 import 'package:aeyepetizer/entity/gank_banner.dart';
@@ -24,12 +23,12 @@ class GankRepository {
   /// type 可接受参数 All(全部类型) | Android | iOS | Flutter | Girl ...，即分类API返回的类型数据
   /// count: [10, 50]
   /// page: >=1
-  Future<GankResponse<List<GankBean>>> loadGankResponse(
-      {String category, String type, int pn}) async {
+  Future<GankResponse<List<GankBean>>?> loadGankResponse(
+      {String? category, String? type, int? pn}) async {
     pn ??= 1;
     category ??= "Girl";
     type ??= "Girl";
-    GankResponse<List<GankBean>> _gankResponse;
+    GankResponse<List<GankBean>>? _gankResponse;
 
     String url =
         "https://gank.io/api/v2/data/category/$category/type/$type/page/$pn/count/15";
@@ -51,11 +50,11 @@ class GankRepository {
   /// category 可接受参数 Article | GanHuo | Girl
   /// type 可接受参数 Android | iOS | Flutter | Girl，即分类API返回的类型数据
   /// count: [1, 50]
-  Future<GankResponse<List<GankBean>>> loadRandomGankList(
-      {String category, String type, int pn}) async {
+  Future<GankResponse<List<GankBean>>?> loadRandomGankList(
+      {String? category, String? type, int? pn}) async {
     category ??= "GanHuo";
     type ??= "Android";
-    GankResponse<List<GankBean>> _gankResponse;
+    GankResponse<List<GankBean>>? _gankResponse;
 
     try {
       String url =
@@ -72,13 +71,13 @@ class GankRepository {
   /// 请求方式: GET
   /// 注:
   /// post_id 可接受参数 文章id[分类数据API返回的_id字段]
-  Future<GankResponse<GankBean>> loadGankDetail(String postId) async {
-    GankResponse<GankBean> _gankResponse;
+  Future<GankResponse<GankBean>?> loadGankDetail(String postId) async {
+    GankResponse<GankBean>? _gankResponse;
 
     try {
       String url = "https://gank.io/api/v2/post/$postId";
       HttpResponse httpResponse = await HttpClient.instance.get(url);
-      _gankResponse = await loadWithBalancer<GankResponse<GankBean>, String>(
+      _gankResponse = await run<GankResponse<GankBean>, String>(
           decodeGank, httpResponse.data as String);
     } catch (e) {
       print(e);
@@ -92,11 +91,11 @@ class GankRepository {
   /// hot_type 可接受参数 views（浏览数） | likes（点赞数） | comments（评论数）❌
   /// category 可接受参数 Article | GanHuo | Girl
   /// count: [1, 20]
-  Future<GankResponse<List<GankBean>>> loadWeekHotGankList(
-      {String category, String hotType}) async {
+  Future<GankResponse<List<GankBean>>?> loadWeekHotGankList(
+      {String? category, String? hotType}) async {
     category ??= "Girl";
     hotType ??= "views";
-    GankResponse<List<GankBean>> _gankResponse;
+    GankResponse<List<GankBean>>? _gankResponse;
 
     try {
       String url =
@@ -113,9 +112,9 @@ class GankRepository {
   /// 请求方式: GET
   /// 注:
   /// post_id 可接受参数 文章Id
-  Future<GankResponse<List<GankBean>>> loadGankCommentList(
+  Future<GankResponse<List<GankBean>>?> loadGankCommentList(
       String postId) async {
-    GankResponse<List<GankBean>> _gankResponse;
+    GankResponse<List<GankBean>>? _gankResponse;
 
     try {
       String url = "https://gank.io/api/v2/post/comments/$postId";
@@ -135,9 +134,9 @@ class GankRepository {
   /// type 可接受参数 Android | iOS | Flutter ...，即分类API返回的类型数据
   /// count: [10, 50]
   /// page: >=1
-  Future<GankResponse<List<GankBean>>> searchGank(
+  Future<GankResponse<List<GankBean>>?> searchGank(
       String search, String category, String type, int page) async {
-    GankResponse<List<GankBean>> _gankResponse;
+    GankResponse<List<GankBean>>? _gankResponse;
 
     try {
       String url =
@@ -150,7 +149,7 @@ class GankRepository {
     return _gankResponse;
   }
 
-  Future loadMoreGankResponse(String category, String type, int pn) async {
+  Future loadMoreGankResponse(String? category, String? type, int? pn) async {
     return loadGankResponse(category: category, type: type, pn: pn);
   }
 
@@ -158,16 +157,15 @@ class GankRepository {
   /// 注:获取所有分类具体子分类[types]数据
   /// category_type 可接受参数 Article | GanHuo | Girl
   /// Article: 专题分类、 GanHuo: 干货分类 、 Girl:妹子图
-  Future<GankResponse<List<GankCategory>>> loadCategories(
-      {String categoryType}) async {
+  Future<GankResponse<List<GankCategory>>?> loadCategories(
+      {String? categoryType}) async {
     categoryType ??= "Article";
-    GankResponse<List<GankCategory>> _gankResponse;
+    GankResponse<List<GankCategory>>? _gankResponse;
     try {
       String url = "https://gank.io/api/v2/categories/$categoryType";
       HttpResponse httpResponse = await HttpClient.instance.get(url);
-      _gankResponse =
-          await loadWithBalancer<GankResponse<List<GankCategory>>, String>(
-              decodeCategories, httpResponse.data as String);
+      _gankResponse = await run<GankResponse<List<GankCategory>>, String>(
+          decodeCategories, httpResponse.data as String);
     } catch (e) {
       print(e);
     }
@@ -177,13 +175,12 @@ class GankRepository {
   /// 首页banner轮播 https://gank.io/api/v2/banners 请求方式: GET
   /// 注:返回首页banner轮播的数据
   Future loadBanners() async {
-    GankResponse<List<GankBanner>> _gankResponse;
+    GankResponse<List<GankBanner>>? _gankResponse;
     try {
       String url = "https://gank.io/api/v2/banners";
       HttpResponse httpResponse = await HttpClient.instance.get(url);
-      _gankResponse =
-          await loadWithBalancer<GankResponse<List<GankBanner>>, String>(
-              decodeBanners, httpResponse.data as String);
+      _gankResponse = await run<GankResponse<List<GankBanner>>, String>(
+          decodeBanners, httpResponse.data as String);
     } catch (e) {
       print(e);
     }
@@ -203,7 +200,7 @@ class GankRepository {
 
   Future<GankResponse<List<GankBean>>> decodeGankList(String data) async {
     GankResponse<List<GankBean>> _gankResponse =
-        await loadWithBalancer<GankResponse<List<GankBean>>, String>(
+        await run<GankResponse<List<GankBean>>, String>(
             _doDecodeGankList, data);
     return _gankResponse;
   }
@@ -214,7 +211,7 @@ class GankRepository {
     GankResponse<List<GankBean>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankBean> beans = List();
+      List<GankBean> beans = List.empty();
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankBean.fromJson(item));
@@ -229,7 +226,7 @@ class GankRepository {
     GankResponse<List<GankCategory>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankCategory> beans = List();
+      List<GankCategory> beans = List.empty();
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankCategory.fromJson(item));
@@ -244,7 +241,7 @@ class GankRepository {
     GankResponse<List<GankBanner>> response = GankResponse.fromJson(decode);
     if (decode.containsKey("data")) {
       var results = decode["data"];
-      List<GankBanner> beans = List();
+      List<GankBanner> beans = List.empty();
       for (var item in results) {
         //print("item:$item,");
         beans.add(GankBanner.fromJson(item));
@@ -256,9 +253,9 @@ class GankRepository {
 
   ///=============================
   /// 加载列表数据
-  Future<List<Animate>> loadMovie({int pn}) async {
+  Future<List<Animate>?> loadMovie({int? pn}) async {
     pn ??= 0;
-    List<Animate> list;
+    List<Animate>? list;
     String url =
         'https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=28286&from_mid=1&&format=json&ie=utf-8&oe=utf-8&query=电影&sort_key=16&sort_type=1&stat0=&stat1=&stat2=&stat3=&pn=$pn&rn=6&cb=cbs';
     try {
@@ -266,8 +263,7 @@ class GankRepository {
       String result =
           httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
-      list = await loadWithBalancer<List<Animate>, String>(
-          decodeMovieList, result);
+      list = await run<List<Animate>, String>(decodeMovieList, result);
     } catch (e) {
       print(e);
     }
@@ -280,7 +276,7 @@ class GankRepository {
         .toList();
   }
 
-  Future<List<Animate>> loadMoreMovie(int pn) async {
+  Future<List<Animate>?> loadMoreMovie(int pn) async {
     return loadMovie(pn: pn);
   }
 }

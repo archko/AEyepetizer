@@ -5,8 +5,8 @@ import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieProvider extends BaseListViewModel with ChangeNotifier {
-  GankRepository _gankResposity;
-  RefreshController refreshController;
+  late GankRepository _gankResposity;
+  RefreshController? refreshController;
 
   bool refreshFailed = false;
 
@@ -16,9 +16,9 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   @override
-  Future loadData({int pn}) async {
-    print("refresh:${refreshController.footerStatus},$_gankResposity");
-    List<Animate> list = await _gankResposity.loadMovie(pn: 0);
+  Future loadData({int? pn}) async {
+    print("refresh:${refreshController?.footerStatus},$_gankResposity");
+    List<Animate>? list = await _gankResposity.loadMovie(pn: 0);
     setData(list);
     if (list == null || list.length == 0) {
       refreshFailed = true;
@@ -37,9 +37,9 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   @override
-  Future loadMore({int pn}) async {
-    print("loadMore:${refreshController.footerStatus},$_gankResposity");
-    List<Animate> list = await _gankResposity.loadMovie(pn: page + 1);
+  Future loadMore({int? pn}) async {
+    print("loadMore:${refreshController?.footerStatus},$_gankResposity");
+    List<Animate>? list = await _gankResposity.loadMovie(pn: page + 1);
     if (list != null && list.length > 0) {
       addData(list);
 

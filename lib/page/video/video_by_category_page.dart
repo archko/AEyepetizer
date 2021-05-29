@@ -9,7 +9,7 @@ import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VideoByCategoryPage extends StatefulWidget {
-  VideoByCategoryPage({Key key, this.category}) : super(key: key);
+  VideoByCategoryPage({Key? key, required this.category}) : super(key: key);
   final ACategory category;
 
   @override
@@ -39,7 +39,7 @@ class _VideoByCategoryPageState extends State<VideoByCategoryPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.name),
+        title: Text(widget.category.name!),
       ),
       body: ProviderWidget<VideoByCategoryProvider>(
         model: VideoByCategoryProvider(

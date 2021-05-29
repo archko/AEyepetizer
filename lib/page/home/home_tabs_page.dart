@@ -15,7 +15,7 @@ import 'package:flutter_base/widget/banner/custom_banner.dart';
 import 'package:flutter_base/widget/tabs/tabs_widget.dart';
 
 class HomeTabsPage extends StatefulWidget {
-  HomeTabsPage({Key key}) : super(key: key);
+  HomeTabsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -56,7 +56,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
           ),
         ),
   );
-  HomeProvider _homeProvider;
+  late HomeProvider _homeProvider;
   String _categoryType = "Article";
 
   @override
@@ -125,7 +125,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                   return _bar(context, _homeProvider);
                 },
                 selector: (_, HomeProvider homeProvider) {
-                  return homeProvider.gankBannerResponse;
+                  return homeProvider.gankBannerResponse!;
                 },
                 shouldRebuild: (GankResponse<List<GankBanner>> prev,
                     GankResponse<List<GankBanner>> now) {
@@ -149,8 +149,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
             //这里需要处理空集,否则会有类型错误.
             return (ObjectUtils.isNull(homeProvider.data) ||
                     homeProvider.data.length == 0)
-                ? List<GankCategory>()
-                : homeProvider.data;
+                ? List<GankCategory>.empty()
+                : homeProvider.data as List<GankCategory>;
           },
           shouldRebuild: (List<GankCategory> prev, List<GankCategory> now) {
             return prev == null || prev != now;
@@ -214,7 +214,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
         child: CircularProgressIndicator(),
       );
     } else if (model.loadStatus == 1) {
-      content = _initTabs(model.data);
+      content = _initTabs(model.data.cast());
     } else {
       content = _buildDefaultTabs();
     }
@@ -231,11 +231,11 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
         hasGirl = true;
         tabViews.add(
             GankGirlListPage(category: category, categoryType: _categoryType));
-        tabItems.add(TabItem(text: category.title));
+        tabItems.add(TabItem(text: category.title!));
       } else {
         tabViews
             .add(GankListPage(category: category, categoryType: _categoryType));
-        tabItems.add(TabItem(text: category.title));
+        tabItems.add(TabItem(text: category.title!));
       }
     }
 

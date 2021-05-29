@@ -1,8 +1,8 @@
 import 'gank_bean.dart';
 
 class GankListBean {
-  bool error;
-  List<GankBean> beans = [];
+  bool? error;
+  List<GankBean>? beans = [];
 
   GankListBean();
 
@@ -10,10 +10,10 @@ class GankListBean {
     error = json['error'];
 
     var results = json["results"];
-    beans = List();
+    beans = List.empty();
     for (var item in results) {
       //print("item:$item,");
-      beans.add(GankBean.fromJson(item));
+      beans!.add(GankBean.fromJson(item));
     }
 
     //results.forEach((key, value) {

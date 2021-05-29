@@ -5,14 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/model/provider_widget.dart';
+import 'package:flutter_base/utils/string_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HotVideoListPage extends StatefulWidget {
-  HotVideoListPage({Key key, this.type}) : super(key: key);
+  HotVideoListPage({Key? key, this.type}) : super(key: key);
   static const String TYPE_HOT_WEEKLY = "周热门";
   static const String TYPE_HOT_MONTHLY = "月热门";
   static const String TYPE_TOTAL_RANKING = "总排行";
-  final String type;
+  String? type;
 
   @override
   State<StatefulWidget> createState() {
@@ -21,7 +22,7 @@ class HotVideoListPage extends StatefulWidget {
 
   @override
   String toStringShort() {
-    return type;
+    return StringUtils.isEmpty(type) ? "" : type!;
   }
 }
 

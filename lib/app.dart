@@ -34,7 +34,7 @@ Widget createApp() {
 
 class StateDemoApp extends StatefulWidget {
   const StateDemoApp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

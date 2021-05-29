@@ -3,9 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GankGirlListImageItem extends StatelessWidget {
-  GankGirlListImageItem({Key key, this.bean, this.onPressed}) : super(key: key);
+  GankGirlListImageItem({Key? key, required this.bean, this.onPressed}) : super(key: key);
   final GankBean bean;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   void detail(GankBean bean) {}
 
@@ -13,7 +13,7 @@ class GankGirlListImageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onPressed();
+        onPressed!();
       },
       //margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
       child: Material(
@@ -31,7 +31,7 @@ class GankGirlListImageItem extends StatelessWidget {
                       width: double.maxFinite,
                       child: CachedNetworkImage(
                         fit: BoxFit.fitWidth,
-                        imageUrl: bean.images[0],
+                        imageUrl: bean.images![0],
                         placeholder: (context, url) => Container(
                           alignment: Alignment.center,
                           color: Color(0x1f000000),

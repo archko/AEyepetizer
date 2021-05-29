@@ -1,15 +1,15 @@
 class Author {
-  int id;
-  String icon;
-  String name;
-  String description;
-  String link;
-  int latestReleaseTime;
-  int videoNum;
-  int approvedNotReadyVideoCount;
-  bool ifPgc;
-  int recSort;
-  bool expert;
+  int? id;
+  String? icon;
+  String? name;
+  String? description;
+  String? link;
+  int? latestReleaseTime;
+  int? videoNum;
+  int? approvedNotReadyVideoCount;
+  bool? ifPgc;
+  int? recSort;
+  bool? expert;
 
   Author.fromJson(Map<String, dynamic> json) {
     id = json['id'];

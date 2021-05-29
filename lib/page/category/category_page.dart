@@ -7,7 +7,7 @@ import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoryPage extends StatefulWidget {
-  CategoryPage({Key key}) : super(key: key);
+  CategoryPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,8 +24,8 @@ class _CategoryPageState extends State<CategoryPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  RefreshController _refreshController;
-  CategoryProvider _categoryProvider;
+  late RefreshController _refreshController;
+  late CategoryProvider _categoryProvider;
 
   @override
   void initState() {

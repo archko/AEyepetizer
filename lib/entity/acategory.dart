@@ -19,11 +19,11 @@ class ACategory {
     headerImage = json['headerImage'];
   }
 
-  int id;
-  int tagId;
-  int defaultAuthorId;
-  String name;
-  String description;
-  String bgPicture;
-  String headerImage;
+  int? id;
+  int? tagId;
+  int? defaultAuthorId;
+  String? name;
+  String? description;
+  String? bgPicture;
+  String? headerImage;
 }

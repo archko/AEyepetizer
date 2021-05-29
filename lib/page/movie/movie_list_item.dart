@@ -3,9 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieListItem extends StatelessWidget {
-  MovieListItem({this.bean, this.onPressed}) : super();
+  MovieListItem({required this.bean, this.onPressed}) : super();
   final Animate bean;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   void detail(String bean) {}
 

@@ -7,13 +7,13 @@ import 'package:flutter_base/utils/string_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
-  VideoRepository _videoResposity;
-  RefreshController refreshController;
-  String type;
+  late VideoRepository _videoResposity;
+  RefreshController? refreshController;
+  String? type;
   bool refreshFailed = false;
 
   int startPage = 0;
-  Trending last;
+  Trending? last;
 
   HotVideoListProvider({this.refreshController, this.type}) {
     //refresh();
@@ -21,45 +21,50 @@ class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   List<VideoItem> getVideos() {
-    return data;
+    return data.cast();
   }
 
   Future refresh() async {
-    print("refresh:${refreshController.footerStatus},$_videoResposity");
-    Trending trending =
+    print("refresh:${refreshController?.footerStatus},$_videoResposity");
+    Trending? trending =
         await _videoResposity.loadTrending(startPage, last, type: type);
     last = trending;
-    if (trending.itemList == null || trending.itemList.length < 1) {
-      refreshController.loadNoData();
+    if (trending == null ||
+        trending.itemList == null ||
+        trending.itemList!.length < 1) {
+      refreshController?.loadNoData();
     } else {
       setData(trending.itemList);
-      refreshController.refreshCompleted();
+      refreshController?.refreshCompleted();
     }
 
     notifyListeners();
   }
 
-  Future loadData({int pn}) {}
+  Future loadData({int? pn}) async {}
 
-  Future loadMore({int pn}) async {
+  Future loadMore({int? pn}) async {
     if (getCount() < 1) {
       return refresh();
     }
-    Trending trendingb = last;
+    Trending? trendingb = last;
     if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
-      refreshController.loadNoData();
+      refreshController?.loadNoData();
       return null;
     }
 
-    Trending trending =
+    Trending? trending =
         await _videoResposity.loadTrending(page + 1, last, type: type);
-    if (trending.itemList == null || trending.itemList.length < 1) {
-      refreshController.loadNoData();
+    if (trending == null ||
+        trending.itemList == null ||
+        trending.itemList!.length < 1) {
+      refreshController?.loadNoData();
     } else {
-      refreshController.loadComplete();
+      refreshController?.loadComplete();
     }
-    if (trending.itemList != null && trending.itemList.length > 0) {
-      addData(trending.itemList);
+    if (trending == null ||
+        trending.itemList != null && trending.itemList!.length > 0) {
+      addData(trending!.itemList);
 
       setPage(page + 1);
 

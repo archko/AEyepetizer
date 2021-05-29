@@ -2,9 +2,9 @@ import 'package:aeyepetizer/entity/gank_bean.dart';
 import 'package:flutter/material.dart';
 
 class GankListNoImageItem extends StatefulWidget {
-  GankListNoImageItem({Key key, this.bean, this.onPressed}) : super(key: key);
+  GankListNoImageItem({Key? key,required this.bean,  this.onPressed}) : super(key: key);
   final GankBean bean;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   _GankListNoImageItemState createState() =>
@@ -15,7 +15,7 @@ class _GankListNoImageItemState extends State<GankListNoImageItem> {
   _GankListNoImageItemState(this.bean, this.onPressed);
 
   GankBean bean;
-  VoidCallback onPressed;
+  VoidCallback? onPressed;
 
   void detail(GankBean bean) {}
 
@@ -23,7 +23,7 @@ class _GankListNoImageItemState extends State<GankListNoImageItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onPressed();
+        onPressed!();
       },
       child: Card(
         margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),

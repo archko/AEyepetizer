@@ -8,11 +8,11 @@
     }
  */
 class GankCategory {
-  String id;
-  String coverImageUrl;
-  String desc;
-  String title;
-  String type;
+  String? id;
+  String? coverImageUrl;
+  String? desc;
+  String? title;
+  String? type;
 
   GankCategory({
     this.id,

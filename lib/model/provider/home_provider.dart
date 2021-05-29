@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
 
 class HomeProvider extends BaseListViewModel with ChangeNotifier {
-  GankRepository _gankResposity;
+  late GankRepository _gankResposity;
 
   int loadStatus = 0;
-  String categoryType;
-  GankResponse<List<GankBanner>> gankBannerResponse;
+  String? categoryType;
+  GankResponse<List<GankBanner>>? gankBannerResponse;
 
   HomeProvider(this.categoryType) {
     _gankResposity = GankRepository.singleton;
@@ -22,14 +22,14 @@ class HomeProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   @override
-  Future loadData({int pn}) {
+  Future loadData({int? pn}) async {
     return null;
   }
 
-  Future loadMore({int pn}) async {}
+  Future loadMore({int? pn}) async {}
 
   Future loadCategories() async {
-    GankResponse<List<GankCategory>> _gankResponse =
+    GankResponse<List<GankCategory>>? _gankResponse =
         await _gankResposity.loadCategories(categoryType: categoryType);
     print("refresh:$_gankResposity,$_gankResponse");
     if (_gankResponse == null || _gankResponse.data == null) {
@@ -37,7 +37,7 @@ class HomeProvider extends BaseListViewModel with ChangeNotifier {
       notifyListeners();
       return;
     }
-    data = _gankResponse.data;
+    data = _gankResponse.data!;
     loadStatus = 1;
 
     notifyListeners();
@@ -54,12 +54,12 @@ class HomeProvider extends BaseListViewModel with ChangeNotifier {
 
   List<BannerBean> getBannerBeans() {
     if (gankBannerResponse == null ||
-        gankBannerResponse.data == null ||
-        gankBannerResponse.data.length == 0) {
+        gankBannerResponse!.data == null ||
+        gankBannerResponse!.data!.length == 0) {
       return [];
     }
     List<BannerBean> banners = [];
-    for (var banner in gankBannerResponse.data) {
+    for (var banner in gankBannerResponse!.data!) {
       banners.add(BannerBean(imageUrl: banner.image, title: banner.title));
     }
     return banners;

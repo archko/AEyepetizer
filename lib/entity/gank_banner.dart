@@ -4,9 +4,9 @@
 //      "url": "https://gank.io/migrate_progress"
 //    }
 class GankBanner {
-  String image;
-  String title;
-  String url;
+  String? image;
+  String? title;
+  String? url;
 
   GankBanner.fromJson(Map<String, dynamic> json) {
     image = json['image'];

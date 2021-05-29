@@ -11,7 +11,7 @@ import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VideoDetailListPage extends StatefulWidget {
-  VideoDetailListPage({Key key, this.videoData}) : super(key: key);
+  VideoDetailListPage({Key? key, required this.videoData}) : super(key: key);
   final VideoData videoData;
 
   @override
@@ -27,16 +27,16 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         WidgetsBindingObserver {
   @override
   bool get wantKeepAlive => true;
-  VideoItem _currVideoItem;
+  VideoItem? _currVideoItem;
   IjkMediaController _controller = IjkMediaController();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     refreshController = RefreshController(initialRefresh: true);
     viewModel = VideoDetailViewModel();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       refresh();
     });
   }
@@ -57,9 +57,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     await (viewModel as VideoDetailViewModel)
         .loadData(pn: viewModel.page, videoData: widget.videoData)
         .then((trending) {
-      viewModel.setData(trending.itemList);
-      if (trending.itemList != null && trending.itemList.length > 1) {
-        VideoItem videoItem = trending.itemList[1];
+      viewModel.setData(trending!.itemList);
+      if (trending.itemList != null && trending.itemList!.length > 1) {
+        VideoItem videoItem = trending.itemList![1];
         if (videoItem.type == "videoSmallCard") {
           _currVideoItem = videoItem;
         }
@@ -67,7 +67,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
       }
       setState(() {
         Logger.d("refresh end.${viewModel.page}, ${viewModel.getCount()}");
-        if (trending.itemList == null || trending.itemList.length < 1) {
+        if (trending.itemList == null || trending.itemList!.length < 1) {
           refreshController.loadNoData();
         } else {
           refreshController.refreshCompleted(resetFooterState: true);
@@ -147,7 +147,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
         child: Padding(
           padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
           child: Text(
-            item.data?.text,
+            item!.data!.text!,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -210,7 +210,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                               bottom: 5,
                             ),
                             child: Text(
-                              _currVideoItem.data.title,
+                              _currVideoItem!.data!.title!,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -222,7 +222,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                           Padding(
                             padding: EdgeInsets.only(left: 15),
                             child: Text(
-                              '#${_currVideoItem.data.category}',
+                              '#${_currVideoItem!.data!.category!}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.white,
@@ -235,7 +235,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                             padding: EdgeInsets.only(
                                 left: 15, right: 15, top: 10, bottom: 10),
                             child: Text(
-                              _currVideoItem.data.description,
+                              _currVideoItem!.data!.description!,
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.white,
@@ -258,7 +258,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     Padding(
                                       padding: EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${_currVideoItem.data.consumption.collectionCount}',
+                                        '${_currVideoItem!.data!.consumption!.collectionCount}',
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Colors.white,
@@ -279,7 +279,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                       Padding(
                                         padding: EdgeInsets.only(left: 3),
                                         child: Text(
-                                          '${_currVideoItem.data.consumption.shareCount}',
+                                          '${_currVideoItem!.data!.consumption!.shareCount}',
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -299,7 +299,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     Padding(
                                       padding: EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${_currVideoItem.data.consumption.replyCount}',
+                                        '${_currVideoItem!.data!.consumption!.replyCount}',
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Colors.white,
@@ -348,7 +348,8 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                     child: CachedNetworkImage(
                                       width: 40,
                                       height: 40,
-                                      imageUrl: _currVideoItem.data.author.icon,
+                                      imageUrl:
+                                          _currVideoItem!.data!.author!.icon!,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(
                                         strokeWidth: 2.5,
@@ -367,7 +368,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            _currVideoItem.data.author.name,
+                                            _currVideoItem!.data!.author!.name!,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white,
@@ -376,8 +377,8 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
                                           Padding(
                                             padding: EdgeInsets.only(top: 3),
                                             child: Text(
-                                              _currVideoItem
-                                                  .data.author.description,
+                                              _currVideoItem!
+                                                  .data!.author!.description!,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -441,10 +442,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     );
   }
 
-  void setPlayer(VideoItem item) {
-    if (null != item.data) {
+  void setPlayer(VideoItem? item) {
+    if (null != item && null != item.data) {
       _controller.setNetworkDataSource(
-        item.data.playUrl,
+        item.data!.playUrl,
         autoPlay: true,
       );
     } else {

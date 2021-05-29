@@ -8,20 +8,19 @@ import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
 
 class VideoDetailViewModel extends BaseListViewModel {
-  Trending last;
+  Trending? last;
 
-  Future<Trending> loadData({int pn, VideoData videoData}) async {
-    Trending trending;
+  Future<Trending?> loadData({int? pn, VideoData? videoData}) async {
+    Trending? trending;
     try {
       Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
       args['deviceModel'] = 'vivo x21';
-      args['id'] = videoData.id;
+      args['id'] = videoData!.id;
       HttpResponse httpResponse = await HttpClient.instance
           .get(WebConfig.relatedVideoUrl, params: args);
 
-      final lb = await loadBalancer;
-      trending = await lb.run<Trending, String>(
+      trending = await run<Trending, String>(
           VideoRepository.decodeTrendingResult, httpResponse.data as String);
       last = trending;
     } catch (e) {
@@ -31,7 +30,7 @@ class VideoDetailViewModel extends BaseListViewModel {
     return trending;
   }
 
-  Future<Trending> loadMore({int pn}) async {
+  Future<Trending?> loadMore({int? pn}) async {
     return loadData(pn: pn);
   }
 }

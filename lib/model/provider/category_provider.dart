@@ -5,8 +5,8 @@ import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoryProvider extends BaseListViewModel with ChangeNotifier {
-  VideoRepository _videoResposity;
-  RefreshController refreshController;
+  late VideoRepository _videoResposity;
+  RefreshController? refreshController;
 
   bool refreshFailed = false;
 
@@ -15,7 +15,7 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   Future refresh() async {
-    print("refresh:${refreshController.footerStatus},$_videoResposity");
+    print("refresh:${refreshController?.footerStatus},$_videoResposity");
     List<ACategory> list = await _videoResposity.loadData(0);
     setData(list);
     if (list == null || list.length == 0) {
@@ -34,8 +34,8 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future loadMore({int pn}) async {
-    print("loadMore:${refreshController.footerStatus},$_videoResposity");
+  Future loadMore({int? pn}) async {
+    print("loadMore:${refreshController?.footerStatus},$_videoResposity");
     List<ACategory> list = await _videoResposity.loadData(page + 1);
     if (list != null && list.length > 0) {
       addData(list);
@@ -55,6 +55,5 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   @override
-  Future loadData({int pn}) {
-  }
+  Future loadData({int? pn}) async {}
 }

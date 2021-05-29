@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GankGirlDetailPage extends StatefulWidget {
-  GankGirlDetailPage({Key key, this.bean}) : super(key: key);
+  GankGirlDetailPage({Key? key, required this.bean}) : super(key: key);
 
   final GankBean bean;
 
@@ -13,7 +13,7 @@ class GankGirlDetailPage extends StatefulWidget {
 
 class _GankGirlDetailPageState extends State<GankGirlDetailPage> {
   Widget detail(GankBean gankBean) {
-    if (gankBean.images != null && gankBean.images.length > 0) {
+    if (gankBean.images != null && gankBean.images!.length > 0) {
       return Stack(
         children: <Widget>[
           Scaffold(
@@ -26,7 +26,7 @@ class _GankGirlDetailPageState extends State<GankGirlDetailPage> {
                     Container(
                       width: double.maxFinite,
                       child: CachedNetworkImage(
-                        imageUrl: gankBean.images[0],
+                        imageUrl: gankBean.images![0],
                         placeholder: (context, url) =>
                             CircularProgressIndicator(),
                         fit: BoxFit.fitWidth,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
@@ -15,7 +14,7 @@ class VideoRepository {
 
   static VideoRepository get singleton => _instance;
 
-  Future<List<ACategory>> loadData([int pn]) async {
+  Future<List<ACategory>> loadData([int? pn]) async {
     List<ACategory> list;
     try {
       Map<String, dynamic> args = Map();
@@ -25,7 +24,7 @@ class VideoRepository {
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.categoriesUrl, params: args);
       print("result:${httpResponse.data}");
-      list = await loadWithBalancer<List<ACategory>, String>(
+      list = await run<List<ACategory>, String>(
           decodeListResult, httpResponse.data as String);
     } catch (e) {
       print(e);
@@ -36,7 +35,7 @@ class VideoRepository {
 
   static List<ACategory> decodeListResult(String result) {
     var results = JsonUtils.decodeAsList(result);
-    List<ACategory> beans = List();
+    List<ACategory> beans = List.empty();
     for (var item in results) {
       //print("item:$item,");
       beans.add(ACategory.fromJson(item));
@@ -51,14 +50,14 @@ class VideoRepository {
     return beans;
   }
 
-  Future<Trending> loadTrending(int pn, Trending last,
-      {String type, ACategory category}) async {
+  Future<Trending?> loadTrending(int pn, Trending? last,
+      {String? type, ACategory? category}) async {
     if (pn < 0 && last != null) {
-      Trending trending;
+      Trending? trending;
       try {
-        String url = last.nextPageUrl;
+        String? url = last.nextPageUrl;
         HttpResponse httpResponse = await HttpClient.instance.get(url);
-        trending = await loadWithBalancer<Trending, String>(
+        trending = await run<Trending, String>(
             decodeTrendingResult, httpResponse.data as String);
         //print("result:${list}");
       } catch (e) {
@@ -67,7 +66,7 @@ class VideoRepository {
       }
       return trending;
     }
-    Trending trending;
+    Trending? trending;
     try {
       Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
@@ -90,7 +89,7 @@ class VideoRepository {
       }
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.hotUrl, params: args);
-      trending = await loadWithBalancer<Trending, String>(
+      trending = await run<Trending, String>(
           decodeTrendingResult, httpResponse.data as String);
       //print("result:${list}");
     } catch (e) {

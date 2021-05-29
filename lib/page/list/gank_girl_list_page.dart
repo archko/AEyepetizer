@@ -12,8 +12,8 @@ import 'gank_girl_list_image_item.dart';
 import 'gank_list_noimage_item.dart';
 
 class GankGirlListPage extends StatefulWidget {
-  GankGirlListPage({Key key, this.category, this.categoryType}) : super(key: key);
-  final GankCategory category;
+  GankGirlListPage({Key? key, this.category, required this.categoryType}) : super(key: key);
+  final GankCategory? category;
   final String categoryType;
 
   @override
@@ -21,7 +21,7 @@ class GankGirlListPage extends StatefulWidget {
 
   @override
   String toStringShort() {
-    return category.title;
+    return category!.title!;
   }
 }
 
@@ -30,8 +30,8 @@ class _GankGirlListPageState extends State<GankGirlListPage>
   @override
   bool get wantKeepAlive => true;
 
-  RefreshController _refreshController;
-  GankProvider _gankProvider;
+ late RefreshController _refreshController;
+  late GankProvider _gankProvider;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _GankGirlListPageState extends State<GankGirlListPage>
     _refreshController = RefreshController(initialRefresh: false);
     _gankProvider = GankProvider(
       category: widget.categoryType,
-      type: widget.category.type,
+      type: widget.category!.type!,
       refreshController: _refreshController,
     );
   }
@@ -88,7 +88,7 @@ class _GankGirlListPageState extends State<GankGirlListPage>
   //列表的ltem
   _renderItem(context, index, int count) {
     GankBean bean = _gankProvider.getData()[index];
-    if (bean.images == null || bean.images.length < 1) {
+    if (bean.images == null || bean.images!.length < 1) {
       return GankListNoImageItem(
         bean: bean,
         onPressed: () {
