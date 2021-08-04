@@ -1,16 +1,22 @@
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.5.10'
     repositories {
-        maven {
+       maven {
             allowInsecureProtocol = true
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+            url 'https://maven.aliyun.com/repository/public'
         }
         maven {
             allowInsecureProtocol = true
-            url 'http://maven.aliyun.com/repository/google'
+            url 'https://maven.aliyun.com/repository/google'
         }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/central'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
         //maven { url 'http://download.flutter.io' }
         maven { url 'https://storage.flutter-io.cn/download.flutter.io' }
         google()
@@ -19,7 +25,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-beta03'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -28,19 +34,36 @@ allprojects {
     repositories {
         maven {
             allowInsecureProtocol = true
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+            url 'https://maven.aliyun.com/repository/public'
         }
         maven {
             allowInsecureProtocol = true
-            url 'http://maven.aliyun.com/repository/google'
+            url 'https://maven.aliyun.com/repository/google'
         }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/central'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
         //maven { url 'http://download.flutter.io' }
         maven { url 'https://storage.flutter-io.cn/download.flutter.io' }
         google()
         jcenter()
         mavenCentral()
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            jvmTarget = '1.8'
+            //allWarningsAsErrors = true
+            // Opt-in to experimental compose APIs
+            freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+            // Enable experimental coroutines APIs, including collectAsState()
+            //freeCompilerArgs += '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'
+        }
     }
 }
 

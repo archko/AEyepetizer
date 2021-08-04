@@ -55,7 +55,7 @@ class _GankGirlListPageState extends State<GankGirlListPage>
       builder: (context, model, childWidget) {
         return Container(
           child: SmartRefresher(
-            //physics: BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             enablePullDown: true,
             enablePullUp: true,
             controller: _refreshController,
