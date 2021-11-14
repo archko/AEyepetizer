@@ -188,8 +188,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       title: Text("干货"),
       //leading: Icon(Icons.arrow_back),
       iconTheme: IconThemeData(color: Color(0xFFD8D8D8)),
-      textTheme:
-          TextTheme(title: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF))),
+      toolbarTextStyle: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)),
+      titleTextStyle: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)),
       actions: <Widget>[
         GestureDetector(
           onTap: () {},
