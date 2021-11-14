@@ -13,7 +13,9 @@ class VideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var titleContainer;
-    if (bean.data!.dataType == "TextCard") {
+    if (bean.data!.dataType == "TextCard" ||
+        bean.data!.cover == null ||
+        StringUtils.isEmpty(bean.data!.cover!.feed)) {
       titleContainer = Container(
         height: 45,
         padding: const EdgeInsets.all(8.0),
@@ -24,7 +26,7 @@ class VideoListItem extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Text(
-                  '${StringUtils.isEmpty(bean.data!.text) ? "" : bean.data!.text}',
+                  '${StringUtils.isEmpty(bean.data!.text) ? bean.data!.description : bean.data!.text}',
                   style: TextStyle(fontSize: 20.0, color: Colors.cyanAccent)),
             ),
           ],
@@ -56,6 +58,26 @@ class VideoListItem extends StatelessWidget {
         child: Material(
           child: Ink(
             //INK可以实现装饰容器，实现矩形  设置背景色
+            color: Colors.black,
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                child: Stack(
+                  children: <Widget>[
+                    titleContainer,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    } else if (bean.data!.cover == null ||
+        StringUtils.isEmpty(bean.data!.cover!.feed)) {
+      return Card(
+        margin: const EdgeInsets.all(4.0),
+        child: Material(
+          child: Ink(
             color: Colors.black,
             child: InkWell(
               onTap: () {},

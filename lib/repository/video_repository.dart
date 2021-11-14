@@ -98,4 +98,38 @@ class VideoRepository {
     }
     return trending;
   }
+
+  Future<Trending?> loadDailySelection(int pn, Trending? last) async {
+    Map<String, dynamic> args = Map();
+    args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
+    args['deviceModel'] = 'vivo x21';
+    args['page'] = pn;
+    if (pn < 0 && last != null) {
+      Trending? trending;
+      try {
+        String? url = last.nextPageUrl;
+        HttpResponse httpResponse =
+            await HttpClient.instance.get(url, params: args);
+        trending = await run<Trending, String>(
+            decodeTrendingResult, httpResponse.data as String);
+        //print("result:${list}");
+      } catch (e) {
+        print(e);
+        trending = null;
+      }
+      return trending;
+    }
+    Trending? trending;
+    try {
+      HttpResponse httpResponse = await HttpClient.instance
+          .get(WebConfig.dailySelectionUrl, params: args);
+      trending = await run<Trending, String>(
+          decodeTrendingResult, httpResponse.data as String);
+      //print("result:${list}");
+    } catch (e) {
+      print(e);
+      trending = null;
+    }
+    return trending;
+  }
 }

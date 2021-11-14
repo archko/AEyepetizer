@@ -6,6 +6,7 @@ import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/list/gank_girl_list_page.dart';
 import 'package:aeyepetizer/page/list/gank_list_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
+import 'package:aeyepetizer/page/video/daily_video_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/provider_widget.dart';
 import 'package:flutter_base/utils/object_utils.dart';
@@ -30,10 +31,11 @@ class HomeTabsPage extends StatefulWidget {
 
 class _HomeTabsPageState extends State<HomeTabsPage> {
   List<Widget> _defaultTabViews = [
-    GankGirlListPage(
-      category: GankCategory(type: "Girl"),
-      categoryType: "Girl",
-    ),
+    //GankGirlListPage(
+    //  category: GankCategory(type: "Girl"),
+    //  categoryType: "Girl",
+    //),
+    DailyVideoListPage(),
     CategoryPage(),
     MovieListPage(),
   ];
