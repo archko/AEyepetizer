@@ -266,7 +266,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       isScrollable: true,
       customIndicator: false,
       decoration: _decoration,
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       title: Text("干货"),
     );
   }
@@ -280,7 +280,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       isScrollable: true,
       customIndicator: false,
       decoration: _decoration,
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       title: Text("干货"),
     );
   }

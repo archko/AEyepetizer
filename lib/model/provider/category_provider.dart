@@ -18,7 +18,7 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
     print("refresh:${refreshController?.footerStatus},$_videoResposity");
     List<ACategory> list = await _videoResposity.loadData(0);
     setData(list);
-    if (list == null || list.length == 0) {
+    if (list.length == 0) {
       refreshFailed = true;
       refreshController?.refreshCompleted();
       notifyListeners();

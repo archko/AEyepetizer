@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/model/provider_widget.dart';
-import 'package:flutter_base/utils/string_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DailyVideoListPage extends StatefulWidget {

@@ -1,7 +1,6 @@
 import 'package:aeyepetizer/model/provider/category_provider.dart';
 import 'package:aeyepetizer/page/category/category_item.dart';
 import 'package:aeyepetizer/page/video/video_by_category_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/provider_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

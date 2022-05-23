@@ -33,10 +33,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     refreshController = RefreshController(initialRefresh: true);
     viewModel = VideoDetailViewModel();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       refresh();
     });
   }
