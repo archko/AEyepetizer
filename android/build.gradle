@@ -1,20 +1,16 @@
 buildscript {
-    ext.kotlin_version = '1.5.31'
+    ext.kotlin_version = '1.6.10'
     repositories {
        maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/public'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/google'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/central'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/jcenter'
         }
         //maven { url 'http://download.flutter.io' }
@@ -24,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -32,19 +28,15 @@ buildscript {
 allprojects {
     repositories {
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/public'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/google'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/central'
         }
         maven {
-            allowInsecureProtocol = true
             url 'https://maven.aliyun.com/repository/jcenter'
         }
         //maven { url 'http://download.flutter.io' }
