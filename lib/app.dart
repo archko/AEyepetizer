@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aeyepetizer/page/home/home_tabs_page.dart';
+import 'package:aeyepetizer/page/home/test_tabs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -54,8 +55,8 @@ class _StateDemoAppState extends State<StateDemoApp> {
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
-        body: HomeTabsPage(),
-        //body: TestTabsPage(),
+        //body: HomeTabsPage(),
+        body: TestTabsPage(),
       ),
     );
   }

@@ -3,10 +3,13 @@ import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/model/video_detail_view_model.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/model/base_list_state.dart';
+import 'package:flutter_base/utils/string_utils.dart';
+
 //import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -28,7 +31,9 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
   @override
   bool get wantKeepAlive => true;
   VideoItem? _currVideoItem;
+
   //IjkMediaController _controller = IjkMediaController();
+  final FijkPlayer player = FijkPlayer();
 
   @override
   void initState() {
@@ -49,6 +54,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
       _controller.stop();
     }
     _controller.dispose();*/
+    player.release();
   }
 
   @override
@@ -186,6 +192,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
               height: 230,
               child: IjkPlayer(mediaController: _controller),
             ),*/
+            FijkView(
+              height: 230,
+              player: player,
+            ),
             Divider(
               height: .2,
               color: Color(0xFFDDDDDD),
@@ -451,5 +461,10 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
     } else {
       _controller.stop();
     }*/
+    if (null != item && null != item.data) {
+      if (!StringUtils.isEmpty(item.data?.playUrl)) {
+        player.setDataSource(item.data!.playUrl!, autoPlay: true);
+      }
+    }
   }
 }
