@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:aeyepetizer/common/http/web_config.dart';
+import 'package:aeyepetizer/entity/NewsModel.dart';
+import 'package:aeyepetizer/entity/NewsResult.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
@@ -131,5 +133,29 @@ class VideoRepository {
       trending = null;
     }
     return trending;
+  }
+
+  static NewsResult decodeNewsModel(String result) {
+    var results = JsonUtils.decodeAsMap(result);
+    NewsResult beans = NewsResult.fromJson(results);
+
+    return beans;
+  }
+
+  Future<NewsResult?> getNews() async {
+    NewsResult? newsResult;
+    try {
+      Map<String, dynamic> args = Map();
+      HttpResponse httpResponse = await HttpClient.instance.get(
+          "http://apis.juhe.cn/fapig/douyin/billboard?type=hot_video&size=50&key=9eb8ac7020d9bea6048db1f4c6b6d028",
+          params: args);
+      newsResult = await run<NewsResult, String>(
+          decodeNewsModel, httpResponse.data as String);
+      //print("result:${list}");
+    } catch (e) {
+      print(e);
+      newsResult = null;
+    }
+    return newsResult;
   }
 }
