@@ -1,10 +1,9 @@
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/repository/video_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CategoryProvider extends BaseListViewModel with ChangeNotifier {
+class CategoryProvider extends BaseListViewModel {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
 
@@ -21,7 +20,6 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
     if (list.length == 0) {
       refreshFailed = true;
       refreshController?.refreshCompleted();
-      notifyListeners();
       return;
     }
     refreshFailed = false;
@@ -30,8 +28,6 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
     } else {
       refreshController?.loadNoData();
     }
-
-    notifyListeners();
   }
 
   Future loadMore({int? pn}) async {
@@ -50,8 +46,6 @@ class CategoryProvider extends BaseListViewModel with ChangeNotifier {
         refreshController?.resetNoData();
       }
     }
-
-    notifyListeners();
   }
 
   @override

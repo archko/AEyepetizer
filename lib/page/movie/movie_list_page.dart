@@ -2,7 +2,9 @@ import 'package:aeyepetizer/model/provider/movie_provider.dart';
 import 'package:aeyepetizer/page/movie/movie_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/model/provider_widget.dart';
+import 'package:flutter_base/log/logger.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieListPage extends StatefulWidget {
@@ -30,36 +32,43 @@ class _MovieListPageState extends State<MovieListPage>
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: true);
-    _movieProvider = MovieProvider(refreshController: refreshController);
+    _movieProvider =
+        Get.put(MovieProvider(refreshController: refreshController));
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<MovieProvider>(
-      model: _movieProvider,
-      onModelInitial: (m) {
-        refreshController.requestRefresh();
-      },
-      builder: (context, model, childWidget) {
-        return Container(
-          margin: EdgeInsets.all(4),
-          child: SmartRefresher(
-            physics: BouncingScrollPhysics(),
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: refreshController,
-            onRefresh: model.loadData,
-            onLoading: model.loadMore,
-            header: MaterialClassicHeader(),
-            footer: ClassicFooter(),
-            child: ListView.builder(
-              itemCount: model.getCount(),
-              itemBuilder: (BuildContext context, int index) =>
-                  _renderItem(context, index),
+    return GetBuilder<MovieProvider>(
+      init: _movieProvider,
+      initState: (data) => _movieProvider.loadData(),
+      builder: (controller) {
+        Logger.d(
+            "loadingStatus:${_movieProvider.loadingStatus},${_movieProvider.data}");
+        if (_movieProvider.data.length > 0) {
+          return Container(
+            margin: EdgeInsets.all(4),
+            child: SmartRefresher(
+              physics: BouncingScrollPhysics(),
+              enablePullDown: true,
+              enablePullUp: true,
+              controller: refreshController,
+              onRefresh: _movieProvider.loadData,
+              onLoading: _movieProvider.loadMore,
+              header: MaterialClassicHeader(),
+              footer: ClassicFooter(),
+              child: ListView.builder(
+                itemCount: _movieProvider.getCount(),
+                itemBuilder: (BuildContext context, int index) =>
+                    _renderItem(context, index),
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }

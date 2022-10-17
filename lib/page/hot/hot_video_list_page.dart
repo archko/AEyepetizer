@@ -4,8 +4,8 @@ import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
-import 'package:flutter_base/model/provider_widget.dart';
 import 'package:flutter_base/utils/string_utils.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HotVideoListPage extends StatefulWidget {
@@ -46,32 +46,26 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<HotVideoListProvider>(
-      model: HotVideoListProvider(
-          refreshController: refreshController, type: widget.type),
-      onModelInitial: (m) {
-        refreshController.requestRefresh();
-      },
-      builder: (context, model, childWidget) {
-        return Container(
-          margin: EdgeInsets.all(4),
-          child: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: refreshController,
-            onRefresh: model.refresh,
-            onLoading: model.loadMore,
-            header: MaterialClassicHeader(),
-            footer: ClassicFooter(),
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: model.getCount(),
-              itemBuilder: (BuildContext context, int index) =>
-                  _renderItem(context, index, model.getVideos()[index]),
-            ),
+    return GetBuilder<HotVideoListProvider>(
+      //init: _movieProvider.loadData(),
+      builder: (controller) => Container(
+        margin: EdgeInsets.all(4),
+        child: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          controller: refreshController,
+          onRefresh: controller.refresh,
+          onLoading: controller.loadMore,
+          header: MaterialClassicHeader(),
+          footer: ClassicFooter(),
+          child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: controller.getCount(),
+            itemBuilder: (BuildContext context, int index) =>
+                _renderItem(context, index, controller.getVideos()[index]),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

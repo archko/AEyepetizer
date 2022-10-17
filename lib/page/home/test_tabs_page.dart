@@ -1,13 +1,7 @@
-import 'package:aeyepetizer/model/provider/movie_provider.dart';
-import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:aeyepetizer/page/video/daily_video_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/model/base_list_view_model.dart';
-import 'package:flutter_base/model/provider_widget.dart';
-import 'package:flutter_base/widget/banner/custom_banner.dart';
 import 'package:flutter_base/widget/tabs/tabs_widget.dart';
-import 'package:provider/provider.dart';
 
 class TestTabsPage extends StatefulWidget {
   TestTabsPage({Key? key}) : super(key: key);
@@ -26,13 +20,12 @@ class TestTabsPage extends StatefulWidget {
 class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
-    DailyVideoListPage(),
-    CategoryPage(),
     MovieListPage(),
+    DailyVideoListPage(),
+    //CategoryPage(),
   ];
   List<TabItem> _tabItems = [];
   late TabController _tabController;
-  late MovieProvider _movieProvider;
   ShapeDecoration _decoration = ShapeDecoration(
     shape: StadiumBorder(
           side: BorderSide(
@@ -62,7 +55,6 @@ class _TestTabsPageState extends State<TestTabsPage>
             "index:${_tabController.index},preIndex:${_tabController.previousIndex},length:${_tabController.length}");
       }
     });
-    _movieProvider = MovieProvider();
   }
 
   @override
@@ -85,83 +77,34 @@ class _TestTabsPageState extends State<TestTabsPage>
     double _appBarHeight =
         _swiperHeight + _spikeHeight - kToolbarHeight - statusBarHeight;
 
-    //return Scaffold(
-    //  body: Container(
-    //    margin: EdgeInsets.only(top: 0, bottom: 5),
-    //    child: CustomScrollView(
-    //      slivers: <Widget>[
-    //        _bar(context, model),
-    //        SliverToBoxAdapter(
-    //          child: Container(
-    //            width: double.maxFinite,
-    //            height: double.maxFinite,
-    //            child: _buildBody(context, model),
-    //          ),
-    //        ),
-    //      ],
-    //    ),
-    //  ),
-    //);
-    return ProviderWidget<MovieProvider>(
-      model: _movieProvider,
-      onModelInitial: (m) {
-        //m.loadBanner();
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+
+            ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
+            ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
+            sliver: _bar(context),
+          ),
+
+          ///停留在顶部的TabBar
+          //SliverPersistentHeader(
+          //  delegate: _SliverAppBarDelegate(_timeSelection()),
+          //  pinned: true,
+          //),
+        ];
       },
-      child: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-
-              ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
-              ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
-              //sliver: _bar(context),
-              sliver: Selector<MovieProvider, List<BannerBean>>(
-                builder: (_, List<BannerBean> data, child) {
-                  return _bar(context);
-                },
-                selector: (_, MovieProvider homeProvider) {
-                  return homeProvider.getBannerBeans()!;
-                },
-                shouldRebuild: (List<BannerBean> prev, List<BannerBean> now) {
-                  return prev == null || prev != now;
-                },
-              ),
-            ),
-
-            ///停留在顶部的TabBar
-            //SliverPersistentHeader(
-            //  delegate: _SliverAppBarDelegate(_timeSelection()),
-            //  pinned: true,
-            //),
-          ];
-        },
-        //body: Selector<MovieProvider, List<Animate>>(
-        //  builder: (_, List<Animate> data, child) {
-        //    return _buildBody(context);
-        //  },
-        //  selector: (_, MovieProvider homeProvider) {
-        //    return homeProvider.getData();
-        //  },
-        //  shouldRebuild: (List<Animate> prev, List<Animate> now) {
-        //    return prev == null || prev != now;
-        //  },
-        //)),
-        body: _buildBody(context),
-      ),
+      body: _buildBody(context),
     );
   }
 
   Widget _bar(BuildContext context) {
     print("_bar");
     Widget widget;
-    if (_movieProvider.getBannerBeans() == null) {
-      widget = Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
-      widget = CustomBanner(banners: _movieProvider.getBannerBeans()!);
-    }
+    widget = Center(
+      child: CircularProgressIndicator(),
+    );
     return SliverAppBar(
       centerTitle: true,
       expandedHeight: 200.0,
@@ -207,15 +150,7 @@ class _TestTabsPageState extends State<TestTabsPage>
   Widget _buildBody(BuildContext context) {
     print("_buildBody");
     Widget content;
-    if (_movieProvider.loadingStatus == LoadingStatus.loading) {
-      content = Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (_movieProvider.loadingStatus == LoadingStatus.successed) {
-      content = _buildDefaultTabs();
-    } else {
-      content = _buildDefaultTabs();
-    }
+    content = _buildDefaultTabs();
 
     return content;
   }

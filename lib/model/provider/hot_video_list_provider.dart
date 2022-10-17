@@ -1,12 +1,12 @@
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/repository/video_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/string_utils.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
+class HotVideoListProvider extends GetxController with BaseListViewModel {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
   String? type;
@@ -37,8 +37,6 @@ class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
       setData(trending.itemList);
       refreshController?.refreshCompleted();
     }
-
-    notifyListeners();
   }
 
   Future loadData({int? pn}) async {}
@@ -76,7 +74,5 @@ class HotVideoListProvider extends BaseListViewModel with ChangeNotifier {
         refreshController?.resetNoData();
       }
     }
-
-    notifyListeners();
   }
 }

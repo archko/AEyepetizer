@@ -1,26 +1,32 @@
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/repository/video_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/string_utils.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class DailyVideoListProvider extends BaseListViewModel with ChangeNotifier {
+class DailyVideoListProvider extends GetxController {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
   bool refreshFailed = false;
 
   int startPage = 0;
   Trending? last;
+  var data = <VideoItem>[].obs;
+  int page = 0;
 
   DailyVideoListProvider({this.refreshController}) {
-    //refresh();
     _videoResposity = VideoRepository.singleton;
   }
 
-  List<VideoItem> getVideos() {
-    return data.cast();
+  @override
+  void onInit() {
+    super.onInit();
+    print("onInitge:${refreshController?.footerStatus},$_videoResposity");
+  }
+
+  int getCount() {
+    return data.length;
   }
 
   Future refresh() async {
@@ -33,11 +39,10 @@ class DailyVideoListProvider extends BaseListViewModel with ChangeNotifier {
         trending.itemList!.length < 1) {
       refreshController?.loadNoData();
     } else {
-      setData(trending.itemList);
+      data.clear();
+      data.addAll(trending.itemList!);
       refreshController?.refreshCompleted();
     }
-
-    notifyListeners();
   }
 
   Future loadData({int? pn}) async {}
@@ -63,9 +68,9 @@ class DailyVideoListProvider extends BaseListViewModel with ChangeNotifier {
     }
     if (trending == null ||
         trending.itemList != null && trending.itemList!.length > 0) {
-      addData(trending!.itemList);
+      data.addAll(trending!.itemList!);
 
-      setPage(page + 1);
+      page = (page + 1);
 
       refreshController?.loadComplete();
     } else {
@@ -75,7 +80,5 @@ class DailyVideoListProvider extends BaseListViewModel with ChangeNotifier {
         refreshController?.resetNoData();
       }
     }
-
-    notifyListeners();
   }
 }

@@ -7,9 +7,10 @@ import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/json_utils.dart';
 import 'package:flutter_base/widget/banner/custom_banner.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class MovieProvider extends BaseListViewModel with ChangeNotifier {
+class MovieProvider extends GetxController with BaseListViewModel {
   late GankRepository _gankResposity;
   RefreshController? refreshController;
   List<BannerBean>? _bannerBeans;
@@ -22,6 +23,11 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
   }
 
   @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
   Future loadData({int? pn}) async {
     print("refresh:${refreshController?.footerStatus},$_gankResposity");
     List<Animate>? list = await _gankResposity.loadMovie(pn: 0);
@@ -29,7 +35,6 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     if (list == null || list.length == 0) {
       loadingStatus = LoadingStatus.failed;
       refreshController?.refreshCompleted();
-      notifyListeners();
       return;
     }
     loadingStatus = LoadingStatus.successed;
@@ -38,8 +43,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     } else {
       refreshController?.loadNoData();
     }
-
-    notifyListeners();
+    print("refresh end:${refreshController?.footerStatus}, $data");
   }
 
   @override
@@ -59,8 +63,6 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
         refreshController?.resetNoData();
       }
     }
-
-    notifyListeners();
   }
 
   Future<List<Animate>?> loadMovie({int? pn}) async {
@@ -103,7 +105,6 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     _bannerBeans = await compute(decodeBannerListResult, bannerJson);
     //_bannerBeans = await loadWithBalancer<List<BannerBean>, String>(
     //    decodeBannerListResult, bannerJson);
-    notifyListeners();
   }
 
   List<BannerBean>? getBannerBeans() {
