@@ -22,7 +22,8 @@ class DailyVideoListProvider extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("onInitge:${refreshController?.footerStatus},$_videoResposity");
+    print("onInit:${refreshController?.footerStatus},$_videoResposity");
+    refresh();
   }
 
   int getCount() {
@@ -41,9 +42,9 @@ class DailyVideoListProvider extends GetxController {
     } else {
       data.clear();
       data.addAll(trending.itemList!);
+      update();
       refreshController?.refreshCompleted();
     }
-    update();
   }
 
   Future loadData({int? pn}) async {}
@@ -81,6 +82,5 @@ class DailyVideoListProvider extends GetxController {
         refreshController?.resetNoData();
       }
     }
-    update();
   }
 }

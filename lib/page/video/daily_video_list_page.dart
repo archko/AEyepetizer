@@ -4,7 +4,7 @@ import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DailyVideoListPage extends StatefulWidget {
@@ -45,25 +45,35 @@ class _DailyVideoListPageState extends State<DailyVideoListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Obx(
-      () => Container(
-        margin: EdgeInsets.all(4),
-        child: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          controller: refreshController,
-          onRefresh: _dailyVideoListProvider.refresh,
-          onLoading: _dailyVideoListProvider.loadMore,
-          header: MaterialClassicHeader(),
-          footer: ClassicFooter(),
-          child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: _dailyVideoListProvider.data.length,
-            itemBuilder: (BuildContext context, int index) => _renderItem(
-                context, index, _dailyVideoListProvider.data[index]),
-          ),
-        ),
-      ),
+    return GetBuilder<DailyVideoListProvider>(
+      init: _dailyVideoListProvider,
+      //initState: (data) => _dailyVideoListProvider.refresh(),
+      builder: (controller) {
+        if (_dailyVideoListProvider.data.length > 0) {
+          return Container(
+            margin: EdgeInsets.all(4),
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              controller: refreshController,
+              onRefresh: _dailyVideoListProvider.refresh,
+              onLoading: _dailyVideoListProvider.loadMore,
+              header: MaterialClassicHeader(),
+              footer: ClassicFooter(),
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: _dailyVideoListProvider.data.length,
+                itemBuilder: (BuildContext context, int index) => _renderItem(
+                    context, index, _dailyVideoListProvider.data[index]),
+              ),
+            ),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 

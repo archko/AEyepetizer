@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:aeyepetizer/demo/Demo1.dart';
+import 'package:aeyepetizer/demo/Demo2.dart';
 import 'package:aeyepetizer/page/home/test_tabs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,6 +59,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
       home: Scaffold(
         //body: HomeTabsPage(),
         body: TestTabsPage(),
+        //body: Demo2(),
       ),
     );
   }

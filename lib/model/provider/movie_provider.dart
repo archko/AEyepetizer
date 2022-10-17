@@ -1,7 +1,6 @@
 import 'package:aeyepetizer/entity/animate.dart';
 import 'package:aeyepetizer/repository/gank_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
@@ -43,8 +42,6 @@ class MovieProvider extends GetxController with BaseListViewModel {
     } else {
       refreshController?.loadNoData();
     }
-    print("refresh end:${refreshController?.footerStatus}, $data");
-    update();
   }
 
   @override
@@ -64,7 +61,6 @@ class MovieProvider extends GetxController with BaseListViewModel {
         refreshController?.resetNoData();
       }
     }
-    update();
   }
 
   Future<List<Animate>?> loadMovie({int? pn}) async {
