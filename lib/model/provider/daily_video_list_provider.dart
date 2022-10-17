@@ -43,6 +43,7 @@ class DailyVideoListProvider extends GetxController {
       data.addAll(trending.itemList!);
       refreshController?.refreshCompleted();
     }
+    update();
   }
 
   Future loadData({int? pn}) async {}
@@ -80,5 +81,6 @@ class DailyVideoListProvider extends GetxController {
         refreshController?.resetNoData();
       }
     }
+    update();
   }
 }

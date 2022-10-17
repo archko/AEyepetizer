@@ -44,6 +44,7 @@ class MovieProvider extends GetxController with BaseListViewModel {
       refreshController?.loadNoData();
     }
     print("refresh end:${refreshController?.footerStatus}, $data");
+    update();
   }
 
   @override
@@ -63,6 +64,7 @@ class MovieProvider extends GetxController with BaseListViewModel {
         refreshController?.resetNoData();
       }
     }
+    update();
   }
 
   Future<List<Animate>?> loadMovie({int? pn}) async {
