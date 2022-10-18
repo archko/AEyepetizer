@@ -111,8 +111,7 @@ class _TestTabsPageState extends State<TestTabsPage>
     );
     return SliverAppBar(
       centerTitle: true,
-      expandedHeight: 0.0,
-      //200.0
+      expandedHeight: 200.0,
       pinned: true,
       floating: false,
       snap: false,
