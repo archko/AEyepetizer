@@ -1,3 +1,5 @@
+import 'package:aeyepetizer/page/NewsPage.dart';
+import 'package:aeyepetizer/page/WallpaperPage.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:aeyepetizer/page/video/daily_video_list_page.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ class TestTabsPage extends StatefulWidget {
 class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
+    WallpaperPage(),
+    NewsPage(),
     MovieListPage(),
     DailyVideoListPage(),
     //CategoryPage(),
@@ -28,11 +32,11 @@ class _TestTabsPageState extends State<TestTabsPage>
   late TabController _tabController;
   ShapeDecoration _decoration = ShapeDecoration(
     shape: StadiumBorder(
-          side: BorderSide(
-            color: Colors.white,
-            width: 1.5,
-          ),
-        ) +
+      side: BorderSide(
+        color: Colors.white,
+        width: 1.5,
+      ),
+    ) +
         const StadiumBorder(
           side: BorderSide(
             color: Colors.transparent,
@@ -107,7 +111,8 @@ class _TestTabsPageState extends State<TestTabsPage>
     );
     return SliverAppBar(
       centerTitle: true,
-      expandedHeight: 200.0,
+      expandedHeight: 0.0,
+      //200.0
       pinned: true,
       floating: false,
       snap: false,
@@ -116,15 +121,15 @@ class _TestTabsPageState extends State<TestTabsPage>
       //backgroundColor: Color(0xFF303030),
       elevation: 10.0,
       forceElevated: true,
-      title: Text("a"),
-      leading: Icon(Icons.arrow_back),
+      title: Text("示例"),
+      //leading: Icon(Icons.arrow_back),
       iconTheme: IconThemeData(color: Color(0xFFD8D8D8)),
       actions: <Widget>[
         GestureDetector(
           onTap: () {},
           child: Padding(
             padding: const EdgeInsets.only(top: 17, right: 15.0),
-            child: Text("b"),
+            child: Text("关于"),
           ),
         ),
       ],
@@ -139,10 +144,10 @@ class _TestTabsPageState extends State<TestTabsPage>
         stretchModes: [StretchMode.fadeTitle],
       ),
       toolbarTextStyle: TextTheme(
-              subtitle1: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)))
+          subtitle1: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)))
           .bodyText2,
       titleTextStyle: TextTheme(
-              subtitle1: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)))
+          subtitle1: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF)))
           .headline6,
     );
   }

@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:aeyepetizer/common/http/web_config.dart';
-import 'package:aeyepetizer/entity/NewsModel.dart';
 import 'package:aeyepetizer/entity/NewsResult.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
+import 'package:aeyepetizer/entity/wallpaper_bean.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
@@ -157,5 +157,28 @@ class VideoRepository {
       newsResult = null;
     }
     return newsResult;
+  }
+
+  static WallpaperBean decodeWallpaper(String result) {
+    var results = JsonUtils.decodeAsMap(result);
+    WallpaperBean bean = WallpaperBean.fromJson(results);
+
+    return bean;
+  }
+
+  Future<WallpaperBean?> getWallpaperBean() async {
+    WallpaperBean? wallpaperBean;
+    try {
+      Map<String, dynamic> args = Map();
+      HttpResponse httpResponse = await HttpClient.instance
+          .get("https://v.api.aa1.cn/api/api-meiribizhi/api.php", params: args);
+      wallpaperBean = await run<WallpaperBean, String>(
+          decodeWallpaper, httpResponse.data as String);
+      //print("result:${list}");
+    } catch (e) {
+      print(e);
+      wallpaperBean = null;
+    }
+    return wallpaperBean;
   }
 }

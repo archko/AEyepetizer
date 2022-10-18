@@ -11,11 +11,16 @@ class NewsPage extends StatelessWidget {
   }
 
   @override
+  String toStringShort() {
+    return "新闻列表";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text("新闻列表"),
-      ),
+      ),*/
       body: GetBuilder<NewsController>(
         builder: (counter) {
           if (counter.isLoading == true) {
