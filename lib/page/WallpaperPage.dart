@@ -62,6 +62,11 @@ class WallpaperPage extends StatelessWidget {
                         Container(
                           margin:
                               const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+                          child: Divider(height: 1.0, color: Color(0x99000000)),
+                        ),
+                        Container(
+                          margin:
+                              const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

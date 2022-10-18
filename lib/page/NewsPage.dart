@@ -28,18 +28,31 @@ class NewsPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            return ListView.builder(
-              itemCount: counter.newsList.length,
-              itemBuilder: (_, index) {
-                NewsModel newsModel = counter.newsList[index];
-                return Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          height: 120,
+            return Container(
+              margin: const EdgeInsets.only(top: 10.0),
+              child: ListView.builder(
+                itemCount: counter.newsList.length,
+                itemBuilder: (_, index) {
+                  NewsModel newsModel = counter.newsList[index];
+                  return Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin:
+                              const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+                          child: Divider(height: 1.0, color: Color(0x99000000)),
+                        ),
+                        Container(
+                          margin:
+                              const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+                          child: Text(
+                            newsModel.title,
+                            overflow: TextOverflow.clip,
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
                           margin: const EdgeInsets.all(10.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
@@ -50,21 +63,11 @@ class NewsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          child: Text(
-                            newsModel.title,
-                            overflow: TextOverflow.clip,
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             );
           }
         },
