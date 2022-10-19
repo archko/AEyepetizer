@@ -6,10 +6,13 @@ import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/wallpaper_bean.dart';
 import 'package:aeyepetizer/page/hot/hot_video_list_page.dart';
+import 'package:aeyepetizer/utils/cache_utils.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
+import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
+import 'package:flutter_base/utils/string_utils.dart';
 
 class VideoRepository {
   static final VideoRepository _instance = VideoRepository();
@@ -142,16 +145,32 @@ class VideoRepository {
     return beans;
   }
 
-  Future<NewsResult?> getNews() async {
+  Future<NewsResult?> readNewsFromCache() async {
     NewsResult? newsResult;
+    String? result =
+        await CacheUtils.readStringFromCache(CacheUtils.cache_news);
+    Logger.d("result:$result");
+    if (!StringUtils.isEmpty(result)) {
+      newsResult = decodeNewsModel(result!);
+    }
+
+    return newsResult;
+  }
+
+  Future<NewsResult?> getNews() async {
+    NewsResult? newsResult = await readNewsFromCache();
+    if (null != newsResult) {
+      return newsResult;
+    }
     try {
       Map<String, dynamic> args = Map();
-      HttpResponse httpResponse = await HttpClient.instance.get(
-          "http://apis.juhe.cn/fapig/douyin/billboard?type=hot_video&size=50&key=9eb8ac7020d9bea6048db1f4c6b6d028",
-          params: args);
+      var url =
+          "http://apis.juhe.cn/fapig/douyin/billboard?type=hot_video&size=50&key=9eb8ac7020d9bea6048db1f4c6b6d028";
+      HttpResponse httpResponse =
+          await HttpClient.instance.get(url, params: args);
       newsResult = await run<NewsResult, String>(
           decodeNewsModel, httpResponse.data as String);
-      //print("result:${list}");
+      CacheUtils.writeNewsToCache(newsResult, url);
     } catch (e) {
       print(e);
       newsResult = null;
@@ -166,15 +185,31 @@ class VideoRepository {
     return bean;
   }
 
+  Future<WallpaperBean?> readWallpaperFromCache() async {
+    WallpaperBean? wallpaper;
+    String? result =
+        await CacheUtils.readStringFromCache(CacheUtils.cache_wallpaper);
+    Logger.d("result:$result");
+    if (!StringUtils.isEmpty(result)) {
+      wallpaper = decodeWallpaper(result!);
+    }
+
+    return wallpaper;
+  }
+
   Future<WallpaperBean?> getWallpaperBean() async {
-    WallpaperBean? wallpaperBean;
+    WallpaperBean? wallpaperBean = await readWallpaperFromCache();
+    if (null != wallpaperBean) {
+      return wallpaperBean;
+    }
     try {
       Map<String, dynamic> args = Map();
-      HttpResponse httpResponse = await HttpClient.instance
-          .get("https://v.api.aa1.cn/api/api-meiribizhi/api.php", params: args);
-      wallpaperBean = await run<WallpaperBean, String>(
-          decodeWallpaper, httpResponse.data as String);
-      //print("result:${list}");
+      var url = "https://v.api.aa1.cn/api/api-meiribizhi/api.php";
+      HttpResponse httpResponse =
+          await HttpClient.instance.get(url, params: args);
+      var data = httpResponse.data as String;
+      wallpaperBean = await run<WallpaperBean, String>(decodeWallpaper, data);
+      CacheUtils.writeWallpaperJsonToCache(data, url);
     } catch (e) {
       print(e);
       wallpaperBean = null;

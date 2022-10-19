@@ -1,3 +1,5 @@
+import 'package:flutter_base/utils/string_utils.dart';
+
 class Wallpaper {
   Wallpaper({
     this.id,
@@ -29,6 +31,34 @@ class Wallpaper {
     img_1280_800 = json['img_1280_800'];
     img_1280_1024 = json['img_1280_1024'];
     img_1024_768 = json['img_1024_768'];
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    if (!StringUtils.isEmpty(id)) {
+      map["id"] = id;
+    }
+    if (!StringUtils.isEmpty(classId)) {
+      map["class_id"] = classId;
+    }
+    if (!StringUtils.isEmpty(tag)) {
+      map["tag"] = tag;
+    }
+    if (!StringUtils.isEmpty(url)) {
+      map["url"] = url;
+    }
+    map["utag"] = this.utag;
+    map["resolution"] = this.resolution;
+    map["create_time"] = this.createTime;
+    map["img_1600_900"] = this.img_1600_900;
+    map["img_1440_900"] = img_1440_900;
+    map["img_1366_768"] = img_1366_768;
+    map["img_1366_768"] = img_1366_768;
+    map["img_1280_800"] = img_1280_800;
+    map["img_1280_800"] = img_1280_800;
+    map["img_1280_1024"] = img_1280_1024;
+    map["img_1024_768"] = img_1024_768;
+    return map;
   }
 
   String? id;

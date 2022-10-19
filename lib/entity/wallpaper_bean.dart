@@ -19,6 +19,16 @@ class WallpaperBean {
     }
   }
 
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map["errno"] = errno;
+    map["total"] = total;
+    map["errmsg"] = errmsg;
+    map["data"] = wallpapers?.map((v) => v.toJson()).toList();
+
+    return map;
+  }
+
   String? errno;
   String? total;
   String? errmsg;

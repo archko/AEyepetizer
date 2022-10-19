@@ -31,6 +31,7 @@ class MovieProvider extends GetxController with BaseListViewModel {
     print("refresh:${refreshController?.footerStatus},$_gankResposity");
     List<Animate>? list = await _gankResposity.loadMovie(pn: 0);
     setData(list);
+    update();
     if (list == null || list.length == 0) {
       loadingStatus = LoadingStatus.failed;
       refreshController?.refreshCompleted();

@@ -31,6 +31,7 @@ dependencies:
   get: ^4.6.5
   #flutter_ijkplayer: 0.3.5+1
   fijkplayer: 0.10.1
+  mmkv: ^1.2.15
 
   flutter_base:
     #git:

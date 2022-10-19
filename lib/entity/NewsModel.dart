@@ -1,3 +1,5 @@
+import 'package:flutter_base/utils/string_utils.dart';
+
 /// 新闻模型类
 class NewsModel {
   late String title;
@@ -20,5 +22,34 @@ class NewsModel {
     playCount = json["play_count"] ?? 0;
     diggCount = json["digg_count"] ?? 0;
     commentCount = json["comment_count"] ?? 0;
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    if (!StringUtils.isEmpty(title)) {
+      map["title"] = title;
+    }
+    if (!StringUtils.isEmpty(shareUrl)) {
+      map["share_url"] = shareUrl;
+    }
+    if (!StringUtils.isEmpty(author)) {
+      map["author"] = author;
+    }
+    if (!StringUtils.isEmpty(itemCover)) {
+      map["item_cover"] = itemCover;
+    }
+    map["hot_value"] = this.hotValue;
+    map["play_count"] = this.playCount;
+    map["digg_count"] = this.diggCount;
+    map["comment_count"] = this.commentCount;
+    if (!StringUtils.isEmpty(hotWords)) {
+      map["hot_words"] = hotWords;
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return 'NewsModel{title: $title, shareUrl: $shareUrl, author: $author, itemCover: $itemCover, hotValue: $hotValue, hotWords: $hotWords, playCount: $playCount, diggCount: $diggCount, commentCount: $commentCount}';
   }
 }

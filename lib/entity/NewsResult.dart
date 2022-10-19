@@ -1,4 +1,5 @@
 import 'package:aeyepetizer/entity/NewsModel.dart';
+import 'package:flutter_base/utils/object_utils.dart';
 
 class NewsResult {
   int? error_code;
@@ -14,8 +15,19 @@ class NewsResult {
         [];
   }
 
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map["error_code"] = error_code;
+    map["reason"] = reason;
+    if (!ObjectUtils.isNull(result)) {
+      map["result"] = result?.map((v) => v.toJson()).toList();
+    }
+
+    return map;
+  }
+
   @override
   String toString() {
-    return 'Trending{error_code: $error_code, reason: $reason, result: $result}';
+    return 'NewsResult{error_code: $error_code, reason: $reason, result: $result}';
   }
 }
