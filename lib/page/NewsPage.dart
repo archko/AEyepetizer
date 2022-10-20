@@ -2,6 +2,7 @@ import 'package:aeyepetizer/entity/NewsModel.dart';
 import 'package:aeyepetizer/model/NewsController.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/widget/browser.dart';
 import 'package:get/get.dart';
 
 /// 视图层
@@ -34,43 +35,54 @@ class NewsPage extends StatelessWidget {
                 itemCount: counter.newsList.length,
                 itemBuilder: (_, index) {
                   NewsModel newsModel = counter.newsList[index];
-                  return Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
-                          child: Divider(height: 1.0, color: Color(0x99000000)),
-                        ),
-                        Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
-                          child: Text(
-                            newsModel.title,
-                            overflow: TextOverflow.clip,
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image(
-                              image: CachedNetworkImageProvider(
-                                  '${newsModel.itemCover}'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return buildContainer(context, newsModel);
                 },
               ),
             );
           }
         },
+      ),
+    );
+  }
+
+  Widget buildContainer(BuildContext context, NewsModel newsModel) {
+    return GestureDetector(
+      onTap: () {
+        Browser.open(context, newsModel.shareUrl,
+            title: "", waitingTxt: "loading");
+      },
+      child: newsItem(newsModel),
+    );
+  }
+
+  Widget newsItem(NewsModel newsModel) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+            child: Divider(height: 1.0, color: Color(0x99000000)),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+            child: Text(
+              newsModel.title,
+              overflow: TextOverflow.clip,
+              style: const TextStyle(fontSize: 15),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image(
+                image: CachedNetworkImageProvider('${newsModel.itemCover}'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

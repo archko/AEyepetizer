@@ -23,8 +23,8 @@ class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
     WallpaperPage(),
-    MovieListPage(),
     NewsPage(),
+    MovieListPage(),
     DailyVideoListPage(),
     //CategoryPage(),
   ];
