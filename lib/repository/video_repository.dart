@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aeyepetizer/common/http/web_config.dart';
-import 'package:aeyepetizer/entity/NewsResult.dart';
+import 'package:aeyepetizer/entity/douyin_news_result.dart';
 import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/wallpaper_bean.dart';
@@ -138,15 +138,15 @@ class VideoRepository {
     return trending;
   }
 
-  static NewsResult decodeNewsModel(String result) {
+  static DouyinNewsResult decodeNewsModel(String result) {
     var results = JsonUtils.decodeAsMap(result);
-    NewsResult beans = NewsResult.fromJson(results);
+    DouyinNewsResult beans = DouyinNewsResult.fromJson(results);
 
     return beans;
   }
 
-  Future<NewsResult?> readNewsFromCache() async {
-    NewsResult? newsResult;
+  Future<DouyinNewsResult?> readNewsFromCache() async {
+    DouyinNewsResult? newsResult;
     String? result =
         await CacheUtils.readStringFromCache(CacheUtils.cache_news);
     Logger.d("result:$result");
@@ -157,8 +157,8 @@ class VideoRepository {
     return newsResult;
   }
 
-  Future<NewsResult?> getNews() async {
-    NewsResult? newsResult = await readNewsFromCache();
+  Future<DouyinNewsResult?> getNews() async {
+    DouyinNewsResult? newsResult = await readNewsFromCache();
     if (null != newsResult) {
       return newsResult;
     }
@@ -168,7 +168,7 @@ class VideoRepository {
           "http://apis.juhe.cn/fapig/douyin/billboard?type=hot_video&size=50&key=9eb8ac7020d9bea6048db1f4c6b6d028";
       HttpResponse httpResponse =
           await HttpClient.instance.get(url, params: args);
-      newsResult = await run<NewsResult, String>(
+      newsResult = await run<DouyinNewsResult, String>(
           decodeNewsModel, httpResponse.data as String);
       CacheUtils.writeNewsToCache(newsResult, url);
     } catch (e) {

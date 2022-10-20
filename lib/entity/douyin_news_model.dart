@@ -1,7 +1,7 @@
 import 'package:flutter_base/utils/string_utils.dart';
 
 /// 新闻模型类
-class NewsModel {
+class DouyinNewsModel {
   late String title;
   late String shareUrl;
   late String author;
@@ -12,7 +12,7 @@ class NewsModel {
   late int diggCount;
   late int commentCount;
 
-  NewsModel.fromJson(Map<String, dynamic> json) {
+  DouyinNewsModel.fromJson(Map<String, dynamic> json) {
     title = json["title"] ?? "";
     shareUrl = json["share_url"] ?? "";
     author = json["author"] ?? "";
@@ -50,6 +50,6 @@ class NewsModel {
 
   @override
   String toString() {
-    return 'NewsModel{title: $title, shareUrl: $shareUrl, author: $author, itemCover: $itemCover, hotValue: $hotValue, hotWords: $hotWords, playCount: $playCount, diggCount: $diggCount, commentCount: $commentCount}';
+    return 'DouyinNewsModel{title: $title, shareUrl: $shareUrl, author: $author, itemCover: $itemCover, hotValue: $hotValue, hotWords: $hotWords, playCount: $playCount, diggCount: $diggCount, commentCount: $commentCount}';
   }
 }

@@ -1,5 +1,5 @@
-import 'package:aeyepetizer/page/NewsPage.dart';
-import 'package:aeyepetizer/page/WallpaperPage.dart';
+import 'package:aeyepetizer/page/douyin_news_page.dart';
+import 'package:aeyepetizer/page/image/wallpaper_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:aeyepetizer/page/video/daily_video_list_page.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
     WallpaperPage(),
-    NewsPage(),
+    DouyinNewsPage(),
     MovieListPage(),
     DailyVideoListPage(),
     //CategoryPage(),

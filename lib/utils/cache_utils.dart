@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aeyepetizer/entity/NewsResult.dart';
+import 'package:aeyepetizer/entity/douyin_news_result.dart';
 import 'package:aeyepetizer/entity/news_cache.dart';
 import 'package:aeyepetizer/entity/wallpaper_bean.dart';
 import 'package:flutter_base/utils/file_utils.dart';
@@ -55,7 +55,7 @@ class CacheUtils {
     await MMKV.defaultMMKV().encodeString(cacheKey, json);
   }
 
-  static void writeNewsToCache(NewsResult newsResult, String url) async {
+  static void writeNewsToCache(DouyinNewsResult newsResult, String url) async {
     String cacheKey = cache_news;
     String filename = "$cacheKey.json";
     writeNewsCache(cacheKey, filename, url);

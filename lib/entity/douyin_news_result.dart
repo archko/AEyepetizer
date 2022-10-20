@@ -1,16 +1,16 @@
-import 'package:aeyepetizer/entity/NewsModel.dart';
+import 'package:aeyepetizer/entity/douyin_news_model.dart';
 import 'package:flutter_base/utils/object_utils.dart';
 
-class NewsResult {
+class DouyinNewsResult {
   int? error_code;
   String? reason;
-  List<NewsModel>? result;
+  List<DouyinNewsModel>? result;
 
-  NewsResult.fromJson(Map<String, dynamic> json) {
+  DouyinNewsResult.fromJson(Map<String, dynamic> json) {
     error_code = json['error_code'];
     reason = json['reason'];
     result = json['result']
-            ?.map<NewsModel>((item) => NewsModel.fromJson(item))
+            ?.map<DouyinNewsModel>((item) => DouyinNewsModel.fromJson(item))
             ?.toList() ??
         [];
   }
@@ -28,6 +28,6 @@ class NewsResult {
 
   @override
   String toString() {
-    return 'NewsResult{error_code: $error_code, reason: $reason, result: $result}';
+    return 'DouyinNewsResult{error_code: $error_code, reason: $reason, result: $result}';
   }
 }

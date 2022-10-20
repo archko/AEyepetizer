@@ -1,14 +1,14 @@
-import 'package:aeyepetizer/entity/NewsModel.dart';
-import 'package:aeyepetizer/model/NewsController.dart';
+import 'package:aeyepetizer/entity/douyin_news_model.dart';
+import 'package:aeyepetizer/model/douyin_news_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/widget/browser.dart';
 import 'package:get/get.dart';
 
 /// 视图层
-class NewsPage extends StatelessWidget {
-  NewsPage({Key? key}) : super(key: key) {
-    final counter = Get.put(NewsController());
+class DouyinNewsPage extends StatelessWidget {
+  DouyinNewsPage({Key? key}) : super(key: key) {
+    final counter = Get.put(DouyinNewsController());
   }
 
   @override
@@ -22,7 +22,7 @@ class NewsPage extends StatelessWidget {
       /*appBar: AppBar(
         title: const Text("新闻列表"),
       ),*/
-      body: GetBuilder<NewsController>(
+      body: GetBuilder<DouyinNewsController>(
         builder: (counter) {
           if (counter.isLoading == true) {
             return const Center(
@@ -34,8 +34,8 @@ class NewsPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: counter.newsList.length,
                 itemBuilder: (_, index) {
-                  NewsModel newsModel = counter.newsList[index];
-                  return buildContainer(context, newsModel);
+                  DouyinNewsModel newsModel = counter.newsList[index];
+                  return _buildItem(context, newsModel);
                 },
               ),
             );
@@ -45,17 +45,16 @@ class NewsPage extends StatelessWidget {
     );
   }
 
-  Widget buildContainer(BuildContext context, NewsModel newsModel) {
+  Widget _buildItem(BuildContext context, DouyinNewsModel newsModel) {
     return GestureDetector(
       onTap: () {
-        Browser.open(context, newsModel.shareUrl,
-            title: "", waitingTxt: "loading");
+        Browser.open(context, newsModel.shareUrl, "", "loading");
       },
-      child: newsItem(newsModel),
+      child: _newsItem(newsModel),
     );
   }
 
-  Widget newsItem(NewsModel newsModel) {
+  Widget _newsItem(DouyinNewsModel newsModel) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
