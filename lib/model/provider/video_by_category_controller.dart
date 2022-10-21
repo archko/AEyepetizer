@@ -2,41 +2,45 @@ import 'package:aeyepetizer/entity/acategory.dart';
 import 'package:aeyepetizer/entity/trending.dart';
 import 'package:aeyepetizer/entity/video_item.dart';
 import 'package:aeyepetizer/repository/video_repository.dart';
-import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/string_utils.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class VideoByCategoryProvider extends BaseListViewModel {
+class VideoByCategoryController extends GetxController {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
   ACategory? category;
   bool refreshFailed = false;
 
-  int startPage = 0;
   Trending? last;
+  var data = <VideoItem>[];
+  int page = 0;
 
-  VideoByCategoryProvider({this.refreshController, this.category}) {
+  VideoByCategoryController({this.refreshController, this.category}) {
     //refresh();
     _videoResposity = VideoRepository.singleton;
+  }
+  int getCount() {
+    return data.length;
   }
 
   List<VideoItem> getVideos() {
     return data.cast();
   }
 
-  Future refresh() async {
+  Future refreshList() async {
     print("refresh:${refreshController?.footerStatus},$_videoResposity");
-    setPage(startPage);
 
     Trending? trending =
-        await _videoResposity.loadTrending(startPage, last, category: category);
+        await _videoResposity.loadTrending(page, last, category: category);
     last = trending;
     if (trending == null ||
         trending.itemList == null ||
         trending.itemList!.length < 1) {
       refreshController?.loadNoData();
     } else {
-      setData(trending.itemList);
+      data.clear();
+      data.addAll(trending.itemList!);
       refreshController?.refreshCompleted();
     }
   }
@@ -46,11 +50,12 @@ class VideoByCategoryProvider extends BaseListViewModel {
 
   Future loadMore({int? pn}) async {
     if (getCount() < 1) {
-      return refresh();
+      return refreshList();
     }
     Trending? trendingb = last;
     if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
       refreshController?.loadNoData();
+      update();
       return null;
     }
 
@@ -59,9 +64,9 @@ class VideoByCategoryProvider extends BaseListViewModel {
     if (trending != null &&
         trending.itemList != null &&
         trending.itemList!.length > 0) {
-      addData(trending.itemList);
+      data.addAll(trending!.itemList!);
 
-      setPage(page + 1);
+      page = (page + 1);
 
       refreshController?.loadComplete();
     } else {
@@ -71,5 +76,6 @@ class VideoByCategoryProvider extends BaseListViewModel {
         refreshController?.resetNoData();
       }
     }
+    update();
   }
 }

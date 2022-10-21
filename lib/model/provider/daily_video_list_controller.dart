@@ -9,7 +9,6 @@ class DailyVideoListController extends GetxController {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
 
-  int startPage = 0;
   Trending? last;
   var data = <VideoItem>[];
   int page = 0;
@@ -31,7 +30,7 @@ class DailyVideoListController extends GetxController {
   Future refreshList() async {
     print("refreshList:${refreshController?.footerStatus}");
     Trending? trending =
-        await _videoResposity.loadDailySelection(startPage, last);
+        await _videoResposity.loadDailySelection(page, last);
     last = trending;
     if (trending == null ||
         trending.itemList == null ||

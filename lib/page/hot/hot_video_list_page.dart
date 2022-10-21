@@ -37,6 +37,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: false);
+    _hotVideoListController = HotVideoListController(refreshController: refreshController);
   }
 
   @override
