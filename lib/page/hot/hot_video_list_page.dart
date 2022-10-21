@@ -31,6 +31,8 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   bool get wantKeepAlive => true;
 
+  late HotVideoListControllerer _hotVideoListControllerer;
+
   @override
   void initState() {
     super.initState();
@@ -46,15 +48,16 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GetBuilder<HotVideoListProvider>(
-      //init: _movieProvider.loadData(),
+    return GetBuilder<HotVideoListControllerer>(
+      init: _hotVideoListControllerer,
+      initState: (data) => _hotVideoListControllerer.refreshList(),
       builder: (controller) => Container(
         margin: EdgeInsets.all(4),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
           controller: refreshController,
-          onRefresh: controller.refresh,
+          onRefresh: controller.refreshList,
           onLoading: controller.loadMore,
           header: MaterialClassicHeader(),
           footer: ClassicFooter(),
