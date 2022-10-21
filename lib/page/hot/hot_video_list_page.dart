@@ -1,4 +1,4 @@
-import 'package:aeyepetizer/model/provider/hot_video_list_provider.dart';
+import 'package:aeyepetizer/model/provider/hot_video_list_controller.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +31,7 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   bool get wantKeepAlive => true;
 
-  late HotVideoListControllerer _hotVideoListControllerer;
+  late HotVideoListController _hotVideoListController;
 
   @override
   void initState() {
@@ -48,9 +48,9 @@ class _HotVideoListPageState extends State<HotVideoListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GetBuilder<HotVideoListControllerer>(
-      init: _hotVideoListControllerer,
-      initState: (data) => _hotVideoListControllerer.refreshList(),
+    return GetBuilder<HotVideoListController>(
+      init: _hotVideoListController,
+      initState: (data) => _hotVideoListController.refreshList(),
       builder: (controller) => Container(
         margin: EdgeInsets.all(4),
         child: SmartRefresher(

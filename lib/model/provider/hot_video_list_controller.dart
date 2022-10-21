@@ -6,17 +6,22 @@ import 'package:flutter_base/utils/string_utils.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HotVideoListControllerer extends GetxController with BaseListViewModel {
+class HotVideoListController extends GetxController {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
   String? type;
   bool refreshFailed = false;
+  var data = <VideoItem>[];
 
-  int startPage = 0;
+  int page = 0;
   Trending? last;
 
-  HotVideoListControllerer({this.refreshController, this.type}) {
+  HotVideoListController({this.refreshController, this.type}) {
     _videoResposity = VideoRepository.singleton;
+  }
+
+  int getCount() {
+    return data.length;
   }
 
   List<VideoItem> getVideos() {
@@ -26,14 +31,15 @@ class HotVideoListControllerer extends GetxController with BaseListViewModel {
   Future refreshList() async {
     print("refresh:${refreshController?.footerStatus},$_videoResposity");
     Trending? trending =
-        await _videoResposity.loadTrending(startPage, last, type: type);
+        await _videoResposity.loadTrending(page, last, type: type);
     last = trending;
     if (trending == null ||
         trending.itemList == null ||
         trending.itemList!.length < 1) {
       refreshController?.loadNoData();
     } else {
-      setData(trending.itemList);
+      data.clear();
+      data.addAll(trending.itemList!);
       refreshController?.refreshCompleted();
     }
     update();
@@ -63,9 +69,9 @@ class HotVideoListControllerer extends GetxController with BaseListViewModel {
     }
     if (trending == null ||
         trending.itemList != null && trending.itemList!.length > 0) {
-      addData(trending!.itemList);
+      data.addAll(trending!.itemList!);
 
-      setPage(page + 1);
+      page = (page + 1);
 
       refreshController?.loadComplete();
     } else {
