@@ -5,17 +5,16 @@ import 'package:flutter_base/utils/string_utils.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class DailyVideoListProvider extends GetxController {
+class DailyVideoListController extends GetxController {
   late VideoRepository _videoResposity;
   RefreshController? refreshController;
-  bool refreshFailed = false;
 
   int startPage = 0;
   Trending? last;
-  var data = <VideoItem>[].obs;
+  var data = <VideoItem>[];
   int page = 0;
 
-  DailyVideoListProvider({this.refreshController}) {
+  DailyVideoListController({this.refreshController}) {
     _videoResposity = VideoRepository.singleton;
   }
 
@@ -23,15 +22,14 @@ class DailyVideoListProvider extends GetxController {
   void onInit() {
     super.onInit();
     print("onInit:${refreshController?.footerStatus},$_videoResposity");
-    refresh();
   }
 
   int getCount() {
     return data.length;
   }
 
-  Future refresh() async {
-    print("refresh:${refreshController?.footerStatus},$_videoResposity");
+  Future refreshList() async {
+    print("refreshList:${refreshController?.footerStatus}");
     Trending? trending =
         await _videoResposity.loadDailySelection(startPage, last);
     last = trending;
@@ -42,20 +40,21 @@ class DailyVideoListProvider extends GetxController {
     } else {
       data.clear();
       data.addAll(trending.itemList!);
-      update();
       refreshController?.refreshCompleted();
     }
+    update();
   }
 
   Future loadData({int? pn}) async {}
 
   Future loadMore({int? pn}) async {
     if (getCount() < 1) {
-      return refresh();
+      return refreshList();
     }
     Trending? trendingb = last;
     if (trendingb == null || StringUtils.isEmpty(trendingb.nextPageUrl)) {
       refreshController?.loadNoData();
+      update();
       return null;
     }
 
@@ -82,5 +81,6 @@ class DailyVideoListProvider extends GetxController {
         refreshController?.resetNoData();
       }
     }
+    update();
   }
 }

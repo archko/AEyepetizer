@@ -1,4 +1,4 @@
-import 'package:aeyepetizer/model/provider/daily_video_list_provider.dart';
+import 'package:aeyepetizer/model/provider/daily_video_list_controller.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,14 +26,14 @@ class _DailyVideoListPageState extends State<DailyVideoListPage>
   @override
   bool get wantKeepAlive => true;
 
-  late DailyVideoListProvider _dailyVideoListProvider;
+  late DailyVideoListController _dailyVideoListController;
 
   @override
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: false);
-    _dailyVideoListProvider =
-        DailyVideoListProvider(refreshController: refreshController);
+    _dailyVideoListController =
+        DailyVideoListController(refreshController: refreshController);
   }
 
   @override
@@ -45,26 +45,26 @@ class _DailyVideoListPageState extends State<DailyVideoListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GetBuilder<DailyVideoListProvider>(
-      init: _dailyVideoListProvider,
-      //initState: (data) => _dailyVideoListProvider.refresh(),
+    return GetBuilder<DailyVideoListController>(
+      init: _dailyVideoListController,
+      initState: (data) => _dailyVideoListController.refreshList(),
       builder: (controller) {
-        if (_dailyVideoListProvider.data.length > 0) {
+        if (_dailyVideoListController.data.length > 0) {
           return Container(
             margin: EdgeInsets.all(4),
             child: SmartRefresher(
               enablePullDown: true,
               enablePullUp: true,
               controller: refreshController,
-              onRefresh: _dailyVideoListProvider.refresh,
-              onLoading: _dailyVideoListProvider.loadMore,
+              onRefresh: _dailyVideoListController.refreshList,
+              onLoading: _dailyVideoListController.loadMore,
               header: MaterialClassicHeader(),
               footer: ClassicFooter(),
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: _dailyVideoListProvider.data.length,
+                itemCount: _dailyVideoListController.data.length,
                 itemBuilder: (BuildContext context, int index) => _renderItem(
-                    context, index, _dailyVideoListProvider.data[index]),
+                    context, index, _dailyVideoListController.data[index]),
               ),
             ),
           );

@@ -24,8 +24,8 @@ class _TestTabsPageState extends State<TestTabsPage>
   List<Widget> defaultTabViews = [
     WallpaperPage(),
     DouyinNewsPage(),
-    MovieListPage(),
     DailyVideoListPage(),
+    MovieListPage(),
     //CategoryPage(),
   ];
   List<TabItem> _tabItems = [];
@@ -104,7 +104,7 @@ class _TestTabsPageState extends State<TestTabsPage>
   }
 
   Widget _bar(BuildContext context) {
-    print("_bar");
+    //print("_bar");
     Widget widget;
     widget = Center(
       child: CircularProgressIndicator(),
