@@ -52,7 +52,7 @@ class CacheUtils {
     Logger.d("now:$now, filename:$filename,cache:$cache");
 
     var json = JsonUtils.toJson(cache);
-    await MMKV.defaultMMKV().encodeString(cacheKey, json);
+    MMKV.defaultMMKV().encodeString(cacheKey, json);
   }
 
   static void writeNewsToCache(DouyinNewsResult newsResult, String url) async {

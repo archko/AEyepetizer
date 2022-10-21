@@ -1,9 +1,7 @@
 import 'package:aeyepetizer/model/provider/movie_provider.dart';
 import 'package:aeyepetizer/page/movie/movie_list_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/log/logger.dart';
-import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

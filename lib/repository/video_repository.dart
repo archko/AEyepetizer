@@ -19,8 +19,8 @@ class VideoRepository {
 
   static VideoRepository get singleton => _instance;
 
-  Future<List<ACategory>> loadData([int? pn]) async {
-    List<ACategory> list;
+  Future<List<ACategory>?> loadData([int? pn]) async {
+    List<ACategory>? list;
     try {
       Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';

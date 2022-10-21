@@ -2,7 +2,6 @@ import 'package:aeyepetizer/model/provider/hot_video_list_controller.dart';
 import 'package:aeyepetizer/page/video/video_detail_list_page.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/utils/string_utils.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';

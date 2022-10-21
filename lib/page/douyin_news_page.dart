@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 /// 视图层
 class DouyinNewsPage extends StatelessWidget {
   DouyinNewsPage({Key? key}) : super(key: key) {
-    final counter = Get.put(DouyinNewsController());
+    Get.put(DouyinNewsController());
   }
 
   @override

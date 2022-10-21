@@ -34,6 +34,7 @@ class _VideoByCategoryPageState extends State<VideoByCategoryPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GetBuilder<VideoByCategoryController>(
       init: _videoByCategoryController,
       initState: (data) => _videoByCategoryController.refreshList(),

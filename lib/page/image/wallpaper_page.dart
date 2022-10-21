@@ -111,7 +111,7 @@ class WallpaperPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image(
-                image: CachedNetworkImageProvider('${picUrl}'),
+                image: CachedNetworkImageProvider('$picUrl'),
                 fit: BoxFit.cover,
               ),
             ),

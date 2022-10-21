@@ -4,7 +4,6 @@ import 'package:aeyepetizer/model/video_detail_view_model.dart';
 import 'package:aeyepetizer/page/video/video_list_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/model/base_list_state.dart';
@@ -96,6 +95,7 @@ class _VideoDetailListPageState extends State<VideoDetailListPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //return Scaffold(
     //  appBar: AppBar(
     //    title: Text(widget.videoData.title),

@@ -15,15 +15,15 @@ class CategoryProvider extends BaseListViewModel {
 
   Future refresh() async {
     print("refresh:${refreshController?.footerStatus},$_videoResposity");
-    List<ACategory> list = await _videoResposity.loadData(0);
+    List<ACategory>? list = await _videoResposity.loadData(0);
     setData(list);
-    if (list.length == 0) {
+    if (null == list || list.length == 0) {
       refreshFailed = true;
       refreshController?.refreshCompleted();
       return;
     }
     refreshFailed = false;
-    if (list != null && list.length > 0) {
+    if (list.length > 0) {
       refreshController?.refreshCompleted();
     } else {
       refreshController?.loadNoData();
@@ -32,7 +32,7 @@ class CategoryProvider extends BaseListViewModel {
 
   Future loadMore({int? pn}) async {
     print("loadMore:${refreshController?.footerStatus},$_videoResposity");
-    List<ACategory> list = await _videoResposity.loadData(page + 1);
+    List<ACategory>? list = await _videoResposity.loadData(page + 1);
     if (list != null && list.length > 0) {
       addData(list);
 
