@@ -45,7 +45,6 @@ class VideoByCategoryController extends GetxController {
     }
   }
 
-  @override
   Future loadData({int? pn}) async {}
 
   Future loadMore({int? pn}) async {
@@ -64,7 +63,7 @@ class VideoByCategoryController extends GetxController {
     if (trending != null &&
         trending.itemList != null &&
         trending.itemList!.length > 0) {
-      data.addAll(trending!.itemList!);
+      data.addAll(trending.itemList!);
 
       page = (page + 1);
 
