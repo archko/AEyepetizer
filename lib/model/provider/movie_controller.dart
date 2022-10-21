@@ -40,11 +40,11 @@ class MovieController extends GetxController {
     } catch (e) {
       print(e);
     }
-    if (list == null || list!.length < 1) {
+    if (list == null || list.length < 1) {
       refreshController?.loadNoData();
     } else {
       data.clear();
-      data.addAll(list!);
+      data.addAll(list);
       refreshController?.refreshCompleted();
     }
     update();

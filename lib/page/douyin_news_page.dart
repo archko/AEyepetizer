@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aeyepetizer/entity/douyin_news_model.dart';
 import 'package:aeyepetizer/model/douyin_news_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,8 +9,9 @@ import 'package:get/get.dart';
 
 /// 视图层
 class DouyinNewsPage extends StatelessWidget {
+  DouyinNewsController _douyinNewsController = new DouyinNewsController();
   DouyinNewsPage({Key? key}) : super(key: key) {
-    Get.put(DouyinNewsController());
+    Get.put(_douyinNewsController);
   }
 
   @override
@@ -23,6 +26,8 @@ class DouyinNewsPage extends StatelessWidget {
         title: const Text("新闻列表"),
       ),*/
       body: GetBuilder<DouyinNewsController>(
+        init: _douyinNewsController,
+        initState: (data) => _douyinNewsController.getNewsList(),
         builder: (counter) {
           if (counter.isLoading == true) {
             return const Center(

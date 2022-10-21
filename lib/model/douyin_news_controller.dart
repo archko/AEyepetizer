@@ -20,7 +20,6 @@ class DouyinNewsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getNewsList();
   }
 
   /// 数据请求与处理
