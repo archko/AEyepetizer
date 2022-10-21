@@ -1,4 +1,4 @@
-import 'package:aeyepetizer/model/provider/movie_provider.dart';
+import 'package:aeyepetizer/model/provider/movie_controller.dart';
 import 'package:aeyepetizer/page/movie/movie_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/log/logger.dart';
@@ -24,26 +24,25 @@ class _MovieListPageState extends State<MovieListPage>
   @override
   bool get wantKeepAlive => true;
   late RefreshController refreshController;
-  late MovieProvider _movieProvider;
+  late MovieController _movieController;
 
   @override
   void initState() {
     super.initState();
     refreshController = RefreshController(initialRefresh: true);
-    _movieProvider =
-        Get.put(MovieProvider(refreshController: refreshController));
+    _movieController =
+        Get.put(MovieController(refreshController: refreshController));
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GetBuilder<MovieProvider>(
-      init: _movieProvider,
-      initState: (data) => _movieProvider.loadData(),
+    return GetBuilder<MovieController>(
+      init: _movieController,
+      initState: (data) => _movieController.loadMovie(),
       builder: (controller) {
-        Logger.d(
-            "loadingStatus:${_movieProvider.loadingStatus},${_movieProvider.data}");
-        if (_movieProvider.data.length > 0) {
+        Logger.d("${_movieController.data}");
+        if (_movieController.data.length > 0) {
           return Container(
             margin: EdgeInsets.all(4),
             child: SmartRefresher(
@@ -51,12 +50,12 @@ class _MovieListPageState extends State<MovieListPage>
               enablePullDown: true,
               enablePullUp: true,
               controller: refreshController,
-              onRefresh: _movieProvider.loadData,
-              onLoading: _movieProvider.loadMore,
+              onRefresh: _movieController.loadMovie,
+              //onLoading: _movieProvider.loadMore,
               header: MaterialClassicHeader(),
               footer: ClassicFooter(),
               child: ListView.builder(
-                itemCount: _movieProvider.getCount(),
+                itemCount: _movieController.getCount(),
                 itemBuilder: (BuildContext context, int index) =>
                     _renderItem(context, index),
               ),
@@ -72,7 +71,7 @@ class _MovieListPageState extends State<MovieListPage>
   }
 
   _renderItem(context, index) {
-    var item = _movieProvider.data[index];
+    var item = _movieController.data[index];
     return GestureDetector(
       onTap: () {},
       child: MovieListItem(bean: item),
