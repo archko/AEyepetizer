@@ -13,6 +13,7 @@ class CacheUtils {
 
   static const cache_wallpaper = "wallpaper";
   static const cache_news = "news";
+  static const cache_acategory = "acategory";
 
   /// 从缓存文件读取文件内容
   static Future<String?> readStringFromCache(String cacheKey) async {
@@ -40,8 +41,7 @@ class CacheUtils {
   }
 
   /// 写入缓存配置
-  static void writeNewsCache(
-      String cacheKey, String filename, String url) async {
+  static void writeCache(String cacheKey, String filename, String url) async {
     DateTime _nowDate = DateTime.now();
     String now = "${_nowDate.year}-${_nowDate.month}-${_nowDate.day}";
     NewsCache cache = new NewsCache(
@@ -58,7 +58,7 @@ class CacheUtils {
   static void writeNewsToCache(DouyinNewsResult newsResult, String url) async {
     String cacheKey = cache_news;
     String filename = "$cacheKey.json";
-    writeNewsCache(cacheKey, filename, url);
+    writeCache(cacheKey, filename, url);
     var newsJson = JsonUtils.toJson(newsResult);
     FileUtils.saveToFile(newsJson, filename);
   }
@@ -66,14 +66,14 @@ class CacheUtils {
   static void writeNewsJsonToCache(String json, String url) async {
     String cacheKey = cache_news;
     String filename = "$cacheKey.json";
-    writeNewsCache(cacheKey, filename, url);
+    writeCache(cacheKey, filename, url);
     FileUtils.saveToFile(json, filename);
   }
 
   static void writeWallpaperToCache(WallpaperBean wallpaper, String url) async {
     String cacheKey = cache_wallpaper;
     String filename = "$cacheKey.json";
-    writeNewsCache(cacheKey, filename, url);
+    writeCache(cacheKey, filename, url);
     var newsJson = JsonUtils.toJson(wallpaper);
     FileUtils.saveToFile(newsJson, filename);
   }
@@ -81,7 +81,14 @@ class CacheUtils {
   static void writeWallpaperJsonToCache(String json, String url) async {
     String cacheKey = cache_wallpaper;
     String filename = "$cacheKey.json";
-    writeNewsCache(cacheKey, filename, url);
+    writeCache(cacheKey, filename, url);
+    FileUtils.saveToFile(json, filename);
+  }
+
+  static void writeACategoryJsonToCache(String json, String url) async {
+    String cacheKey = cache_acategory;
+    String filename = "$cacheKey.json";
+    writeCache(cacheKey, filename, url);
     FileUtils.saveToFile(json, filename);
   }
 }

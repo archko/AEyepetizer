@@ -1,3 +1,4 @@
+import 'package:aeyepetizer/page/category/category_bar.dart';
 import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/douyin_news_page.dart';
 import 'package:aeyepetizer/page/image/wallpaper_page.dart';
@@ -24,12 +25,12 @@ class TestTabsPage extends StatefulWidget {
 class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
-    ZhihuRecentPage(),
-    WallpaperPage(),
     DouyinNewsPage(),
     DailyVideoListPage(),
+    ZhihuRecentPage(),
+    WallpaperPage(),
     MovieListPage(),
-    CategoryPage(),
+    //CategoryPage(),
   ];
   List<TabItem> _tabItems = [];
   late TabController _tabController;
@@ -92,7 +93,8 @@ class _TestTabsPageState extends State<TestTabsPage>
 
             ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
             ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
-            sliver: _bar(context),
+            //sliver: _bar(context),
+            sliver: CategoryBar(),
           ),
 
           ///停留在顶部的TabBar

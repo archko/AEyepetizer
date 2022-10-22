@@ -19,8 +19,23 @@ class VideoRepository {
 
   static VideoRepository get singleton => _instance;
 
+  Future<List<ACategory>?> readACategoryFromCache() async {
+    List<ACategory>? categories;
+    String? result =
+        await CacheUtils.readStringFromCache(CacheUtils.cache_acategory);
+    Logger.d("result:$result");
+    if (!StringUtils.isEmpty(result)) {
+      categories = decodeListResult(result!);
+    }
+
+    return categories;
+  }
+
   Future<List<ACategory>?> loadData([int? pn]) async {
-    List<ACategory>? list;
+    List<ACategory>? list = await readACategoryFromCache();
+    if (null != list) {
+      return list;
+    }
     try {
       Map<String, dynamic> args = Map();
       args['udid'] = 'd2807c895f0348a180148c9dfa6f2feeac0781b5';
@@ -29,8 +44,9 @@ class VideoRepository {
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.categoriesUrl, params: args);
       print("result:${httpResponse.data}");
-      list = await run<List<ACategory>, String>(
-          decodeListResult, httpResponse.data as String);
+      var data = httpResponse.data as String;
+      list = await run<List<ACategory>, String>(decodeListResult, data);
+      CacheUtils.writeACategoryJsonToCache(data, WebConfig.categoriesUrl);
     } catch (e) {
       print(e);
       list = [];
