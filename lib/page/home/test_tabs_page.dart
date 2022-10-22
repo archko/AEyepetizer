@@ -1,7 +1,9 @@
+import 'package:aeyepetizer/page/category/category_page.dart';
 import 'package:aeyepetizer/page/douyin_news_page.dart';
 import 'package:aeyepetizer/page/image/wallpaper_page.dart';
 import 'package:aeyepetizer/page/movie/movie_list_page.dart';
 import 'package:aeyepetizer/page/video/daily_video_list_page.dart';
+import 'package:aeyepetizer/page/zhihu/zhihu_recent_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/widget/tabs/tabs_widget.dart';
 
@@ -22,11 +24,12 @@ class TestTabsPage extends StatefulWidget {
 class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
+    ZhihuRecentPage(),
     WallpaperPage(),
     DouyinNewsPage(),
     DailyVideoListPage(),
     MovieListPage(),
-    //CategoryPage(),
+    CategoryPage(),
   ];
   List<TabItem> _tabItems = [];
   late TabController _tabController;

@@ -23,4 +23,7 @@ class WebConfig {
 
   //热门-周/月/总排行strategy=weekly,monthly,historical
   static const hotUrl = "${baseUrl}/v4/rankList/videos";
+
+  /// 知乎api
+  static const zhihuHot = "https://news-at.zhihu.com/api/4/news/hot";
 }

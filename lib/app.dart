@@ -28,8 +28,8 @@ Widget createApp() {
     SystemChrome.setSystemUIOverlayStyle(style);
   }
   Logger.init(debuggable: true);
-  HttpClient.instance.addInterceptor(HttpHeaderInterceptor());
-  HttpClient.instance.addInterceptor(HttpLogInterceptor());
+  //HttpClient.instance.addInterceptor(HttpHeaderInterceptor());
+  //HttpClient.instance.addInterceptor(HttpLogInterceptor());
   return GetMaterialApp(home: StateDemoApp());
 }
 

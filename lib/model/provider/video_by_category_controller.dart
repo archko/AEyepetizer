@@ -43,6 +43,7 @@ class VideoByCategoryController extends GetxController {
       data.addAll(trending.itemList!);
       refreshController?.refreshCompleted();
     }
+    update();
   }
 
   Future loadData({int? pn}) async {}
