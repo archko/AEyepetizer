@@ -27,11 +27,11 @@ class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
     NeteasePage(),
-    //DouyinNewsPage(),
-    //DailyVideoListPage(),
-    //ZhihuRecentPage(),
-    //WallpaperPage(),
-    //MovieListPage(),
+    DouyinNewsPage(),
+    DailyVideoListPage(),
+    ZhihuRecentPage(),
+    WallpaperPage(),
+    MovieListPage(),
     //CategoryPage(),
   ];
   List<TabItem> _tabItems = [];
