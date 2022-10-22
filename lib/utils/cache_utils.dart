@@ -31,7 +31,7 @@ class CacheUtils {
         if (cacheDate.isBefore(now)) {
         } else {
           String result = await FileUtils.readFromFile(cache.filename!);
-          Logger.d("result:$result");
+          //Logger.d("result:$result");
           return result;
         }
       }

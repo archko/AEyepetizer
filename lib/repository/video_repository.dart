@@ -23,7 +23,7 @@ class VideoRepository {
     List<ACategory>? categories;
     String? result =
         await CacheUtils.readStringFromCache(CacheUtils.cache_acategory);
-    Logger.d("result:$result");
+    //Logger.d("result:$result");
     if (!StringUtils.isEmpty(result)) {
       categories = decodeListResult(result!);
     }
@@ -43,7 +43,7 @@ class VideoRepository {
 
       HttpResponse httpResponse =
           await HttpClient.instance.get(WebConfig.categoriesUrl, params: args);
-      print("result:${httpResponse.data}");
+      //print("result:${httpResponse.data}");
       var data = httpResponse.data as String;
       list = await run<List<ACategory>, String>(decodeListResult, data);
       CacheUtils.writeACategoryJsonToCache(data, WebConfig.categoriesUrl);
@@ -165,7 +165,7 @@ class VideoRepository {
     DouyinNewsResult? newsResult;
     String? result =
         await CacheUtils.readStringFromCache(CacheUtils.cache_news);
-    Logger.d("result:$result");
+    //Logger.d("result:$result");
     if (!StringUtils.isEmpty(result)) {
       newsResult = decodeNewsModel(result!);
     }
@@ -205,7 +205,7 @@ class VideoRepository {
     WallpaperBean? wallpaper;
     String? result =
         await CacheUtils.readStringFromCache(CacheUtils.cache_wallpaper);
-    Logger.d("result:$result");
+    //Logger.d("result:$result");
     if (!StringUtils.isEmpty(result)) {
       wallpaper = decodeWallpaper(result!);
     }
