@@ -26,10 +26,10 @@ class TestTabsPage extends StatefulWidget {
 class _TestTabsPageState extends State<TestTabsPage>
     with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
+    ZhihuRecentPage(),
     NeteasePage(),
     DouyinNewsPage(),
     DailyVideoListPage(),
-    ZhihuRecentPage(),
     WallpaperPage(),
     MovieListPage(),
     //CategoryPage(),

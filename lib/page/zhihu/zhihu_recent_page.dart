@@ -1,7 +1,9 @@
+import 'package:aeyepetizer/common/http/web_config.dart';
 import 'package:aeyepetizer/entity/zhihu.dart';
 import 'package:aeyepetizer/model/zhihu_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/log/logger.dart';
 import 'package:flutter_base/model/base_list_state.dart';
 import 'package:flutter_base/widget/browser.dart';
 import 'package:get/get.dart';
@@ -81,7 +83,9 @@ class _ZhihuRecentPageState extends State<ZhihuRecentPage>
   Widget _renderItem(BuildContext context, int index, Zhihu item) {
     return GestureDetector(
       onTap: () {
-        Browser.open(context, item.url, item.title, "");
+        var url = "${WebConfig.zhihuDaily}${item.newsId}";
+        Logger.d("url:$url");
+        Browser.open(context, url, item.title, "");
       },
       child: _zhihuRecentItem(context, item),
     );

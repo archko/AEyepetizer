@@ -27,6 +27,9 @@ class WebConfig {
   /// 知乎api
   static const zhihuHot = "https://news-at.zhihu.com/api/4/news/hot";
 
+  /// 知乎详情页,拼上上面的数据id
+  static const zhihuDaily = "http://daily.zhihu.com/story/";
+
   /// 网易新闻,https://3g.163.com/touch/reconstruct/article/list/BA8EE5GMwangning/2-10.html,2-10是起始为2,一页10条
   static const neteaseNewsBaseUrl =
       "https://3g.163.com/touch/reconstruct/article/list/";
