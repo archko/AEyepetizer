@@ -73,7 +73,7 @@ class _CategoryBarState extends State<CategoryBar>
       primary: true,
       //backgroundColor: Theme.of(context).backgroundColor,
       //backgroundColor: Color(0xFF303030),
-      elevation: 10.0,
+      elevation: .0,
       forceElevated: true,
       title: Text("目录"),
       //leading: Icon(Icons.arrow_back),

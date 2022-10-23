@@ -1,14 +1,14 @@
 import 'dart:io';
 
+import 'package:aeyepetizer/demo/Demo1.dart';
 import 'package:aeyepetizer/page/home/test_tabs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/interceptor/http_header_interceptor.dart';
 import 'package:flutter_base/http/interceptor/http_log_interceptor.dart';
 import 'package:flutter_base/log/logger.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 
 Widget createApp() {
   if (Platform.isAndroid) {
@@ -30,7 +30,7 @@ Widget createApp() {
   Logger.init(debuggable: true);
   //HttpClient.instance.addInterceptor(HttpHeaderInterceptor());
   //HttpClient.instance.addInterceptor(HttpLogInterceptor());
-  return GetMaterialApp(home: StateDemoApp());
+  return MaterialApp(home: StateDemoApp());
 }
 
 class StateDemoApp extends StatefulWidget {
@@ -50,16 +50,37 @@ class _StateDemoAppState extends State<StateDemoApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
+    Get.changeTheme(appLightThemeData);
+    return GetMaterialApp(
+      /*theme: ThemeData(
         primarySwatch: Colors.green,
-      ),
+      ),*/
       home: Scaffold(
         //body: HomeTabsPage(),
         body: TestTabsPage(),
-        //body: NewsPage(),
-        //body: WallpaperPage(),
       ),
     );
   }
 }
+
+final ThemeData appDarkThemeData = ThemeData(
+  brightness: Brightness.dark,
+  /*primaryColor: Colors.red,
+  // 主要部分背景颜色（导航和tabBar等）
+  scaffoldBackgroundColor: Colors.red,
+  //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
+  textTheme:
+      TextTheme(headline1: TextStyle(color: Colors.yellow, fontSize: 15)),
+  appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.yellow)),*/
+);
+
+//创建light ThemeData对象
+final ThemeData appLightThemeData = ThemeData(
+  brightness: Brightness.light,
+  primaryColor: Colors.white,
+  // 主要部分背景颜色（导航和tabBar等）
+  /*scaffoldBackgroundColor: Colors.white,
+  //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
+  textTheme: TextTheme(headline1: TextStyle(color: Colors.blue, fontSize: 15)),
+  appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.black)),*/
+);

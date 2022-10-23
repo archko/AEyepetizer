@@ -168,7 +168,7 @@ class _TestTabsPageState extends State<TestTabsPage>
 
   Widget _buildDefaultTabs() {
     return TabsWidget(
-      tabsViewStyle: TabsViewStyle.noAppbarTopTab,
+      tabsViewStyle: TabsViewStyle.appbarTopTab,
       tabController: _tabController,
       tabStyle: TabsStyle.textOnly,
       tabViews: defaultTabViews,
